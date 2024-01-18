@@ -1,0 +1,54 @@
+
+body {
+  background-color: #20c997;
+}
+
+.hd_container {
+  width: auto;
+  height: 50px;
+  background: #61dafb;
+}
+
+.lobby_box1 {
+  float: left;
+}
+.lobby_box2 {
+  float: left;
+}
+
+.lobby_bbox1 {
+  display: flex;
+  flex-direction: column;
+  background: yellow;
+  width: 200px;
+  height: auto;
+  .profile_image{
+    width: 150px;
+    height: 150px;
+    background: darkseagreen;
+    border-radius: 70px;
+    margin: 20px;
+  }
+}
+
+.btns_box {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 40%;
+  height: auto;
+
+  .setting_btn {
+    color: #000000;
+    background: #800080;
+  }
+  .create_room_btn {
+    color: #000000;
+    background: blue;
+  }
+  .start_game_btn {
+    color: #000000;
+    background: red;
+  }
+}
+
