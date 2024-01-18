@@ -32,12 +32,26 @@ const GameLobby = () => {
                         <div className='room_list'>
                             <ul>
                                 <li>
+                                    <h2>방 번호: </h2>
                                     <h2>제목: </h2>
+                                    <h2>0/0</h2>
                                 </li>
                             </ul>
                         </div>
                         <div className='chat_box'>
-                            채팅구역
+                            <ul>
+                                <li>
+                                    <p>nickname: text.</p>
+                                </li>
+                            </ul>
+                            <form id='messageForm' name="messageForm">
+                                <div className="input-group clearfix">
+                                    <input className='test1'/>
+                                    <input type="text" style={{ display: 'none' }} />
+                                    <button type='button'>send</button>
+                                </div>
+                            </form>
+
                         </div>
                     </div>
                 </div>

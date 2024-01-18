@@ -6,49 +6,121 @@ body {
 .hd_container {
   width: auto;
   height: 50px;
-  background: #61dafb;
+  background-color: #61dafb;
+  opacity: 0.5;
+  h1 {
+    font-size: 30px;
+    font-weight: 700;
+  }
+}
+
+.lobby_container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
 }
 
 .lobby_box1 {
-  float: left;
-}
-.lobby_box2 {
+  display: flex;
+  background-color: yellow;
   float: left;
 }
 
 .lobby_bbox1 {
   display: flex;
   flex-direction: column;
-  background: yellow;
   width: 200px;
-  height: auto;
-  .profile_image{
-    width: 150px;
-    height: 150px;
-    background: darkseagreen;
-    border-radius: 70px;
-    margin: 20px;
+  height:auto;
+
+  .profile {
+    background: coral;
+    width: 200px;
+    height: 320px;
+    flex: 0 1 auto;
+
+    .profile_image{
+      width: 150px;
+      height: 150px;
+      background: darkseagreen;
+      border-radius: 70px;
+      margin: 20px;
+    }
+
+    p {
+      text-align: center;
+    }
   }
+
 }
 
 .btns_box {
   display: flex;
-  justify-content: center;
   flex-direction: column;
   width: 40%;
   height: auto;
+  margin-top: auto;
 
   .setting_btn {
+    width: 200px;
+    height: auto;
     color: #000000;
-    background: #800080;
+    background-color: #800080;
+    border: none;
+    padding: 20px 20px;
+    &:hover {
+      background-color: #cc01cc;
+    }
   }
   .create_room_btn {
+    width: 200px;
+    height: auto;
     color: #000000;
-    background: blue;
+    background-color: #0000ff;
+    border: none;
+    padding: 20px 20px;
+    &:hover {
+      background-color: #6161ff;
+    }
   }
   .start_game_btn {
+    width: 200px;
+    height: auto;
     color: #000000;
-    background: red;
+    background-color: #ff0000;
+    border: none;
+    padding: 20px 20px;
+    &:hover {
+      background-color: #ff5858;
+    }
   }
 }
 
+.lobby_box2 {
+  float: left;
+  background-color: grey;
+  width: auto;
+  height: auto;
+  .room_list {
+    width: 600px;
+    height: 400px;
+    li {
+      margin: 20px;
+      border: 2px solid transparent;
+      background-image: linear-gradient(#323640, #4E5463),
+      linear-gradient(to right, #2A8C68 0%, #5BC23C 50%, #367E7F 75%, #173F3F 100%);
+      &:hover {
+        background-image: linear-gradient(#5c6374, #737c92);
+      }
+      h2 {
+        font-size: 20px;
+        font-weight: 500;
+      }
+    }
+
+  }
+  .chat_box {
+    width: 600px;
+    height: 200px;
+    background-color: chartreuse;
+  }
+}
