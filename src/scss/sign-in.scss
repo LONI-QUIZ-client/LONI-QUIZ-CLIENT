@@ -17,7 +17,7 @@ $font-size: 16px;
     width: 100%;
     padding: 14rem 0;
 
-    background: linear-gradient(225deg, rgba(255,161,74,0.5) 0%, rgba(29,231,122,0.5) 100%);
+    background: linear-gradient(225deg, rgba(255,161,74,0.7) 0%, rgba(29,231,122,0.7) 100%);
 
     // sign-up button
     .user-sign-up-move-button{
@@ -63,30 +63,29 @@ $font-size: 16px;
           background: #ffffff;
           border-radius: 10px;
 
-          display: flex;
-          flex-flow: row nowrap;
-          //justify-content: space-between;
+          display: flex; flex-flow: row nowrap;
 
           svg{
-            width: 51px; height: 45px;
-            padding-right: 1rem;
+            width: 2.4rem; height: 2.4rem;
           }
 
           input{
+            width: 75%;
+            padding-left: 1rem;
             font-size: 1.5rem;
           }
 
         }
 
         .auto-sign-in-check{
-          font-size: 1.2rem; font-weight: bold;
+          font-size: 1.3rem; font-weight: bold;
           color: #9e9e9e;
 
           display: flex; align-items: center;
 
           svg{
-            width: 1.5rem; height: 1.5rem;
-            margin-right: 0.5rem;
+            width: 2.2rem; height: 1.7rem;
+            padding-right: 0.5rem;
           }
 
         }
@@ -95,48 +94,32 @@ $font-size: 16px;
 
       .sign-in-buttons{
         height: 12rem;
-
         margin-top: 3rem;
 
-        display: flex;
-        flex-flow: column wrap;
+        display: flex; flex-flow: column wrap;
         justify-content: space-between;
 
-        .loni-quiz-sign-in-button{
+        .loni-quiz-sign-in-button
+        , .kakao-sign-in-button {
           background: linear-gradient(225deg, rgba(255,161,74,1) 10%, rgba(29,231,122,1) 100%);
           border-radius: 12px;
 
-          //margin: 0 auto;
           padding: 1.5rem 2rem;
 
           display: flex;
           align-items: center; justify-content: center;
 
-          font-size: 30px;
+          font-size: 1.7rem;
 
           img{
-            height: 30px;
+            height: 2rem;
             padding-right: 1rem;
           }
 
         }
+
         .kakao-sign-in-button{
           background: #FEE500;
-          border-radius: 12px;
-
-          //margin: 1rem auto;
-          padding: 1.5rem 2rem;
-
-          display: flex;
-          align-items: center; justify-content: center;
-
-          font-size: 30px;
-
-          img{
-            height: 30px;
-            padding-right: 1rem;
-          }
-
         }
 
       }
