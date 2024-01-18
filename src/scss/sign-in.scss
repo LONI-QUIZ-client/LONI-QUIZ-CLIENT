@@ -49,31 +49,67 @@
       }
 
       .sign-in-items{
-        width: 100%; height: 10%;
+        width: 100%;
+        //height: 10%;
         //background: #ff7575;
 
         margin: 30px 0;
 
-        display: flex; flex-flow: column wrap;
+        display: flex;
+        flex-flow: column wrap;
         //justify-content: space-between;
 
         .sign-in-id-item
         , .sign-in-password-item{
           width: 100%;
 
+          background: #ffffff;
+
           border-radius: 10px;
 
           padding: 10px;
 
-          background: #ffffff;
-
-          display: flex; flex-flow: row nowrap;
+          display: flex;
+          flex-flow: row nowrap;
           justify-content: space-between;
 
           svg{
             width: 45px; height: 45px;
           }
 
+        }
+
+      }
+
+      .sign-in-buttons{
+        background: #61dafb;
+        width: 100%; height: 10vh;
+
+        .loni-quiz-sign-in-button{
+
+          background: #FEE500;
+          height: 90px;
+          border-radius: 12px;
+
+          display: flex;
+          justify-content: center; align-items: center;
+
+          font-size: 30px;
+
+        }
+        .kakao-sign-in-button{
+          background: #FEE500;
+          height: 90px;
+          border-radius: 12px;
+
+          display: flex;
+          justify-content: center; align-items: center;
+
+          font-size: 30px;
+
+          img{
+            height: 30px;
+          }
         }
 
       }
