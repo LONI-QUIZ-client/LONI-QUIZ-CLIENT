@@ -46,7 +46,6 @@ const GameLobby = () => {
                                 <div className="input-group clearfix">
                                     <input className='test1'/>
                                     <input type="text" style={{ display: 'none' }} />
-                                    <button type='button'>send</button>
                                 </div>
                             </form>
                         </div>

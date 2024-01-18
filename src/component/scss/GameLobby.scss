@@ -59,6 +59,7 @@ body {
     transition: all 0.2s ease-in-out;
     &:hover {
       background-color: #cc01cc;
+      color: #FFFFFF;
     }
   }
   .create_room_btn {
@@ -71,6 +72,7 @@ body {
     transition: all 0.2s ease-in-out;
     &:hover {
       background-color: #6161ff;
+      color: #FFFFFF;
     }
   }
   .start_game_btn {
@@ -83,6 +85,7 @@ body {
     transition: all 0.2s ease-in-out;
     &:hover {
       background-color: #ff5858;
+      color: #FFFFFF;
     }
   }
 }
@@ -98,7 +101,7 @@ body {
     li {
       margin: 20px;
       border: 2px solid transparent;
-      border-radius: 30px;
+      border-radius: 20px;
       background-color: #bfd1f3;
       transition: all 0.2s ease-in-out;
       &:hover {
@@ -131,30 +134,11 @@ body {
         min-height: 38px;
         padding-left: 10px;
         float: left;
-        width: calc(98% - 80px);
+        width: calc(100% - 10px);
         font-size: 15px;
         background-color: #ffffff;
         color: #000000;
         border: 0px;
-      }
-      button {
-        box-shadow: none;
-        border: 1px solid transparent;
-        font-size: 15px;
-        outline: none;
-        line-height: 100%;
-        white-space: nowrap;
-        vertical-align: middle;
-        padding: 0.6rem 1rem;
-        border-radius: 2px;
-        transition: all 0.2s ease-in-out;
-        cursor: pointer;
-        min-height: 38px;
-        width: 80px;
-        height: 40px;
-        &:hover {
-          background-color: #E5E5E5;
-        }
       }
     }
   }
