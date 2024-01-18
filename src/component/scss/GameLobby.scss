@@ -3,17 +3,6 @@ body {
   background-color: #20c997;
 }
 
-.hd_container {
-  width: auto;
-  height: 50px;
-  background-color: #61dafb;
-  opacity: 0.5;
-  h1 {
-    font-size: 30px;
-    font-weight: 700;
-  }
-}
-
 .lobby_container {
   display: flex;
   justify-content: center;
@@ -67,6 +56,7 @@ body {
     background-color: #800080;
     border: none;
     padding: 20px 20px;
+    transition: all 0.2s ease-in-out;
     &:hover {
       background-color: #cc01cc;
     }
@@ -78,6 +68,7 @@ body {
     background-color: #0000ff;
     border: none;
     padding: 20px 20px;
+    transition: all 0.2s ease-in-out;
     &:hover {
       background-color: #6161ff;
     }
@@ -89,6 +80,7 @@ body {
     background-color: #ff0000;
     border: none;
     padding: 20px 20px;
+    transition: all 0.2s ease-in-out;
     &:hover {
       background-color: #ff5858;
     }
@@ -106,12 +98,15 @@ body {
     li {
       margin: 20px;
       border: 2px solid transparent;
-      background-image: linear-gradient(#323640, #4E5463),
-      linear-gradient(to right, #2A8C68 0%, #5BC23C 50%, #367E7F 75%, #173F3F 100%);
+      border-radius: 30px;
+      background-color: #bfd1f3;
+      transition: all 0.2s ease-in-out;
       &:hover {
-        background-image: linear-gradient(#5c6374, #737c92);
+        background-color: #737c92;
+        color: #FFFFFF;
       }
       h2 {
+        margin-left: 20px;
         font-size: 20px;
         font-weight: 500;
       }
@@ -119,8 +114,48 @@ body {
 
   }
   .chat_box {
+    display: flex;
+    flex-direction: column;
     width: 600px;
     height: 200px;
     background-color: chartreuse;
+    ul {
+      margin: 20px;
+      margin-bottom: auto;
+    }
+    .input-group {
+      margin: 20px;
+      margin-top: auto;
+      input {
+        width: 100%;
+        min-height: 38px;
+        padding-left: 10px;
+        float: left;
+        width: calc(98% - 80px);
+        font-size: 15px;
+        background-color: #ffffff;
+        color: #000000;
+        border: 0px;
+      }
+      button {
+        box-shadow: none;
+        border: 1px solid transparent;
+        font-size: 15px;
+        outline: none;
+        line-height: 100%;
+        white-space: nowrap;
+        vertical-align: middle;
+        padding: 0.6rem 1rem;
+        border-radius: 2px;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        min-height: 38px;
+        width: 80px;
+        height: 40px;
+        &:hover {
+          background-color: #E5E5E5;
+        }
+      }
+    }
   }
 }

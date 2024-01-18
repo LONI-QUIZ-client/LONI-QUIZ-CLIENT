@@ -4,21 +4,13 @@ import './scss/GameLobby.scss';
 const GameLobby = () => {
     return (
         <>
-            <header>
-                <div className='hd_container'>
-                    <div className='logo_image'>
-                        <h1>LONI QUIZ</h1>
-                    </div>
-                </div>
-            </header>
-
             <div className= 'lobby_container'>
                 <div className= 'lobby_box1'>
                     <div className= 'lobby_bbox1'>
                         <div className= 'profile'>
                             <div className='profile_image'></div>
                             <p>NickName</p>
-                            <p>전적</p>
+                            <p>0승 0패</p>
                         </div>
                         <div className='btns_box'>
                             <button className='setting_btn'>환경설정</button>
@@ -43,6 +35,12 @@ const GameLobby = () => {
                                 <li>
                                     <p>nickname: text.</p>
                                 </li>
+                                <li>
+                                    <p>nickname: text.</p>
+                                </li>
+                                <li>
+                                    <p>nickname: text.</p>
+                                </li>
                             </ul>
                             <form id='messageForm' name="messageForm">
                                 <div className="input-group clearfix">
@@ -51,7 +49,6 @@ const GameLobby = () => {
                                     <button type='button'>send</button>
                                 </div>
                             </form>
-
                         </div>
                     </div>
                 </div>
