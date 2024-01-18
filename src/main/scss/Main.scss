@@ -1,0 +1,43 @@
+body{
+  background: #B0D3D3;
+}
+.main-box{
+  display: flex;
+  flex-direction: row;
+}
+
+.l-g{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.r-g{
+  width: 50%;
+}
+
+.t-img{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5.3em;
+}
+.b-img{
+  margin-top: 5.3em;
+  display: flex;
+  justify-content: center;
+}
+
+.logo{
+  color: white;
+  font-size: 200px;
+}
+
+p{
+  color: white;
+  font-size: 50px;
+}
+.middle{
+  width: 100%;
+
+
+}

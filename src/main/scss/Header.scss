@@ -1,0 +1,26 @@
+
+.header-table{
+  display: flex;
+  justify-content: center;
+}
+.h-box{
+  background: #61dafb;
+  width: 100%;
+  display: flex;
+}
+li{
+  list-style-type: none;
+  margin: 10px;
+}
+a{
+  font-size: 30px;
+}
+h2{
+  margin-left: 0;
+  justify-content: start;
+}
+.header{
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
