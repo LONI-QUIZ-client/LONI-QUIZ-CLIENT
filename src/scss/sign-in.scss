@@ -1,0 +1,85 @@
+
+@import "common";
+
+.sign-in-full-screen{
+  width: 100%; height: 100vh;
+
+  background-image: url("./img/UserLoginBackGround.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  .sign-in-background{
+    display: flex;
+    justify-content: center; align-content: center;
+
+    position: relative;
+
+    width: 100%; height: 100vh;
+    background: linear-gradient(225deg, rgba(255,161,74,0.5) 0%, rgba(29,231,122,0.5) 100%);
+
+    // sign-up button
+    .user-sign-up-move-button{
+      display: flex; justify-content: center; align-items: center;
+
+      background: #ffffff30;
+      border: 5px solid #ffffff; border-radius: 20px;
+
+      color: #ffffff;
+      font-size: 36px; font-weight: bold;
+
+      padding: 20px; margin: 45px;
+
+      position: absolute;
+      top: 0; right: 0;
+    }
+
+    // sign-in
+    .user-sign-in-modal{
+
+      background: #ffffff90;
+      border: 5px solid #ffffff; border-radius: 20px;
+
+      padding: 75px 45px;
+
+      .LONI-QUIZ-logo{
+        width: 225px;
+        height: 160px;
+        background: url("./img/LOINQUIZ_logo.png") no-repeat;
+      }
+
+      .sign-in-items{
+        width: 100%; height: 10%;
+        //background: #ff7575;
+
+        margin: 30px 0;
+
+        display: flex; flex-flow: column wrap;
+        //justify-content: space-between;
+
+        .sign-in-id-item
+        , .sign-in-password-item{
+          width: 100%;
+
+          border-radius: 10px;
+
+          padding: 10px;
+
+          background: #ffffff;
+
+          display: flex; flex-flow: row nowrap;
+          justify-content: space-between;
+
+          svg{
+            width: 45px; height: 45px;
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
