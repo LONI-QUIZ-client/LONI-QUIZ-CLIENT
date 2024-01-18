@@ -19,11 +19,11 @@ const SignInTemplate = () => {
                     <form className={"sign-in-items"}>
                         <div className={"sign-in-id-item"}>
                             <BsPerson />
-                            <input type={"text"} className={"sign-in-id-input"}/>
+                            <input type={"text"} className={"sign-in-id-input"} placeholder="ID"/>
                         </div>
                         <div className={"sign-in-password-item"}>
                             <BsLock />
-                            <input type={"password"} className={"sign-in-password-input"}/>
+                            <input type={"password"} className={"sign-in-password-input"} placeholder="password"/>
                         </div>
                         <div className={"auto-sign-in-check"}>
                             <FaRegCheckCircle />
