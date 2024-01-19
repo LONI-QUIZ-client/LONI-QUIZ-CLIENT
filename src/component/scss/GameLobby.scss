@@ -1,41 +1,43 @@
 
 body {
-  background-color: #20c997;
+  background-color: #ffffff;
 }
 
 .lobby_container {
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 .lobby_box1 {
   display: flex;
-  background-color: yellow;
   float: left;
 }
 
 .lobby_bbox1 {
   display: flex;
   flex-direction: column;
-  width: 200px;
+  width: 20%;
   height:auto;
 
   .profile {
-    background: coral;
-    width: 200px;
+    border-radius: 20px 0 0 20px;
+    background-color: #dbff00;
+    width: 204px;
     height: 320px;
     flex: 0 1 auto;
 
     .profile_image{
       width: 150px;
       height: 150px;
-      background: darkseagreen;
-      border-radius: 70px;
-      margin: 20px;
+      background: #00a900;
+      border-radius: 75px;
+      margin: 30px;
     }
 
     p {
+      font-weight: 700;
+      font-size: 25px;
       text-align: center;
     }
   }
@@ -48,24 +50,28 @@ body {
   width: 40%;
   height: auto;
   margin-top: auto;
-
+  justify-content: center;
   .setting_btn {
-    width: 200px;
+    border-radius: 20px 0 0 20px;
+    width: 204px;
     height: auto;
-    color: #000000;
+    color: #FFFFFF;
     background-color: #800080;
     border: none;
     padding: 20px 20px;
     transition: all 0.2s ease-in-out;
+    font-size: 25px;
     &:hover {
       background-color: #cc01cc;
       color: #FFFFFF;
     }
   }
   .create_room_btn {
-    width: 200px;
+    border-radius: 20px 0 0 20px;
+    color: #FFFFFF;
+    width: 204px;
+    font-size: 25px;
     height: auto;
-    color: #000000;
     background-color: #0000ff;
     border: none;
     padding: 20px 20px;
@@ -76,9 +82,11 @@ body {
     }
   }
   .start_game_btn {
-    width: 200px;
+    border-radius: 20px 0 0 20px;
+    color: #FFFFFF;
+    width: 204px;
     height: auto;
-    color: #000000;
+    font-size: 25px;
     background-color: #ff0000;
     border: none;
     padding: 20px 20px;
@@ -92,54 +100,46 @@ body {
 
 .lobby_box2 {
   float: left;
-  background-color: grey;
-  width: auto;
+  background-color: #151c23;
+  width: 70%;
   height: auto;
+  overflow: hidden;
   .room_list {
-    width: 600px;
+    width: 100%;
     height: 400px;
-    li {
-      margin: 20px;
-      border: 2px solid transparent;
-      border-radius: 20px;
-      background-color: #bfd1f3;
-      transition: all 0.2s ease-in-out;
-      &:hover {
-        background-color: #737c92;
-        color: #FFFFFF;
+    margin-bottom: auto;
+    overflow: auto;
+    overflow-y: scroll;
+    .room_container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 10px;
+      .list{
+        margin: 20px;
+        border: 2px solid transparent;
+        border-radius: 20px;
+        background-color: #d8e4ff;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+          background-color: #737c92;
+          color: #FFFFFF;
+        }
+        span {
+          font-size: 15px;
+          font-weight: 300;
+          margin-left: 20px;
+        }
+        h2 {
+          margin-left: 20px;
+          font-size: 20px;
+          font-weight: 500;
+          margin-top: 10px;
+          margin-bottom: 10px;
+        }
       }
-      h2 {
-        margin-left: 20px;
-        font-size: 20px;
-        font-weight: 500;
-      }
+
     }
 
   }
-  .chat_box {
-    display: flex;
-    flex-direction: column;
-    width: 600px;
-    height: 200px;
-    background-color: chartreuse;
-    ul {
-      margin: 20px;
-      margin-bottom: auto;
-    }
-    .input-group {
-      margin: 20px;
-      margin-top: auto;
-      input {
-        width: 100%;
-        min-height: 38px;
-        padding-left: 10px;
-        float: left;
-        width: calc(100% - 10px);
-        font-size: 15px;
-        background-color: #ffffff;
-        color: #000000;
-        border: 0px;
-      }
-    }
-  }
+
 }
