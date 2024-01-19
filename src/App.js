@@ -4,14 +4,14 @@
 
 import React from "react";
 
-import SignInTemplate from "./user/SignInTemplate";
+import SignInModal from "./user/SignInModal";
 import {Routes, Route} from "react-router-dom";
 
 function App() {
   return (
       <>
           <Routes>
-              <Route path={"/"} element={<SignInTemplate />} />
+              <Route path={"/"} element={<SignInModal />} />
           </Routes>
       </>
   );
