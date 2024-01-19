@@ -2,11 +2,11 @@ import React from 'react';
 import './scss/Main.scss';
 import Button from "./Button";
 import Header from "./Header";
+import 'animate.css';
 
 const Main = () => {
     return (
         <div>
-            <Header/>
             <div className='main-box'>
                 <div className='l-g'>
                     <h1 className='logo'>LONI<br/>QUIZ</h1>
@@ -15,20 +15,49 @@ const Main = () => {
                 </div>
                 <div className='r-g'>
                     <div className="t-img">
-                        <img src={process.env.PUBLIC_URL + "/img/AS.png"} alt="img" width="380px" height="550px"/>
-                        <img src={process.env.PUBLIC_URL + "/img/Main.png"} alt="img" width="380px" height="550px"/>
-                        <img src={process.env.PUBLIC_URL + "/img/ain.jpeg"} alt="img" width="380px" height="550px"/>
+                        <div className="box-wrap">
+                            <div className="t-box">
+                                <div className="img">
+                                    <img src={process.env.PUBLIC_URL + "/img/ASD.jpeg"} alt="Hover Effect"/>
+                                </div>
+                                <div className="info">
+                                    <h3>Design</h3>
+                                    <p>일러스트를 이용한 디자인입니다.</p>
+                                </div>
+                            </div>
+                            <div className="t-box">
+                                <div className="img">
+                                    <img src={process.env.PUBLIC_URL + "/img/Main.png"} alt="Hover Effect"/>
+                                </div>
+                                <div className="info">
+                                    <h3>Design</h3>
+                                    <p>일러스트를 이용한 디자인입니다.</p>
+                                </div>
+                            </div>
+                            <div className="t-box">
+                                <div className="img">
+                                    <img src={process.env.PUBLIC_URL + "/img/AS.png"} alt="Hover Effect"/>
+                                </div>
+                                <div className="info">
+                                    <h3>Design</h3>
+                                    <p>일러스트를 이용한 디자인입니다.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="b-img">
-                        <img src={process.env.PUBLIC_URL + "/img/gigi.jpg"} alt="img" width="1000px" height="600"/>
+                    <div className="box-wrap">
+                        <div className="b-box">
+                            <div className="img">
+                                <img src={process.env.PUBLIC_URL + "/img/gigi.jpg"} alt="Hover Effect"/>
+                            </div>
+                            <div class="info">
+                                <h3>Design</h3>
+                                <p>일러스트를 이용한 디자인입니다.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <section>
-                <div className="middle">
-                    <h2>asd</h2>
-                </div>
-            </section>
         </div>
     );
 };

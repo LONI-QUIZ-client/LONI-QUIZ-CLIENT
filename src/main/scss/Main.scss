@@ -19,12 +19,7 @@ body{
 .t-img{
   display: flex;
   justify-content: space-around;
-  margin-top: 5.3em;
-}
-.b-img{
-  margin-top: 5.3em;
-  display: flex;
-  justify-content: center;
+  margin-top: 3.3em;
 }
 
 .logo{
@@ -34,10 +29,101 @@ body{
 
 p{
   color: white;
-  font-size: 50px;
+  font-size: 45px;
+  width: 870px;
+  margin-bottom: 3em;
 }
 .middle{
   width: 100%;
+}
 
+// 반응형
+@media screen and (max-width: 2100px) {
+  .r-g{
+    display: none;
+  }
+  .main-box{
+    justify-content: center;
+    align-items: center;
+  }
+}
 
+ // 메인페이지 이미지 hover 기능
+.box-wrap {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.b-box {
+  position: relative;
+  width: 1030px; height: 685px;
+
+}
+.t-box {
+  position: relative;
+  width: 400px; height: 555px;
+  margin: auto 20px;
+}
+.b-box img {
+  width: 100%;
+}
+.t-box img {
+  width: 100%;
+  height: 555px;
+}
+
+.b-box .info {
+  color: #fff;
+  position: absolute; left: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+  opacity: 0;
+  transition: opacity 0.35s ease-in-out;
+}
+.t-box .info {
+  color: #fff;
+  position: absolute; left: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+  opacity: 0;
+  transition: opacity 0.35s ease-in-out;
+}
+.b-box:hover .info {
+  opacity: 2;
+}
+.t-box:hover .info {
+  opacity: 2;
+}
+.b-box .info h3 {
+  font-size: 40px;
+  padding-bottom: 0.4em;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+.t-box .info h3 {
+  font-size: 25px;
+  padding-bottom: 0.4em;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+.b-box .info p {
+  font-size: 30px;
+  text-overflow: ellipsis;
+  width: 100%;
+  text-transform: uppercase;
+}
+.t-box .info p {
+  font-size: 18px;
+  text-overflow: ellipsis;
+  width: 100%;
+  text-transform: uppercase;
 }
