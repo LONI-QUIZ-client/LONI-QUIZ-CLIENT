@@ -1,16 +1,18 @@
 // import logo from './logo.svg';
 // import './App.css';
-
-import React from "react";
 // import { Reset } from 'styled-reset'
 
+import React from "react";
+
 import SignInTemplate from "./user/SignInTemplate";
+import {Routes, Route} from "react-router-dom";
 
 function App() {
   return (
       <>
-          {/*<Reset/>*/}
-          <SignInTemplate/>
+          <Routes>
+              <Route path={"/"} element={<SignInTemplate />} />
+          </Routes>
       </>
   );
 }
