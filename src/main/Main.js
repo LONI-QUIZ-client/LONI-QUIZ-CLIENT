@@ -2,11 +2,11 @@ import React from 'react';
 import './scss/Main.scss';
 import Button from "./Button";
 import Header from "./Header";
-import 'animate.css';
 
 const Main = () => {
     return (
         <div>
+            <Header/>
             <div className='main-box'>
                 <div className='l-g'>
                     <h1 className='logo'>LONI<br/>QUIZ</h1>
