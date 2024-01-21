@@ -47,6 +47,15 @@ const Main = () => {
                     </div>
                 </div>
             </div>
+            <div className='bottom-box'>
+                <div className='main-box'>
+                    <div className='l-g'>
+                        <h1 className='logo'>LONI<br/>QUIZ</h1>
+                        <p>AI가 만든 이미지로 퀴즈 게임을 즐겨보세요</p>
+                        <Button/>
+                    </div>
+                </div> 
+            </div>
         </div>
     );
 };
