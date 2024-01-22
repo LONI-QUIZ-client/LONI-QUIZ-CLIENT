@@ -6,7 +6,6 @@ body {
 .lobby_container {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
 }
 
 .lobby_box1 {
@@ -30,9 +29,19 @@ body {
     .profile_image{
       width: 150px;
       height: 150px;
-      background: #00a900;
-      border-radius: 75px;
+      border-radius: 100px;
       margin: 30px;
+      filter: hue-rotate(360deg);
+      border: 3px solid transparent;
+      background-image: linear-gradient(#444, #444), linear-gradient(to left,#37a9fa,#5951f3);
+      background-clip: content-box, border-box;
+      background-origin: border-box;
+      animation: huerotate 6s infinite linear;
+      img {
+        width: 150px;
+        height: 150px;
+        border-radius: 100px;
+      }
     }
 
     p {
@@ -43,77 +52,99 @@ body {
   }
 
 }
+@keyframes huerotate {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
 
-.btns_box {
+.lobby_menu{
   display: flex;
-  flex-direction: column;
-  width: 40%;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  width: 100%;
   height: auto;
-  margin-top: auto;
-  justify-content: center;
-  .setting_btn {
-    border-radius: 20px 0 0 20px;
-    width: 204px;
+  margin-left: 20.5%;
+  margin-top: 70px;
+
+  .btns_box {
+    display: flex;
+    flex-wrap: nowrap;
+    width: auto;
     height: auto;
-    color: #FFFFFF;
-    background-color: #800080;
-    border: none;
-    padding: 20px 20px;
-    transition: all 0.2s ease-in-out;
-    font-size: 25px;
-    &:hover {
-      background-color: #cc01cc;
+    position: sticky;
+    top: 3%;
+
+    .setting_btn {
+      border-radius: 20px 20px 0 0;
+      width: 204px;
+      height: auto;
       color: #FFFFFF;
+      background-color: #800080;
+      border: none;
+      transition: all 0.2s ease-in-out;
+      font-size: 20px;
+      &:hover {
+        background-color: #cc01cc;
+        color: #FFFFFF;
+      }
     }
-  }
-  .create_room_btn {
-    border-radius: 20px 0 0 20px;
-    color: #FFFFFF;
-    width: 204px;
-    font-size: 25px;
-    height: auto;
-    background-color: #0000ff;
-    border: none;
-    padding: 20px 20px;
-    transition: all 0.2s ease-in-out;
-    &:hover {
-      background-color: #6161ff;
+
+    .create_room_btn {
+      border-radius: 20px 20px 0 0;
       color: #FFFFFF;
+      width: 204px;
+      font-size: 20px;
+      height: auto;
+      background-color: #0000ff;
+      border: none;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background-color: #6161ff;
+        color: #FFFFFF;
+      }
     }
-  }
-  .start_game_btn {
-    border-radius: 20px 0 0 20px;
-    color: #FFFFFF;
-    width: 204px;
-    height: auto;
-    font-size: 25px;
-    background-color: #ff0000;
-    border: none;
-    padding: 20px 20px;
-    transition: all 0.2s ease-in-out;
-    &:hover {
-      background-color: #ff5858;
+
+    .start_game_btn {
+      border-radius: 20px 20px 0 0;
       color: #FFFFFF;
+      width: 204px;
+      height: auto;
+      font-size: 20px;
+      background-color: #ff0000;
+      border: none;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background-color: #ff5858;
+        color: #FFFFFF;
+      }
     }
   }
 }
 
+
 .lobby_box2 {
   float: left;
-  background-color: #151c23;
+  background-color: #00838e;
   width: 70%;
   height: auto;
   overflow: hidden;
+
   .room_list {
     width: 100%;
     height: 400px;
     margin-bottom: auto;
     overflow: auto;
     overflow-y: scroll;
+
     .room_container {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-gap: 10px;
+
       .list{
         margin: 20px;
         border: 2px solid transparent;
@@ -124,11 +155,17 @@ body {
           background-color: #737c92;
           color: #FFFFFF;
         }
+
         span {
           font-size: 15px;
           font-weight: 300;
           margin-left: 20px;
         }
+        .list_name_right {
+          float: right;
+          margin-right: 10px;
+        }
+
         h2 {
           margin-left: 20px;
           font-size: 20px;
