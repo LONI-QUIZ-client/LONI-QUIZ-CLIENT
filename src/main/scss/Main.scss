@@ -37,7 +37,7 @@ body{
   font-size: 100px;
 }
 
-p{
+.l-g p{
   color: white;
   font-size: 30px;
   width: 870px;
@@ -151,6 +151,10 @@ p{
 .content-box{
   margin-bottom: 80px;
 }
+.content-box p{
+  text-align: center;
+  font-size: 15px;
+}
 
 .content-title{
   margin-top: 70px;
@@ -161,14 +165,14 @@ p{
 // bottom-box
 .bottom-box{
   width: 100%;
-  height: 120%;
+  height: 100%;
   text-align: center;
   position: relative;
   z-index: 1;
 }
 .bottom-box:after{
   width: 100%;
-  height: 127%;
+  height: 100%;
   content: "";
   background-image: url(https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/932b2694-3e14-4c9a-a9a5-822f630fa050/original=true/00192-1996601262.jpeg);
   position: absolute;

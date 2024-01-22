@@ -17,9 +17,8 @@ const Main = () => {
                 </div>
             </div>
             <div className='content-box'>
-                <h1 className='content-title'>AI 이미지 생성 기술은 처음이신가요?
-                </h1>
-                <p></p>
+                <h1 className='content-title'>AI 이미지 생성 기술은 처음이신가요?</h1>
+                <p >아래 사진들은 ai 이미지 생성 기술로 만들어진 사진들입니다 당신도 자신만의 이미지를 만들어보세요!</p>
                 <div className="box-wrap">
                     <div className='img-1'>
                         <div className="t-box">
