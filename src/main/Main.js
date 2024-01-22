@@ -17,32 +17,41 @@ const Main = () => {
                 </div>
             </div>
             <div className='content-box'>
+                <h1 className='content-title'>AI 이미지 생성 기술은 처음이신가요?
+                </h1>
+                <p></p>
                 <div className="box-wrap">
-                    <div className="t-box">
-                        <div className="img">
-                            <img src={process.env.PUBLIC_URL + "/img/ASD.jpeg"} alt="Hover Effect"/>
-                        </div>
-                        <div className="info">
-                            <h3>Design</h3>
-                            <p>일러스트를 이용한 디자인입니다.</p>
-                        </div>
-                    </div>
-                    <div className="t-box">
-                        <div className="img">
-                            <img src={process.env.PUBLIC_URL + "/img/Main.png"} alt="Hover Effect"/>
-                        </div>
-                        <div className="info">
-                            <h3>Design</h3>
-                            <p>일러스트를 이용한 디자인입니다.</p>
+                    <div className='img-1'>
+                        <div className="t-box">
+                            <div className="img">
+                                <img src={process.env.PUBLIC_URL + "/img/ASD.jpeg"} alt="Hover Effect"/>
+                            </div>
+                            <div className="info">
+                                <h3>Design</h3>
+                                <p>일러스트를 이용한 디자인입니다.</p>
+                            </div>
                         </div>
                     </div>
-                    <div className="t-box">
-                        <div className="img">
-                            <img src={process.env.PUBLIC_URL + "/img/AS.png"} alt="Hover Effect"/>
+                    <div className='img-2'>
+                        <div className="t-box">
+                            <div className="img">
+                                <img src={process.env.PUBLIC_URL + "/img/Main.png"} alt="Hover Effect"/>
+                            </div>
+                            <div className="info">
+                                <h3>Design</h3>
+                                <p>일러스트를 이용한 디자인입니다.</p>
+                            </div>
                         </div>
-                        <div className="info">
-                            <h3>Design</h3>
-                            <p>일러스트를 이용한 디자인입니다.</p>
+                    </div>
+                    <div className='img-3'>
+                        <div className="t-box">
+                            <div className="img">
+                                <img src={process.env.PUBLIC_URL + "/img/AS.png"} alt="Hover Effect"/>
+                            </div>
+                            <div className="info">
+                                <h3>Design</h3>
+                                <p>일러스트를 이용한 디자인입니다.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -54,7 +63,7 @@ const Main = () => {
                         <p>AI가 만든 이미지로 퀴즈 게임을 즐겨보세요</p>
                         <Button/>
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
     );
