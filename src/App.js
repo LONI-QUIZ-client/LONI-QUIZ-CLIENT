@@ -4,14 +4,16 @@
 
 import React from "react";
 
-import SignInModal from "./user/SignInModal";
+import Login from "./user/Login";
 import {Routes, Route} from "react-router-dom";
+import Join from "./user/Join";
 
 function App() {
   return (
       <>
           <Routes>
-              <Route path={"/"} element={<SignInModal />} />
+              <Route path={"/login"} element={<Login />} />
+              <Route path={"/join"} element={<Join />} />
           </Routes>
       </>
   );

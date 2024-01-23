@@ -1,0 +1,309 @@
+import React, {useEffect, useState} from 'react';
+
+import '../scss/Join.scss'
+
+import {Button, Container, Grid, Link, TextField} from "@mui/material";
+import {JOIN_URL, LOGIN_URL} from "../config/host-config";
+import {json} from "react-router-dom";
+
+const Join = () => {
+
+    const [inputErrorMessage, setInputErrorMessage] = useState({
+        nickName: '',
+        id: '',
+        password:'',
+        passwordCheck:'',
+    });
+
+    const [checkInput, setCheckInput] = useState({
+        nickName: false,
+        id: false,
+        password: false,
+        passwordCheck: false,
+    })
+
+    const [joinInfo, setJoinInfo] = useState({
+        nickname: '',
+        id: '',
+        pw:'',
+    })
+
+    /*const [fetchJoin, setFetchJoin] = useState({
+        id: joinInfo.id,
+        pw: joinInfo.password,
+        nickname:joinInfo.nickName,
+    })*/
+
+    /*const [fetchJoin, setFetchJoin] = useState({
+        id: joinInfo.id,
+        pw: joinInfo.password,
+        nickname: joinInfo.nickName,
+    })*/
+
+    const [lock, setLock] =  useState(true);
+
+    const nickNameHandler = e => {
+        // console.log(inputVal);
+        const nickNmVal = e.target.value;
+        const nameRegex = /^[가-힣]{2,25}$/; // 한글 가능, 2~25자 사이로
+
+        let msg, flag;
+        if(!nickNmVal){
+            msg = 'Please enter a nickname';
+            flag = false;
+        } else if(!nameRegex.test(nickNmVal)){ // 정규표현식에 맞지 않다면
+            msg = '한글로 2-25 글자로 지정해주세요';
+            flag = false;
+        } else {
+            msg = 'nickname available';
+            flag = true;
+        }
+
+        setInputErrorMessage({
+            ...inputErrorMessage,
+            nickName: msg
+        });
+
+        setCheckInput({
+            ...checkInput,
+            nickName: flag
+        })
+
+        setJoinInfo({
+            ...joinInfo,
+            nickname: nickNmVal
+        });
+    }
+
+    // id 중복체크
+    /*const fetchDuplicatedCheck = async (id) => {
+
+        let msg='', flag=false;
+
+        const res = await fetch(LOGIN_URL + "/check?email=" + email)
+        const json = await res.json();
+
+        if (json) {
+            msg = '이메일이 중복되었습니다!';
+            flag = false;
+        } else {
+            msg = '사용 가능한 이메일입니다.';
+            flag = true;
+        }
+
+    }*/
+
+    const idHandler = e => {
+        const idVal = e.target.value;
+        // console.log(inputVal);
+
+        const idRegex = /^[a-z0-9]{2,25}$/; // 한글 가능, 2~25자 사이로
+
+        let msg, flag;
+        if(!idVal){
+            msg = 'Please enter a ID';
+            flag = false;
+        } else if(!idRegex.test(idVal)){ // 정규표현식에 맞지 않다면
+            msg = '영어-숫자조합으로 2-25 글자로 지정해주세요';
+            flag = false;
+        } else {
+            msg = 'ID available';
+            flag = true;
+        }
+
+        setInputErrorMessage({
+            ...inputErrorMessage,
+            id: msg
+        });
+
+        setCheckInput({
+            ...checkInput,
+            id: flag
+        })
+
+        setJoinInfo({
+            ...joinInfo,
+            id: idVal
+        });
+    }
+
+    const passwordHandler = e => {
+        // console.log(e.target.value);
+
+        const pwVal = e.target.value;
+        const pwRegex  = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,25}$/;; // 한글 가능, 8~25자 사이로
+
+        let msg, flag;
+        if(!pwVal){
+            msg = 'Please enter a password';
+            flag = false;
+        } else if(!pwRegex.test(pwVal)){ // 정규표현식에 맞지 않다면
+            msg = '영어-숫자-특수문자 조합으로 8-25 글자로 지정해주세요';
+            flag = false;
+        } else {
+            msg = 'password available';
+            flag = true;
+        }
+
+        setInputErrorMessage({
+            ...inputErrorMessage,
+            password: msg
+        });
+
+        setCheckInput({
+            ...checkInput,
+            password: flag
+        })
+
+        setJoinInfo({
+            ...joinInfo,
+            pw: pwVal
+        });
+
+    }
+
+    const passwordCheckHandler = e => {
+        const pwCheckVal = e.target.value;
+
+        let msg, flag;
+        if(!pwCheckVal){
+            msg = 'Please enter a password-check';
+            flag = false;
+        } else if(joinInfo.pw !== pwCheckVal){
+            msg = '비밀번호와 일치하지 않습니다';
+            flag = false;
+        } else {
+            msg = '비밀번호와 일치합니다';
+            flag = true;
+        }
+
+        setInputErrorMessage({
+            ...inputErrorMessage,
+            passwordCheck: msg
+        });
+
+        setCheckInput({
+            ...checkInput,
+            passwordCheck: flag
+        })
+
+        setJoinInfo({
+            ...joinInfo,
+            passwordCheck: pwCheckVal
+        });
+    }
+
+    const inputIsValid = () => {
+        for (const key in checkInput) {
+            const valid = checkInput[key]
+            if(!valid) return false
+        }
+            return true;
+    }
+
+    const fetchJoinPost = async () => {
+
+        const res = await fetch(JOIN_URL, {
+            method: 'POST',
+            headers: {'content-type':'application/json'},
+            body: JSON.stringify(joinInfo)
+        });
+
+        if(res.status === 200){
+            const json = await res.text();
+            console.log(json);
+        } else {
+            console.log('다시확인바람');
+        }
+
+    }
+
+
+    const {nickName : nn, id, password : pw, passwordCheck : pwc} =  checkInput;
+    useEffect(() => {
+        // console.log(`${inputIsValid()} 값이 바뀌면 실행된다!!`)
+
+        if(inputIsValid()) setLock(false)
+        else setLock(true)
+
+    }, [nn, id, pw, pwc]);
+
+    const joinHandler = e => {
+        e.preventDefault();
+
+        if(!lock) { // 잠겨있지 않을 때
+            // console.log('회원가입 성공!!');
+            fetchJoinPost();
+        } else { // 잠겨있을 때
+
+            console.log('회원가입 실패!!');
+        }
+    }
+
+    return (
+        <div className={'join-main-content'}>
+            <div className={'left-login-move'}>
+                <div className={'game-logo'}></div>
+                <div className={'if-login-can-user'}>
+                    Are you already a member?
+                    <Link href="/login" variant="body2">
+                        login
+                    </Link>
+                </div>
+            </div>
+            <div className={'join-right-input-modal'}>
+                <form noValidate>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} className={'join-input-item'}>
+                            <TextField
+                                type={"text"}
+                                name="nickname"
+                                label="nickname"
+                                onChange={nickNameHandler}
+                                variant="standard"/>
+                            <span>{inputErrorMessage.nickName}</span>
+                        </Grid>
+                        <Grid item xs={12} className={'join-input-item'}>
+                            <TextField
+                                type={"text"}
+                                name="id"
+                                label="ID"
+                                onChange={idHandler}
+                                variant="standard" />
+                            <span>{inputErrorMessage.id}</span>
+                        </Grid>
+                        <Grid item xs={12} className={'join-input-item'}>
+                            <TextField
+                                type={"password"}
+                                name="pw"
+                                label="password"
+                                onChange={passwordHandler}
+                                variant="standard" />
+                            <span>{inputErrorMessage.password}</span>
+                        </Grid>
+                        <Grid item xs={12} className={'join-input-item'}>
+                            <TextField
+                                type={"password"}
+                                name="pwCheck"
+                                label="password-check"
+                                onChange={passwordCheckHandler}
+                                variant="standard" />
+                            <span></span>
+                        </Grid>
+                        <Grid item xs={12} className={'join-input-item'}>
+                            <button
+                                type="submit"
+                                onClick={joinHandler}
+                                disabled={lock}>
+                                Join
+                            </button>
+                        </Grid>
+                    </Grid>
+                </form>
+            </div>
+        </div>
+
+    );
+};
+
+export default Join;
