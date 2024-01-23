@@ -38,9 +38,10 @@ body {
       background-origin: border-box;
       animation: huerotate 6s infinite linear;
       img {
-        width: 150px;
-        height: 150px;
+        width: 100%;
+        height: 100%;
         border-radius: 100px;
+        object-fit: cover;
       }
     }
 

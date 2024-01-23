@@ -1,40 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import '../scss/GameLobby.scss';
 import '../css/GameLobby.css';
-import catImage from '../img/cat.png';
+import GameInput from "./GameInput";
+import catImage from '../img/star.png';
 import {LOBBY_URL} from "../../config/host-config";
+import GameChat from "./GameChat";
 
 const API_BASE_URL = LOBBY_URL;
 
 const GameLobby = () => {
     const [lobbyData, setLobbyData] = useState([]);
 
-    const addRoom = (RoomTitle) => {
-        console.log('RoomTitle: ', RoomTitle);
-
-        const newRoom = {
-            lobby_title: RoomTitle
-        };
-
-
-        fetch(API_BASE_URL, {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(newRoom)
-        })
-            .then(res => res.json())
-            .then(json => {
-                setLobbyData(json);
-            });
-    }
+    // const addRoom = (RoomTitle) => {
+    //     console.log('RoomTitle: ', RoomTitle);
+    //
+    //     const newRoom = {
+    //         lobby_title: RoomTitle
+    //     };
+    //
+    //
+    //     fetch(API_BASE_URL, {
+    //         method: 'POST',
+    //         headers: {
+    //             'content-type': 'application/json'
+    //         },
+    //         body: JSON.stringify(newRoom)
+    //     })
+    //         .then(res => res.json())
+    //         .then(json => {
+    //             setLobbyData(json);
+    //         });
+    // }
 
     useEffect(() => {
-        fetch(API_BASE_URL + "?page=1&amount=3")
+        fetch(API_BASE_URL + "?page=1&amount=6")
             .then(res => res.json())
             .then(json => {
-                // console.log(json);
+                console.log(json);
                 setLobbyData(json);
             });
     }, []);
@@ -62,23 +64,9 @@ const GameLobby = () => {
                 </div>
                 <div className='lobby_box2'>
                     <div className='lobby_bbox2'>
-
+                        <GameInput data={lobbyData} />
                         <div id="chat-page">
-                            <div className="chat-container">
-                                <ul id="messageArea">
-                                    <li>
-                                        <span>NickName : 야</span>
-                                    </li>
-                                </ul>
-                                <form id="messageForm" name="messageForm">
-                                    <div className="form-group">
-                                        <div className="input-group clearfix">
-                                                <textarea id="message" placeholder="채팅 입력..." autoComplete="off"
-                                                          className="form-control"></textarea>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+                            <GameChat />
                         </div>
                     </div>
                 </div>
