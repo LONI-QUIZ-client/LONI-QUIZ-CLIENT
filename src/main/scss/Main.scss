@@ -163,21 +163,21 @@ body{
 }
 
 // bottom-box
-.bottom-box{
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-.bottom-box:after{
-  width: 100%;
-  height: 100%;
-  content: "";
-  background-image: url(https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/932b2694-3e14-4c9a-a9a5-822f630fa050/original=true/00192-1996601262.jpeg);
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  opacity: 0.8;
-}
+//.bottom-box{
+//  width: 100%;
+//  height: 100%;
+//  text-align: center;
+//  position: relative;
+//  z-index: 1;
+//}
+//.bottom-box:after{
+//  width: 100%;
+//  height: 100%;
+//  content: "";
+//  background-image: url(https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/932b2694-3e14-4c9a-a9a5-822f630fa050/original=true/00192-1996601262.jpeg);
+//  position: absolute;
+//  top: 0;
+//  left: 0;
+//  z-index: -1;
+//  opacity: 0.8;
+//}

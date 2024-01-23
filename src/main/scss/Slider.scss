@@ -1,0 +1,27 @@
+// footer
+.slider {
+  overflow: hidden;
+  position: relative;
+  //border: 20px solid red;
+  width: 100%;
+  height: 140px;
+  box-sizing: border-box;
+}
+.image-box{
+  width: 2000px;
+  height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  animation: bannermove 20s linear infinite;
+}
+.image-box > div {
+  margin: 0px 100px 0px 0px;
+}
+@keyframes bannermove {
+  0% {
+    transform: translate(0, 0);
+  }
+  100%{
+    transform: translate(-50%, 0);
+  }
+}
