@@ -1,21 +1,56 @@
-import React from 'react';
-import './scss/GamePage.scss'
+import React, { useState } from 'react';
+import './scss/GamePage.scss';
+import {IMG_URL} from '../../config/host-config'
 
 const GamePage = () => {
+    const [inputText, setInputText] = useState('');
+    const [img, setImg] = useState([]);
 
-    const createImage = e =>{
-        console.log("클릭!")
-    }
+    const createImage = async () => {
+        try {
+            const res = await fetch(IMG_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    prompt: inputText,
+                }),
+            });
 
+            if (res.status === 200) {
+                console.log('API 호출 성공');
+                const imgData = await res.json();
+                setImg(imgData.image);
+            } else {
+                console.error('API 호출 실패');
+            }
+        } catch (error) {
+            console.error('API 호출 중 에러:', error);
+        }
+    };
 
+    const handleInputChange = (e) => {
+        setInputText(e.target.value);
+    };
 
     return (
         <div className='box'>
             <div className='a'>
                 <div className='show-img'>
-                    <img src="" onerror="this.onerror=null; this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2GQEpeYCnmbm3Kpk60eWT60SqR6861oxoVg&usqp=CAU';"className='img'/>
-                    <input type="text" className='input' value={inputText}/>
-                    <button className='create' onClick={createImage}>사진만들기</button>
+                    {/* 이미지를 매핑하여 화면에 표시 */}
+                    {img.map((image, index) => (
+                        <img key={index} src={image} alt={`Image ${index}`} className='img' />
+                    ))}
+                    <input
+                        type='text'
+                        className='input'
+                        value={inputText}
+                        onChange={handleInputChange}
+                    />
+                    <button className='create' onClick={createImage}>
+                        사진만들기
+                    </button>
                 </div>
                 <div className='user-list'>
                     <div className='user'>1</div>
@@ -26,9 +61,7 @@ const GamePage = () => {
                     <div className='user'>6</div>
                 </div>
             </div>
-            <div className='b'>
-
-            </div>
+            <div className='b'></div>
         </div>
     );
 };
