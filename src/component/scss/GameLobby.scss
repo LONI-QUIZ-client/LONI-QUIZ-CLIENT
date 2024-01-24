@@ -68,7 +68,7 @@ body {
   align-items: flex-start;
   width: 100%;
   height: auto;
-  margin-left: 20.5%;
+  justify-content: center;
   margin-top: 70px;
 
   .btns_box {
@@ -140,13 +140,15 @@ body {
     margin-bottom: auto;
     overflow: auto;
     overflow-y: scroll;
+    position: relative;
+    text-align: center;
 
     .room_container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-gap: 10px;
+      display: inline-block;
+      padding: 0 20px;
 
       .list{
+        width: 400px;
         margin: 20px;
         border: 2px solid transparent;
         border-radius: 20px;
@@ -157,14 +159,17 @@ body {
           color: #FFFFFF;
         }
 
-        span {
+        p {
           font-size: 15px;
           font-weight: 300;
           margin-left: 20px;
+          text-align: left;
         }
         .list_name_right {
-          float: right;
+          font-size: 15px;
+          font-weight: 300;
           margin-right: 10px;
+          text-align: right;
         }
 
         h2 {
@@ -173,11 +178,36 @@ body {
           font-weight: 500;
           margin-top: 10px;
           margin-bottom: 10px;
+          text-align: left;
         }
+
       }
 
     }
 
   }
+  .pagination {
+    text-align: center;
+    button {
+      margin: 0 5px;
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      cursor: pointer;
+      border-radius: 20px;
+
+      &:hover {
+        background-color: #f0f0f0;
+        color: black;
+      }
+    }
+
+    .active {
+      background-color: #007bff;
+      color: #fff;
+      border-color: #007bff;
+    }
+  }
+
 
 }

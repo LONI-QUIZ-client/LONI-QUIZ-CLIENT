@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import '../scss/GameLobby.scss';
 import '../css/GameLobby.css';
 import GameInput from "./GameInput";
-import catImage from '../img/star.png';
 import {LOBBY_URL} from "../../config/host-config";
 import GameChat from "./GameChat";
+import GameProfileLobby from "./GameProfile_Lobby";
 
 const API_BASE_URL = LOBBY_URL;
 
@@ -33,7 +33,7 @@ const GameLobby = () => {
     // }
 
     useEffect(() => {
-        fetch(API_BASE_URL + "?page=1&amount=6")
+        fetch(API_BASE_URL + "?page=1&amount=15")
             .then(res => res.json())
             .then(json => {
                 console.log(json);
@@ -53,13 +53,7 @@ const GameLobby = () => {
             <div className='lobby_container'>
                 <div className='lobby_box1'>
                     <div className='lobby_bbox1'>
-                        <div className='profile'>
-                            <div className='profile_image'>
-                                <img src={catImage} alt="고양이 프로필"/>
-                            </div>
-                            <p>NickName</p>
-                            <p>0승 0패</p>
-                        </div>
+                        <GameProfileLobby />
                     </div>
                 </div>
                 <div className='lobby_box2'>
