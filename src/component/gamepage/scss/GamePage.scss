@@ -1,0 +1,57 @@
+html,body{
+  width: 100%;
+  height: 100%;
+}
+.box{
+  width: 100%;
+  height: 92.5vh;
+  background: #61dafb;
+  display: flex;
+  flex-direction: row;
+}
+.a{
+  background: white;
+  flex: 7.3;
+  display: flex;
+  flex-direction: column;
+}
+.b{
+  flex: 2.7;
+  background: #fff9f9;
+}
+.show-img{
+  flex: 8;
+  width: 100%;
+  background: red;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.user-list{
+  flex: 2;
+  width: 100%;
+  background: blue;
+  display: flex;
+  flex-direction: row;
+}
+.user{
+  width: 18%;
+  height: 100%;
+  background: #61dafb;
+  border: 1px solid black;
+}
+.create{
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+.input{
+  position: absolute;
+  right: 130px;
+  bottom: 20px;
+}
+.img{
+  width: 80%;
+  height: 80%;
+}
