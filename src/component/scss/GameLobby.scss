@@ -69,6 +69,7 @@ body {
   width: 100%;
   height: auto;
   justify-content: center;
+  margin-left: 80px;
   margin-top: 70px;
 
   .btns_box {
@@ -191,10 +192,11 @@ body {
     button {
       margin: 0 5px;
       padding: 5px 10px;
-      border: 1px solid #ccc;
+      border: 1px solid #a0a0a0;
       background-color: #fff;
       cursor: pointer;
       border-radius: 20px;
+      transition: all 0.2s ease-in-out;
 
       &:hover {
         background-color: #f0f0f0;
