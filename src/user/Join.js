@@ -4,6 +4,7 @@ import '../scss/Join.scss'
 
 import {Grid, Link, TextField} from "@mui/material";
 import {JOIN_URL} from "../config/host-config";
+import { IoMdPerson } from "react-icons/io";
 
 
 const Join = () => {
@@ -26,19 +27,8 @@ const Join = () => {
         nickname: '',
         id: '',
         pw:'',
+        profile:'',
     })
-
-    /*const [fetchJoin, setFetchJoin] = useState({
-        id: joinInfo.id,
-        pw: joinInfo.password,
-        nickname:joinInfo.nickName,
-    })*/
-
-    /*const [fetchJoin, setFetchJoin] = useState({
-        id: joinInfo.id,
-        pw: joinInfo.password,
-        nickname: joinInfo.nickName,
-    })*/
 
     const [lock, setLock] =  useState(true);
 
@@ -292,69 +282,116 @@ const Join = () => {
         }
     }
 
+    const profileHandler = e => {
+        document.getElementById('profile-img').click();
+    }
+
+
+    const [imageSrc, setImageSrc] = useState("");
+    const uploadImage = e => {
+        const uploadFile = e.target.files[0];
+
+        if(uploadFile){
+            const reader = new FileReader();
+            reader.readAsDataURL(uploadFile);
+
+            reader.onload = () => {
+                setImageSrc(reader.result);
+                setJoinInfo({
+                    ...joinInfo,
+                    profile: reader.result,
+                });
+                // console.log(reader.result);
+            }
+
+        }
+
+    }
+
+
     return (
-        <div className={'join-main-content'}>
-            <div className={'left-login-move'}>
-                <div className={'game-logo'}></div>
-                <div className={'if-login-can-user'}>
-                    Are you already a member?
-                    <Link href="/login" variant="body2">
-                        login
-                    </Link>
+        <div className={'join-screen'}>
+            <div className={'join-main-content'}>
+                <div className={'left-login-move'}>
+                    <div className={'game-logo'}></div>
+                    <div className={'if-login-can-user'}>
+                        Are you already a member?
+                        <Link href="/login" variant="body2">
+                            login
+                        </Link>
+                    </div>
+                </div>
+                <div className={'join-right-input-modal'}>
+                    <form noValidate>
+                        <div
+                            onClick={profileHandler}
+                            className={'join-input-profile-item'}>
+                            {
+                                imageSrc ?
+                                    (<img src={imageSrc} alt="Preview" />)
+                                    :
+                                    (<IoMdPerson style={{width: '5rem', height: '5rem', color: '#949494'}}/>)
+                            }
+                        </div>
+
+                        <input
+                            onChange={uploadImage}
+                            type="file"
+                            id="profile-img"
+                            accept="image/*"
+                            style={{display: 'none'}}
+                            name="profileImage" />
+
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} className={'join-input-item'}>
+                                <TextField
+                                    type={"text"}
+                                    name="nickname"
+                                    label="nickname"
+                                    onChange={nickNameHandler}
+                                    variant="standard"/>
+                                <span>{inputErrorMessage.nickName}</span>
+                            </Grid>
+                            <Grid item xs={12} className={'join-input-item'}>
+                                <TextField
+                                    type={"text"}
+                                    name="id"
+                                    label="ID"
+                                    onChange={idHandler}
+                                    variant="standard" />
+                                <span style={{fontSize: '1rem'}}>{inputErrorMessage.id}</span>
+                            </Grid>
+                            <Grid item xs={12} className={'join-input-item'}>
+                                <TextField
+                                    type={"password"}
+                                    name="pw"
+                                    label="password"
+                                    onChange={passwordHandler}
+                                    variant="standard" />
+                                <span>{inputErrorMessage.password}</span>
+                            </Grid>
+                            <Grid item xs={12} className={'join-input-item'}>
+                                <TextField
+                                    type={"password"}
+                                    name="pwCheck"
+                                    label="password-check"
+                                    onChange={passwordCheckHandler}
+                                    variant="standard" />
+                                <span></span>
+                            </Grid>
+                            <Grid item xs={12} className={'join-input-item'}>
+                                <button
+                                    type="submit"
+                                    onClick={joinHandler}
+                                    disabled={lock}>
+                                    Join
+                                </button>
+                            </Grid>
+                        </Grid>
+                    </form>
                 </div>
             </div>
-            <div className={'join-right-input-modal'}>
-                <form noValidate>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} className={'join-input-item'}>
-                            <TextField
-                                type={"text"}
-                                name="nickname"
-                                label="nickname"
-                                onChange={nickNameHandler}
-                                variant="standard"/>
-                            <span>{inputErrorMessage.nickName}</span>
-                        </Grid>
-                        <Grid item xs={12} className={'join-input-item'}>
-                            <TextField
-                                type={"text"}
-                                name="id"
-                                label="ID"
-                                onChange={idHandler}
-                                variant="standard" />
-                            <span>{inputErrorMessage.id}</span>
-                        </Grid>
-                        <Grid item xs={12} className={'join-input-item'}>
-                            <TextField
-                                type={"password"}
-                                name="pw"
-                                label="password"
-                                onChange={passwordHandler}
-                                variant="standard" />
-                            <span>{inputErrorMessage.password}</span>
-                        </Grid>
-                        <Grid item xs={12} className={'join-input-item'}>
-                            <TextField
-                                type={"password"}
-                                name="pwCheck"
-                                label="password-check"
-                                onChange={passwordCheckHandler}
-                                variant="standard" />
-                            <span></span>
-                        </Grid>
-                        <Grid item xs={12} className={'join-input-item'}>
-                            <button
-                                type="submit"
-                                onClick={joinHandler}
-                                disabled={lock}>
-                                Join
-                            </button>
-                        </Grid>
-                    </Grid>
-                </form>
-            </div>
         </div>
-
     );
 };
 
