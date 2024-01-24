@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../scss/GameLobby.scss';
 import '../css/GameLobby.css';
+import {LOBBY_CHAT} from "../../config/host-config";
 
 const GameInput = () => {
     const [input,setInput]=useState('');
@@ -10,6 +11,14 @@ const GameInput = () => {
         console.log(input);
 
     }
+
+    useEffect(() => {
+        fetch(LOBBY_CHAT)
+            .then(res => res.json())
+            .then(json => {
+                console.log(json)
+            })
+    }, []);
 
     return (
         <>
