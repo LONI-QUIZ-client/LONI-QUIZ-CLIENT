@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 
 import '../scss/Join.scss'
 
-import {Button, Container, Grid, Link, TextField} from "@mui/material";
-import {JOIN_URL, LOGIN_URL} from "../config/host-config";
-import {json} from "react-router-dom";
+import {Grid, Link, TextField} from "@mui/material";
+import {JOIN_URL} from "../config/host-config";
+
 
 const Join = () => {
 
@@ -42,21 +42,89 @@ const Join = () => {
 
     const [lock, setLock] =  useState(true);
 
+
+    // id 중복체크
+    const fetchIdDuplicatedCheck = async (id) => {
+
+        let msg='', flag=false;
+
+        const res = await fetch(JOIN_URL + "/check?type=id&keyword=" + id)
+        const json = await res.json();
+
+        if (json) {
+            msg = '아이디가 중복되었습니다!';
+            flag = false;
+        } else {
+            msg = '사용 가능한 이메일입니다.';
+            flag = true;
+        }
+
+        setInputErrorMessage({
+            ...inputErrorMessage,
+            id: msg
+        });
+
+        setCheckInput({
+            ...checkInput,
+            id: flag
+        })
+
+        setJoinInfo({
+            ...joinInfo,
+            id: id
+        });
+
+    }
+
+    // 닉네임 중복체크
+    const fetchNickNameDuplicatedCheck = async (nickname) => {
+
+        let msg='', flag=false;
+
+        const res = await fetch(JOIN_URL + "/check?type=nickname&keyword=" + nickname)
+        const json = await res.json();
+
+        if (json) {
+            msg = '닉네임이 중복되었습니다!';
+            flag = false;
+        } else {
+            msg = '사용 가능한 닉네임 입니다.';
+            flag = true;
+        }
+
+        setInputErrorMessage({
+            ...inputErrorMessage,
+            nickName: msg
+        });
+
+        setCheckInput({
+            ...checkInput,
+            nickName: flag
+        })
+
+        setJoinInfo({
+            ...joinInfo,
+            nickname: nickname
+        });
+
+    }
+
     const nickNameHandler = e => {
         // console.log(inputVal);
         const nickNmVal = e.target.value;
-        const nameRegex = /^[가-힣]{2,25}$/; // 한글 가능, 2~25자 사이로
+        const nameRegex = /^[가-힣]{2,25}$/;
+        // 닉네임은 최소 2글자 ~ 최대 25글자, 한글로
 
         let msg, flag;
         if(!nickNmVal){
             msg = 'Please enter a nickname';
             flag = false;
-        } else if(!nameRegex.test(nickNmVal)){ // 정규표현식에 맞지 않다면
+        } else if(!nameRegex.test(nickNmVal)){
             msg = '한글로 2-25 글자로 지정해주세요';
             flag = false;
         } else {
-            msg = 'nickname available';
-            flag = true;
+            fetchNickNameDuplicatedCheck(nickNmVal);
+            return;
         }
 
         setInputErrorMessage({
@@ -73,42 +141,26 @@ const Join = () => {
             ...joinInfo,
             nickname: nickNmVal
         });
+
     }
 
-    // id 중복체크
-    /*const fetchDuplicatedCheck = async (id) => {
-
-        let msg='', flag=false;
-
-        const res = await fetch(LOGIN_URL + "/check?email=" + email)
-        const json = await res.json();
-
-        if (json) {
-            msg = '이메일이 중복되었습니다!';
-            flag = false;
-        } else {
-            msg = '사용 가능한 이메일입니다.';
-            flag = true;
-        }
-
-    }*/
-
     const idHandler = e => {
-        const idVal = e.target.value;
         // console.log(inputVal);
+        const idVal = e.target.value;
 
-        const idRegex = /^[a-z0-9]{2,25}$/; // 한글 가능, 2~25자 사이로
+        const idRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{2,25}$/;
+        // 아이디는 최소 5글자 ~ 최대 15글자
 
         let msg, flag;
         if(!idVal){
             msg = 'Please enter a ID';
             flag = false;
         } else if(!idRegex.test(idVal)){ // 정규표현식에 맞지 않다면
-            msg = '영어-숫자조합으로 2-25 글자로 지정해주세요';
+            msg = '영어-숫자조합으로 5-25 글자로 지정해주세요';
             flag = false;
         } else {
-            msg = 'ID available';
-            flag = true;
+            fetchIdDuplicatedCheck(idVal);
+            return;
         }
 
         setInputErrorMessage({
@@ -131,7 +183,7 @@ const Join = () => {
         // console.log(e.target.value);
 
         const pwVal = e.target.value;
-        const pwRegex  = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,25}$/;; // 한글 가능, 8~25자 사이로
+        const pwRegex  = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,25}$/;; // 비밀번호는 최소 8글자 ~ 최대 25
 
         let msg, flag;
         if(!pwVal){
