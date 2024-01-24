@@ -45,7 +45,7 @@ const Join = () => {
             msg = '아이디가 중복되었습니다!';
             flag = false;
         } else {
-            msg = '사용 가능한 이메일입니다.';
+            msg = '사용 가능한 아이디입니다.';
             flag = true;
         }
 
@@ -290,6 +290,7 @@ const Join = () => {
     const [imageSrc, setImageSrc] = useState("");
     const uploadImage = e => {
         const uploadFile = e.target.files[0];
+        console.log(uploadFile);
 
         if(uploadFile){
             const reader = new FileReader();
@@ -301,7 +302,7 @@ const Join = () => {
                     ...joinInfo,
                     profile: reader.result,
                 });
-                // console.log(reader.result);
+                console.log(reader.result);
             }
 
         }
