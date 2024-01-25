@@ -29,7 +29,7 @@ const Join = () => {
         nickname: '',
         id: '',
         pw:'',
-        profile:'',
+        // profile:'',
     })
 
     const [lock, setLock] =  useState(true);
@@ -246,10 +246,6 @@ const Join = () => {
     }
 
 
-
-
-
-
     const {nickName : nn, id, password : pw, passwordCheck : pwc} =  checkInput;
     useEffect(() => {
         // console.log(`${inputIsValid()} 값이 바뀌면 실행된다!!`)
@@ -275,35 +271,35 @@ const Join = () => {
         document.getElementById('profile-img').click();
     }
 
-    const uploadImage = (e) => {
+    /*const uploadImage = (e) => {
         const uploadFile = e.target.files[0];
 
         console.log(uploadFile)
 
         setImage(uploadFile);
+    }*/
+
+    const [imageSrc, setImageSrc] = useState('');
+    const uploadImage = e => {
+        const uploadFile = e.target.files[0];
+        console.log(uploadFile);
+
+        if(uploadFile){
+            const reader = new FileReader();
+            reader.readAsDataURL(uploadFile);
+
+            reader.onload = () => {
+                setImageSrc(reader.result);
+                setJoinInfo({
+                    ...joinInfo,
+                    profile: reader.result,
+                });
+                console.log(reader.result);
+            }
+
+        }
+
     }
-
-
-    // const uploadImage = e => {
-    //     const uploadFile = e.target.files[0];
-    //     console.log(uploadFile);
-    //
-    //     if(uploadFile){
-    //         const reader = new FileReader();
-    //         reader.readAsDataURL(uploadFile);
-    //
-    //         reader.onload = () => {
-    //             setImageSrc(reader.result);
-    //             setJoinInfo({
-    //                 ...joinInfo,
-    //                 profile: reader.result,
-    //             });
-    //             console.log(reader.result);
-    //         }
-    //
-    //     }
-    //
-    // }
 
 
     const fetchJoinPost = async () => {
@@ -334,21 +330,33 @@ const Join = () => {
     return (
         <div className={'join-screen'}>
             <div className={'join-main-content'}>
+                <div className={'game-logo'}></div>
                 <div className={'left-login-move'}>
-                    <div className={'game-logo'}></div>
+                    <div className={'join-introductory-article'}>
+                        <div className={'h1-join-title'}>
+                            Unleash Your Creativity<br/> with Catch Mind
+                        </div>
+                        <div className={'h2-join-sub-title'}>
+                            Embark on a journey<br/> where imagination meets innovation!<br/> Join us at Catch Mind,<br/> the ultimate destination for an extraordinary gaming experience<br/> powered by cutting-edge AI technology
+                        </div>
+                    </div>
                     <div className={'if-login-can-user'}>
                         Are you already a member?
-                        <Link href="/login" variant="body2">
-                            login
-                        </Link>
+                        <Link href="/login" variant="body2" className={'login-link-move'}>login</Link>
                     </div>
                 </div>
                 <div className={'join-right-input-modal'}>
                     <form>
+
                         <div style={{width: 40, height: 40}}
                              onClick={profileHandler}
                              className={'join-input-profile-item'}>
-
+                            {
+                                imageSrc ?
+                                    (<img src={imageSrc} alt="Preview" />)
+                                    :
+                                    (<IoMdPerson style={{width: '5rem', height: '5rem', color: '#949494'}}/>)
+                            }
                         </div>
 
                         <input
@@ -359,8 +367,8 @@ const Join = () => {
                             style={{display: 'none'}}
                             name="profileImage" />
 
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} className={'join-input-item'}>
+                        <div className={'join-input-items'}>
+                            <div className={'join-input-item'}>
                                 <TextField
                                     type={"text"}
                                     name="nickname"
@@ -368,8 +376,8 @@ const Join = () => {
                                     onChange={nickNameHandler}
                                     variant="standard"/>
                                 <span>{inputErrorMessage.nickName}</span>
-                            </Grid>
-                            <Grid item xs={12} className={'join-input-item'}>
+                            </div>
+                            <div className={'join-input-item'}>
                                 <TextField
                                     type={"text"}
                                     name="id"
@@ -377,8 +385,8 @@ const Join = () => {
                                     onChange={idHandler}
                                     variant="standard" />
                                 <span style={{fontSize: '1rem'}}>{inputErrorMessage.id}</span>
-                            </Grid>
-                            <Grid item xs={12} className={'join-input-item'}>
+                            </div>
+                            <div className={'join-input-item'}>
                                 <TextField
                                     type={"password"}
                                     name="pw"
@@ -386,8 +394,8 @@ const Join = () => {
                                     onChange={passwordHandler}
                                     variant="standard" />
                                 <span>{inputErrorMessage.password}</span>
-                            </Grid>
-                            <Grid item xs={12} className={'join-input-item'}>
+                            </div>
+                            <div className={'join-input-item'}>
                                 <TextField
                                     type={"password"}
                                     name="pwCheck"
@@ -395,16 +403,16 @@ const Join = () => {
                                     onChange={passwordCheckHandler}
                                     variant="standard" />
                                 <span></span>
-                            </Grid>
-                            <Grid item xs={12} className={'join-input-item'}>
+                            </div>
+                            <div className={'join-input-item'}>
                                 <button
                                     type="submit"
                                     onClick={joinHandler}
                                     disabled={lock}>
                                     Join
                                 </button>
-                            </Grid>
-                        </Grid>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

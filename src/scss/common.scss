@@ -12,6 +12,7 @@
 a{
   text-decoration: none;
   outline: none; border: none;
+  color: inherit;
 }
 .clearfix::after{
   content: ''; display: block; clear: both;
