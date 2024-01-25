@@ -8,6 +8,7 @@ const GameChat = () => {
     const [chatData, setChatData] = useState([]);
     const userId = "yy123";
 
+
     const inputSubmit = (e) => {
         e.preventDefault();
 
@@ -39,7 +40,7 @@ const GameChat = () => {
                 console.error("Error fetching chat data:", error);
                 setChatData([]);
             });
-    }, [chatData]);
+    }, []);
 
     return (
         <>

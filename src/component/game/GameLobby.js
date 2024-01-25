@@ -5,6 +5,7 @@ import GameInput from "./GameInput";
 import {LOBBY_URL} from "../../config/host-config";
 import GameChat from "./GameChat";
 import GameProfileLobby from "./GameProfile_Lobby";
+import GameModal from "./GameModal";
 
 const API_BASE_URL = LOBBY_URL;
 
@@ -26,7 +27,7 @@ const GameLobby = () => {
             <div className='lobby_menu'>
                 <div className='btns_box'>
                     <button className='setting_btn'>Setting</button>
-                    <button className='create_room_btn'>Create Room</button>
+                    <GameModal />
                     <button className='start_game_btn'>Game Start</button>
                 </div>
             </div>
