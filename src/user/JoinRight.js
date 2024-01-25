@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {IoMdPerson} from "react-icons/io";
-import {TextField} from "@mui/material";
+import {Link, TextField} from "@mui/material";
 import {JOIN_URL} from "../config/host-config";
+import cn from 'classnames';
 
 import "../scss/JoinRight.scss"
+import join from "./Join";
 
 const JoinRight = () => {
 
@@ -29,7 +31,6 @@ const JoinRight = () => {
     })
 
     const [lock, setLock] =  useState(true);
-
 
     // id 중복체크
     const fetchIdDuplicatedCheck = async (id) => {
@@ -270,7 +271,7 @@ const JoinRight = () => {
     const [imag, setImage] = useState(null);
     const [imageSrc, setImageSrc] = useState("");
 
-    const uploadImage = (e) => {
+    const isProfile = (e) => {
         const uploadFile = e.target.files[0];
         console.log(uploadFile)
 
@@ -294,10 +295,15 @@ const JoinRight = () => {
 
         const formate = new FormData();
 
+
         formate.append("id", joinInfo.id);
         formate.append("pw", joinInfo.pw);
         formate.append("nickname", joinInfo.nickname);
         formate.append("profile", imag);
+        /*if(imag===null){
+            formate.append("profile", joinInfo.profile);
+        } else {
+        }*/
 
 
         const res = await fetch(JOIN_URL, {
@@ -315,8 +321,8 @@ const JoinRight = () => {
     }
 
     return (
-        <div className={'join-right-input-modal'}>
-            <form noValidate>
+        <form noValidate>
+            <div className={'join-right-item'}>
                 <div
                     onClick={profileHandler}
                     className={'join-input-profile-item'}>
@@ -329,7 +335,7 @@ const JoinRight = () => {
                 </div>
 
                 <input
-                    onChange={uploadImage}
+                    onChange={isProfile}
                     type="file"
                     id="profile-img"
                     accept="image/*"
@@ -337,53 +343,66 @@ const JoinRight = () => {
                     name="profileImage" />
 
                 <div className={'join-input-items'}>
-                    <div className={'join-input-item'}>
+                    <div className={'join-item'}>
                         <TextField
+                            className={'join-input'}
                             type={"text"}
                             name="nickname"
                             label="nickname"
                             onChange={nickNameHandler}
-                            variant="standard"/>
-                        <span>{inputErrorMessage.nickName}</span>
+                            variant="outlined"/>
+                        <span className={cn('error-message', {nn})}>{inputErrorMessage.nickName}</span>
                     </div>
-                    <div className={'join-input-item'}>
+                    <div className={'join-item'}>
                         <TextField
+                            className={'join-input'}
                             type={"text"}
                             name="id"
                             label="ID"
                             onChange={idHandler}
-                            variant="standard" />
-                        <span style={{fontSize: '1rem'}}>{inputErrorMessage.id}</span>
+                            size={"medium"}
+                            variant="outlined" />
+                        <span className={cn('error-message', {id})}>{inputErrorMessage.id}</span>
                     </div>
-                    <div className={'join-input-item'}>
+                    <div className={'join-item'}>
                         <TextField
+                            className={'join-input'}
                             type={"password"}
                             name="pw"
                             label="password"
                             onChange={passwordHandler}
-                            variant="standard" />
-                        <span>{inputErrorMessage.password}</span>
+                            size={"medium"}
+                            variant="outlined" />
+                        <span className={cn('error-message', {pw})}>{inputErrorMessage.password}</span>
                     </div>
-                    <div className={'join-input-item'}>
+                    <div className={'join-item'}>
                         <TextField
+                            style={{fontWeight:'bold'}}
+                            className={'join-input'}
                             type={"password"}
                             name="pwCheck"
                             label="password-check"
                             onChange={passwordCheckHandler}
-                            variant="standard" />
-                        <span></span>
-                    </div>
-                    <div className={'join-input-item'}>
-                        <button
-                            type="submit"
-                            onClick={joinHandler}
-                            disabled={lock}>
-                            Join
-                        </button>
+                            size={"medium"}
+                            variant="outlined" />
+                        <span className={cn('error-message', {pwc})}>{inputErrorMessage.passwordCheck}</span>
                     </div>
                 </div>
-            </form>
-        </div>
+                <div className={'join-button'}>
+                    <button
+                        className={cn('join-practice', {lock})}
+                        type="submit"
+                        onClick={joinHandler}
+                        disabled={lock}>
+                        Join
+                    </button>
+                </div>
+                <div className={'if-login-can-user'}>
+                    Are you already a member?
+                    <Link href="/login" variant="body2" className={'login-link-move'}>Log In</Link>
+                </div>
+            </div>
+        </form>
     );
 };
 

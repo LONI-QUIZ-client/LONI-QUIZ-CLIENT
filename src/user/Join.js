@@ -9,9 +9,9 @@ import JoinRight from "./JoinRight";
 const Join = () => {
 
     return (
-        <div className={'join-screen'}>
-            <div className={'join-main-content'}>
-                <div className={'game-logo'}></div>
+        <div className={'join-main-content'}>
+            <div className={'join-container'}>
+                {/*<div className={'game-logo'}></div>*/}
                 <JoinLeft />
                 <JoinRight />
             </div>
