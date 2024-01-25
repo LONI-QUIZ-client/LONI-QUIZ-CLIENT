@@ -9,7 +9,7 @@ import { IoMdPerson } from "react-icons/io";
 
 const Join = () => {
 
-    const [imag, setImage] = useState(null);
+    // const [imag, setImage] = useState(null);
 
     const [inputErrorMessage, setInputErrorMessage] = useState({
         nickName: '',
@@ -29,7 +29,7 @@ const Join = () => {
         nickname: '',
         id: '',
         pw:'',
-        // profile:'',
+        profile:'',
     })
 
     const [lock, setLock] =  useState(true);
@@ -242,7 +242,7 @@ const Join = () => {
             const valid = checkInput[key]
             if(!valid) return false
         }
-            return true;
+        return true;
     }
 
 
@@ -267,14 +267,19 @@ const Join = () => {
         }
     }
 
+    const [imag, setImage] = useState(null);
+    const [imageSrc, setImageSrc] = useState("");
+
     const profileHandler = e => {
         document.getElementById('profile-img').click();
     }
 
-    const [imageSrc, setImageSrc] = useState('');
-    const uploadImage = e => {
+    const uploadImage = (e) => {
         const uploadFile = e.target.files[0];
-        console.log(uploadFile);
+
+        console.log(uploadFile)
+
+        setImage(uploadFile);
 
         if(uploadFile){
             const reader = new FileReader();
@@ -282,16 +287,36 @@ const Join = () => {
 
             reader.onload = () => {
                 setImageSrc(reader.result);
-                setJoinInfo({
-                    ...joinInfo,
-                    profile: reader.result,
-                });
                 console.log(reader.result);
             }
 
         }
+        setImageSrc(uploadFile);
+        console.log(imageSrc);
 
     }
+
+
+    // const uploadImage = e => {
+    //     const uploadFile = e.target.files[0];
+    //     console.log(uploadFile);
+    //
+    //     if(uploadFile){
+    //         const reader = new FileReader();
+    //         reader.readAsDataURL(uploadFile);
+    //
+    //         reader.onload = () => {
+    //             setImageSrc(reader.result);
+    //             setJoinInfo({
+    //                 ...joinInfo,
+    //                 profile: reader.result,
+    //             });
+    //             console.log(reader.result);
+    //         }
+    //
+    //     }
+    //
+    // }
 
 
     const fetchJoinPost = async () => {
@@ -343,7 +368,7 @@ const Join = () => {
                             onClick={profileHandler}
                             className={'join-input-profile-item'}>
                             {
-                                imageSrc ?
+                                imag ?
                                     (<img src={imageSrc} alt="Preview" />)
                                     :
                                     (<IoMdPerson style={{width: '5rem', height: '5rem', color: '#949494'}}/>)
