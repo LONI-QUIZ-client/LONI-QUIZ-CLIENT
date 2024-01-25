@@ -9,6 +9,8 @@ import { IoMdPerson } from "react-icons/io";
 
 const Join = () => {
 
+    const [imag, setImage] = useState(null);
+
     const [inputErrorMessage, setInputErrorMessage] = useState({
         nickName: '',
         id: '',
@@ -243,22 +245,9 @@ const Join = () => {
             return true;
     }
 
-    const fetchJoinPost = async () => {
 
-        const res = await fetch(JOIN_URL, {
-            method: 'POST',
-            headers: {'content-type':'application/json'},
-            body: JSON.stringify(joinInfo)
-        });
 
-        if(res.status === 200){
-            const json = await res.text();
-            console.log(json);
-        } else {
-            console.log('다시확인바람');
-        }
 
-    }
 
 
     const {nickName : nn, id, password : pw, passwordCheck : pwc} =  checkInput;
@@ -286,25 +275,57 @@ const Join = () => {
         document.getElementById('profile-img').click();
     }
 
-
-    const [imageSrc, setImageSrc] = useState("");
-    const uploadImage = e => {
+    const uploadImage = (e) => {
         const uploadFile = e.target.files[0];
-        console.log(uploadFile);
 
-        if(uploadFile){
-            const reader = new FileReader();
-            reader.readAsDataURL(uploadFile);
+        console.log(uploadFile)
 
-            reader.onload = () => {
-                setImageSrc(reader.result);
-                setJoinInfo({
-                    ...joinInfo,
-                    profile: reader.result,
-                });
-                console.log(reader.result);
-            }
+        setImage(uploadFile);
+    }
 
+
+    // const uploadImage = e => {
+    //     const uploadFile = e.target.files[0];
+    //     console.log(uploadFile);
+    //
+    //     if(uploadFile){
+    //         const reader = new FileReader();
+    //         reader.readAsDataURL(uploadFile);
+    //
+    //         reader.onload = () => {
+    //             setImageSrc(reader.result);
+    //             setJoinInfo({
+    //                 ...joinInfo,
+    //                 profile: reader.result,
+    //             });
+    //             console.log(reader.result);
+    //         }
+    //
+    //     }
+    //
+    // }
+
+
+    const fetchJoinPost = async () => {
+
+        const formate = new FormData();
+
+        formate.append("id", joinInfo.id);
+        formate.append("pw", joinInfo.pw);
+        formate.append("nickname", joinInfo.nickname);
+        formate.append("profile", imag);
+
+
+        const res = await fetch(JOIN_URL, {
+            method: 'POST',
+            body: formate
+        });
+
+        if(res.status === 200){
+            const json = await res.text();
+            console.log(json);
+        } else {
+            console.log('다시확인바람');
         }
 
     }
@@ -323,16 +344,11 @@ const Join = () => {
                     </div>
                 </div>
                 <div className={'join-right-input-modal'}>
-                    <form noValidate>
-                        <div
-                            onClick={profileHandler}
-                            className={'join-input-profile-item'}>
-                            {
-                                imageSrc ?
-                                    (<img src={imageSrc} alt="Preview" />)
-                                    :
-                                    (<IoMdPerson style={{width: '5rem', height: '5rem', color: '#949494'}}/>)
-                            }
+                    <form>
+                        <div style={{width: 40, height: 40}}
+                             onClick={profileHandler}
+                             className={'join-input-profile-item'}>
+
                         </div>
 
                         <input
