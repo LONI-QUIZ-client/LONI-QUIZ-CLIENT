@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import './scss/GamePage.scss';
-import {IMG_URL} from '../../config/host-config'
+import { IMG_URL } from '../../config/host-config';
 
 const GamePage = () => {
     const [inputText, setInputText] = useState('');
     const [img, setImg] = useState([]);
+    const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState('');
 
     const createImage = async () => {
         try {
@@ -34,6 +36,15 @@ const GamePage = () => {
         setInputText(e.target.value);
     };
 
+    const handleNewMessageChange = (e) => {
+        setNewMessage(e.target.value);
+    };
+
+    const sendMessage = () => {
+        setMessages([newMessage, ...messages]);
+        setNewMessage('');
+    };
+
     return (
         <div className='box'>
             <div className='a'>
@@ -61,7 +72,22 @@ const GamePage = () => {
                     <div className='user'>6</div>
                 </div>
             </div>
-            <div className='b'></div>
+            <div className='chat'>
+                <div className='chat-log'>
+                    {/* 채팅 메시지를 화면에 표시 */}
+                    {messages.map((message, index) => (
+                        <div key={index}>{message}</div>
+                    ))}
+                </div>
+                <div className='chat-input'>
+                    <input
+                        type='text'
+                        value={newMessage}
+                        onChange={handleNewMessageChange}
+                    />
+                    <button onClick={sendMessage}>전송</button>
+                </div>
+            </div>
         </div>
     );
 };
