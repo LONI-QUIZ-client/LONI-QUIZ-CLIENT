@@ -7,6 +7,7 @@ import cn from 'classnames';
 import "../scss/JoinRight.scss"
 import join from "./Join";
 
+
 const JoinRight = () => {
 
     const [inputErrorMessage, setInputErrorMessage] = useState({
@@ -21,13 +22,14 @@ const JoinRight = () => {
         id: false,
         password: false,
         passwordCheck: false,
+        profile: false,
     })
 
     const [joinInfo, setJoinInfo] = useState({
         nickname: '',
         id: '',
         pw:'',
-        profile:'',
+        // profile:'',
     })
 
     const [lock, setLock] =  useState(true);
@@ -41,10 +43,10 @@ const JoinRight = () => {
         const json = await res.json();
 
         if (json) {
-            msg = '아이디가 중복되었습니다!';
+            msg = '아이디가 중복 되었습니다';
             flag = false;
         } else {
-            msg = '사용 가능한 아이디입니다.';
+            msg = '사용 가능한 아이디 입니다.';
             flag = true;
         }
 
@@ -74,7 +76,7 @@ const JoinRight = () => {
         const json = await res.json();
 
         if (json) {
-            msg = '닉네임이 중복되었습니다!';
+            msg = '닉네임이 중복 되었습니다!';
             flag = false;
         } else {
             msg = '사용 가능한 닉네임 입니다.';
@@ -106,10 +108,10 @@ const JoinRight = () => {
 
         let msg, flag;
         if(!nickNmVal){
-            msg = 'Please enter a nickname';
+            msg = '닉네임을 입력해 주세요';
             flag = false;
         } else if(!nameRegex.test(nickNmVal)){
-            msg = '한글로 2-25 글자로 지정해주세요';
+            msg = '2-25글자 수, 한글로 지정해 주세요';
             flag = false;
         } else {
             fetchNickNameDuplicatedCheck(nickNmVal);
@@ -142,10 +144,10 @@ const JoinRight = () => {
 
         let msg, flag;
         if(!idVal){
-            msg = 'Please enter a ID';
+            msg = '아이디를 입력해 주세요';
             flag = false;
         } else if(!idRegex.test(idVal)){ // 정규표현식에 맞지 않다면
-            msg = '영어-숫자조합으로 5-25 글자로 지정해주세요';
+            msg = '5-25 글자 수, 영문&숫자 조합으로 지정해 주세요';
             flag = false;
         } else {
             fetchIdDuplicatedCheck(idVal);
@@ -176,13 +178,13 @@ const JoinRight = () => {
 
         let msg, flag;
         if(!pwVal){
-            msg = 'Please enter a password';
+            msg = '비밀번호를 입력해 주세요';
             flag = false;
         } else if(!pwRegex.test(pwVal)){ // 정규표현식에 맞지 않다면
-            msg = '영어-숫자-특수문자 조합으로 8-25 글자로 지정해주세요';
+            msg = '8-25 글자 수, 영어&숫자&특수문자 조합으로 지정해주세요';
             flag = false;
         } else {
-            msg = 'password available';
+            msg = '사용 가능한 비밀번호 입니다';
             flag = true;
         }
 
@@ -208,7 +210,7 @@ const JoinRight = () => {
 
         let msg, flag;
         if(!pwCheckVal){
-            msg = 'Please enter a password-check';
+            msg = '비밀번호를 입력해 주세요';
             flag = false;
         } else if(joinInfo.pw !== pwCheckVal){
             msg = '비밀번호와 일치하지 않습니다';
@@ -243,14 +245,14 @@ const JoinRight = () => {
     }
 
 
-    const {nickName : nn, id, password : pw, passwordCheck : pwc} =  checkInput;
+    const {nickName : nn, id, password : pw, passwordCheck : pwc, profile : pf} =  checkInput;
     useEffect(() => {
         // console.log(`${inputIsValid()} 값이 바뀌면 실행된다!!`)
 
         if(inputIsValid()) setLock(false)
         else setLock(true)
 
-    }, [nn, id, pw, pwc]);
+    }, [nn, id, pw, pwc, pf]);
 
     const joinHandler = e => {
         e.preventDefault();
@@ -264,18 +266,22 @@ const JoinRight = () => {
         }
     }
 
+    const [image, setImage] = useState(null);
+    const [imageSrc, setImageSrc] = useState("");
+
     const profileHandler = e => {
         document.getElementById('profile-img').click();
     }
 
-    const [imag, setImage] = useState(null);
-    const [imageSrc, setImageSrc] = useState("");
-
     const isProfile = (e) => {
         const uploadFile = e.target.files[0];
-        console.log(uploadFile)
+        console.log(uploadFile);
 
         setImage(uploadFile);
+        setCheckInput({
+            ...checkInput,
+            profile: true
+        });
 
         if(uploadFile){
             const reader = new FileReader();
@@ -290,22 +296,15 @@ const JoinRight = () => {
 
     }
 
-
     const fetchJoinPost = async () => {
 
         const formate = new FormData();
 
-
         formate.append("id", joinInfo.id);
         formate.append("pw", joinInfo.pw);
         formate.append("nickname", joinInfo.nickname);
-        formate.append("profile", imag);
-        /*if(imag===null){
-            formate.append("profile", joinInfo.profile);
-        } else {
-        }*/
-
-
+        formate.append("profile", image);
+        
         const res = await fetch(JOIN_URL, {
             method: 'POST',
             body: formate
@@ -327,7 +326,7 @@ const JoinRight = () => {
                     onClick={profileHandler}
                     className={'join-input-profile-item'}>
                     {
-                        imag ?
+                        image ?
                             (<img src={imageSrc} alt="Preview" />)
                             :
                             (<IoMdPerson style={{width: '5rem', height: '5rem', color: '#949494'}}/>)
