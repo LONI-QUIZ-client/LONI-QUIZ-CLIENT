@@ -11,26 +11,6 @@ const API_BASE_URL = LOBBY_URL;
 const GameLobby = () => {
     const [lobbyData, setLobbyData] = useState([]);
 
-    // const addRoom = (RoomTitle) => {
-    //     console.log('RoomTitle: ', RoomTitle);
-    //
-    //     const newRoom = {
-    //         lobby_title: RoomTitle
-    //     };
-    //
-    //
-    //     fetch(API_BASE_URL, {
-    //         method: 'POST',
-    //         headers: {
-    //             'content-type': 'application/json'
-    //         },
-    //         body: JSON.stringify(newRoom)
-    //     })
-    //         .then(res => res.json())
-    //         .then(json => {
-    //             setLobbyData(json);
-    //         });
-    // }
 
     useEffect(() => {
         fetch(API_BASE_URL + "?page=1&amount=15")
