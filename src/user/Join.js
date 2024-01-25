@@ -271,14 +271,6 @@ const Join = () => {
         document.getElementById('profile-img').click();
     }
 
-    /*const uploadImage = (e) => {
-        const uploadFile = e.target.files[0];
-
-        console.log(uploadFile)
-
-        setImage(uploadFile);
-    }*/
-
     const [imageSrc, setImageSrc] = useState('');
     const uploadImage = e => {
         const uploadFile = e.target.files[0];
@@ -346,11 +338,10 @@ const Join = () => {
                     </div>
                 </div>
                 <div className={'join-right-input-modal'}>
-                    <form>
-
-                        <div style={{width: 40, height: 40}}
-                             onClick={profileHandler}
-                             className={'join-input-profile-item'}>
+                    <form noValidate>
+                        <div
+                            onClick={profileHandler}
+                            className={'join-input-profile-item'}>
                             {
                                 imageSrc ?
                                     (<img src={imageSrc} alt="Preview" />)
