@@ -2,13 +2,16 @@ import React, {useEffect, useState} from 'react';
 import {IoMdPerson} from "react-icons/io";
 import {Link, TextField} from "@mui/material";
 import {JOIN_URL} from "../config/host-config";
+import {useNavigate} from "react-router-dom";
 import cn from 'classnames';
 
 import "../scss/JoinRight.scss"
-import join from "./Join";
+import 'animate.css';
 
 
 const JoinRight = () => {
+
+    const redirect = useNavigate();
 
     const [inputErrorMessage, setInputErrorMessage] = useState({
         nickName: '',
@@ -245,14 +248,14 @@ const JoinRight = () => {
     }
 
 
-    const {nickName : nn, id, password : pw, passwordCheck : pwc, profile : pf} =  checkInput;
+    const {nickName : nn, id, password : pw, passwordCheck : pwc, profile : pfe} =  checkInput;
     useEffect(() => {
         // console.log(`${inputIsValid()} 값이 바뀌면 실행된다!!`)
 
         if(inputIsValid()) setLock(false)
         else setLock(true)
 
-    }, [nn, id, pw, pwc, pf]);
+    }, [nn, id, pw, pwc, pfe]);
 
     const joinHandler = e => {
         e.preventDefault();
@@ -304,17 +307,20 @@ const JoinRight = () => {
         formate.append("pw", joinInfo.pw);
         formate.append("nickname", joinInfo.nickname);
         formate.append("profile", image);
-        
+
         const res = await fetch(JOIN_URL, {
             method: 'POST',
             body: formate
         });
 
         if(res.status === 200){
-            const json = await res.text();
-            console.log(json);
+            // const json = await res.text();
+            // console.log(json);
+            alert('회원가입이 되었습니다');
+            redirect('/login');
         } else {
-            console.log('다시확인바람');
+            // console.log('다시확인바람');
+            alert('올바른 입력을 하셨는지 다시 확인해 주세요');
         }
 
     }
@@ -349,6 +355,7 @@ const JoinRight = () => {
                             name="nickname"
                             label="nickname"
                             onChange={nickNameHandler}
+                            error={!!inputErrorMessage.nickName && !checkInput.nickName}
                             variant="outlined"/>
                         <span className={cn('error-message', {nn})}>{inputErrorMessage.nickName}</span>
                     </div>
@@ -360,6 +367,7 @@ const JoinRight = () => {
                             label="ID"
                             onChange={idHandler}
                             size={"medium"}
+                            error={!!inputErrorMessage.id && !checkInput.id}
                             variant="outlined" />
                         <span className={cn('error-message', {id})}>{inputErrorMessage.id}</span>
                     </div>
@@ -371,6 +379,7 @@ const JoinRight = () => {
                             label="password"
                             onChange={passwordHandler}
                             size={"medium"}
+                            error={!!inputErrorMessage.password && !checkInput.password}
                             variant="outlined" />
                         <span className={cn('error-message', {pw})}>{inputErrorMessage.password}</span>
                     </div>
@@ -382,6 +391,7 @@ const JoinRight = () => {
                             name="pwCheck"
                             label="password-check"
                             onChange={passwordCheckHandler}
+                            error={!!inputErrorMessage.passwordCheck && !checkInput.passwordCheck}
                             size={"medium"}
                             variant="outlined" />
                         <span className={cn('error-message', {pwc})}>{inputErrorMessage.passwordCheck}</span>
@@ -389,7 +399,7 @@ const JoinRight = () => {
                 </div>
                 <div className={'join-button'}>
                     <button
-                        className={cn('join-practice', {lock})}
+                        className={cn('join-practice', {'animate__animated animate__bounce': !lock ,lock})}
                         type="submit"
                         onClick={joinHandler}
                         disabled={lock}>
