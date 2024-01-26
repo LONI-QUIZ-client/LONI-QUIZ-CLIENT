@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import '../scss/GameLobby.scss';
 import '../css/GameLobby.css';
+import { Stomp } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
+// Import LOBBY_CHAT from the local host config
 import { LOBBY_CHAT } from "../../config/host-config";
 
 const GameChat = () => {
@@ -8,47 +11,48 @@ const GameChat = () => {
     const [chatData, setChatData] = useState([]);
     const userId = "yy123";
 
+    useEffect(() => {
+        // Connect to WebSocket server
+        // Change the server address to http://localhost:8888/
+        const socket = new SockJS('http://localhost:8888/ws');
+        const stompClient = Stomp.over(socket);
+        stompClient.connect({}, () => {
+            // Subscribe to topic
+            stompClient.subscribe('/topic/messages', message => {
+                const receivedMessage = JSON.parse(message.body);
+                setChatData(prevChatData => [...prevChatData, receivedMessage]);
+            });
+        });
+
+        return () => {
+            stompClient.disconnect();
+        };
+    }, []);
 
     const inputSubmit = (e) => {
         e.preventDefault();
 
-        fetch(LOBBY_CHAT, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                content: input,
-                userId: userId
-            }),
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                setInput('');
-            });
-    }
+        // Send message via WebSocket
+        // Change the server address to http://localhost:8888/
+        const socket = new SockJS('http://localhost:8888/ws');
+        const stompClient = Stomp.over(socket);
+        stompClient.connect({}, () => {
+            stompClient.send("/app/chat", {}, JSON.stringify({
+                nickname: userId,
+                content: input
+            }));
+        });
 
-    useEffect(() => {
-        fetch(LOBBY_CHAT)
-            .then(res => res.json())
-            .then(json => {
-                console.log(json);
-                setChatData(json.chats || []);
-            })
-            .catch(error => {
-                console.error("Error fetching chat data:", error);
-                setChatData([]);
-            });
-    }, []);
+        setInput('');
+    }
 
     return (
         <>
             <div className="chat-container">
                 <ul id="messageArea">
                     {chatData.map((item, index) => (
-                        <li key={index} reversed>
-                            <span>{item.nickName}: {item.allCmContent}</span>
+                        <li key={index}>
+                            <span>{item.nickname}: {item.content}</span>
                         </li>
                     ))}
                 </ul>
