@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import '../scss/GameLobby.scss';
 import '../css/GameLobby.css';
 import { Stomp } from '@stomp/stompjs';
@@ -10,10 +10,10 @@ const GameChat = () => {
     const [input, setInput] = useState('');
     const [chatData, setChatData] = useState([]);
     const userId = "yy123";
+    const messageAreaRef = useRef(null);
 
     useEffect(() => {
         // Connect to WebSocket server
-        // Change the server address to http://localhost:8888/
         const socket = new SockJS('http://localhost:8888/ws');
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
@@ -29,11 +29,17 @@ const GameChat = () => {
         };
     }, []);
 
+    useEffect(() => {
+        // Scroll to the bottom of the message area when chatData changes
+        if (messageAreaRef.current) {
+            messageAreaRef.current.scrollTop = messageAreaRef.current.scrollHeight;
+        }
+    }, [chatData]);
+
     const inputSubmit = (e) => {
         e.preventDefault();
 
         // Send message via WebSocket
-        // Change the server address to http://localhost:8888/
         const socket = new SockJS('http://localhost:8888/ws');
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
@@ -49,7 +55,7 @@ const GameChat = () => {
     return (
         <>
             <div className="chat-container">
-                <ul id="messageArea">
+                <ul id="messageArea" ref={messageAreaRef}>
                     {chatData.map((item, index) => (
                         <li key={index}>
                             <span>{item.nickname}: {item.content}</span>

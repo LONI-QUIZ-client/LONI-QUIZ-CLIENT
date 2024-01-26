@@ -77,6 +77,15 @@ textarea {
 #chat-page #messageForm {
     padding: 20px;
 }
+#chat-page ul {
+    list-style-type: none;
+    background-color: #FFF;
+    overflow: auto;
+    overflow-y: scroll;
+    padding: 13px 20px 0px 20px; /* 여기서 마지막 값인 10px를 조정하여 간격을 조절할 수 있습니다. */
+    height: calc(100% - 150px);
+    margin-bottom: 0px;
+}
 
 #chat-page ul li {
     line-height: 1.5rem;
