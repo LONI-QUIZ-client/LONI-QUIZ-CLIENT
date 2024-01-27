@@ -70,6 +70,10 @@ html,body{
   width: 100%;
   height: 9.5%;
   background: blueviolet;
+  display: flex;
+}
+.chat-input button{
+  width: 30%;
 }
 .chat-input input{
   width: 98%;

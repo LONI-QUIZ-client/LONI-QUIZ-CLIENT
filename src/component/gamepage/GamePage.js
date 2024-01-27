@@ -45,6 +45,10 @@ const GamePage = () => {
         setNewMessage('');
     };
 
+    const handleOnKeyPress = () =>{
+        setMessages([newMessage, ...messages]);
+        setNewMessage('');
+    };
     return (
         <div className='box'>
             <div className='a'>
@@ -70,7 +74,7 @@ const GamePage = () => {
                                 <img src={process.env.PUBLIC_URL + "/img/Main.png"} alt=""/>
                             </div>
                             <div className='nick-name'>
-                            asd
+                            닉네임닉네임
                             </div>
                         </div>
                         <div className='score'>
@@ -98,6 +102,7 @@ const GamePage = () => {
                         type='text'
                         value={newMessage}
                         onChange={handleNewMessageChange}
+                        onKeyPress={handleOnKeyPress}
                     />
                     <button onClick={sendMessage}>전송</button>
                 </div>
