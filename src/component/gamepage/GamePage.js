@@ -64,12 +64,26 @@ const GamePage = () => {
                     </button>
                 </div>
                 <div className='user-list'>
-                    <div className='user'>1</div>
-                    <div className='user'>2</div>
-                    <div className='user'>3</div>
-                    <div className='user'>4</div>
-                    <div className='user'>5</div>
-                    <div className='user'>6</div>
+                    <div className='user'>
+                        <div className='l-a'>
+                            <div className='p-img'>
+                                <img src={process.env.PUBLIC_URL + "/img/Main.png"} alt=""/>
+                            </div>
+                            <div className='nick-name'>
+                            asd
+                            </div>
+                        </div>
+                        <div className='score'>
+                            <div>
+                                10점
+                            </div>
+                        </div>
+                    </div>
+                    <div className='user'></div>
+                    <div className='user'></div>
+                    <div className='user'></div>
+                    <div className='user'></div>
+                    <div className='user'></div>
                 </div>
             </div>
             <div className='chat'>
