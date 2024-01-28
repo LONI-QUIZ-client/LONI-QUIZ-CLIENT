@@ -1,0 +1,113 @@
+html,body{
+  width: 100%;
+  height: 100%;
+}
+.box{
+  width: 100%;
+  height: 92.5vh;
+  background: #61dafb;
+  display: flex;
+  flex-direction: row;
+}
+.a{
+  background: white;
+  flex: 7.5;
+  display: flex;
+  flex-direction: column;
+}
+.chat{
+  flex: 2.5;
+  background: #fff9f9;
+}
+.show-img{
+  flex: 8;
+  width: 100%;
+  background: skyblue;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.user-list{
+  flex: 2;
+  width: 100%;
+  background: blue;
+  display: flex;
+  flex-direction: row;
+}
+.user{
+  width: 18%;
+  height: 100%;
+  background: #61dafb;
+  border: 1px solid black;
+  display: flex;
+
+}
+.create{
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+.input{
+  position: absolute;
+  right: 130px;
+  bottom: 20px;
+}
+.img{
+  width: 300px;
+  height: 300px;
+  border: 1px solid black;
+  margin-right: 30px;
+}
+.chat-log{
+  width: 100%;
+  height: 90%;
+  background: pink;
+  display: flex;
+  flex-direction: column-reverse;
+}
+.chat-input{
+  width: 100%;
+  height: 9.5%;
+  background: blueviolet;
+  display: flex;
+}
+.chat-input button {
+  width: 30%;
+}
+.chat-input input{
+  width: 98%;
+  height: 97%;
+}
+.l-a{
+  width: 60%;
+  height: 100%;
+  background: #282c34;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.p-img{
+  width: 80%;
+  height: 60%;
+  background: #fff9f9;
+  border-radius: 100px;
+}
+.p-img img{
+  width: 100%;
+  height: 100%;
+  border-radius: 100px;
+}
+// 닉네임 스타일 추가 예정
+.p-img nick-name{
+
+}
+.score{
+  width: 40%;
+  height: 100%;
+  background: #78c7d2;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+}
