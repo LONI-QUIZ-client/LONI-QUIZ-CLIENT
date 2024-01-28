@@ -45,10 +45,20 @@ const GamePage = () => {
         setNewMessage('');
     };
 
-    const handleOnKeyPress = () =>{
-        setMessages([newMessage, ...messages]);
-        setNewMessage('');
+    const handleInputKeyPress = (e) => {
+        // 엔터 키를 눌렀을 때 sendMessage 함수 호출
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
     };
+
+    const handleInputKey = (e) => {
+        // 엔터 키를 눌렀을 때 sendMessage 함수 호출
+        if (e.key === 'Enter') {
+            createImage();
+        }
+    };
+
     return (
         <div className='box'>
             <div className='a'>
@@ -62,32 +72,19 @@ const GamePage = () => {
                         className='input'
                         value={inputText}
                         onChange={handleInputChange}
+                        onKeyPress={handleInputKey}
                     />
                     <button className='create' onClick={createImage}>
                         사진만들기
                     </button>
                 </div>
                 <div className='user-list'>
-                    <div className='user'>
-                        <div className='l-a'>
-                            <div className='p-img'>
-                                <img src={process.env.PUBLIC_URL + "/img/Main.png"} alt=""/>
-                            </div>
-                            <div className='nick-name'>
-                            닉네임닉네임
-                            </div>
-                        </div>
-                        <div className='score'>
-                            <div>
-                                10점
-                            </div>
-                        </div>
-                    </div>
-                    <div className='user'></div>
-                    <div className='user'></div>
-                    <div className='user'></div>
-                    <div className='user'></div>
-                    <div className='user'></div>
+                    <div className='user'>1</div>
+                    <div className='user'>2</div>
+                    <div className='user'>3</div>
+                    <div className='user'>4</div>
+                    <div className='user'>5</div>
+                    <div className='user'>6</div>
                 </div>
             </div>
             <div className='chat'>
@@ -102,7 +99,7 @@ const GamePage = () => {
                         type='text'
                         value={newMessage}
                         onChange={handleNewMessageChange}
-                        onKeyPress={handleOnKeyPress}
+                        onKeyPress={handleInputKeyPress}
                     />
                     <button onClick={sendMessage}>전송</button>
                 </div>
