@@ -7,7 +7,10 @@ const GamePage = () => {
     const [img, setImg] = useState([]);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+    const [item, setItem ] = useState('');
+    // const [count, setCount] = useState('');
 
+    //이미지를 생성하는 API를 호출하고 그 결과를 처리
     const createImage = async () => {
         try {
             const res = await fetch(IMG_URL, {
@@ -24,6 +27,7 @@ const GamePage = () => {
                 console.log('API 호출 성공');
                 const imgData = await res.json();
                 setImg(imgData.image);
+                console.log(item)
             } else {
                 console.error('API 호출 실패');
             }
@@ -32,30 +36,41 @@ const GamePage = () => {
         }
     };
 
+    //이미지생성 인풋에 텍스트를 입력할 때마다 입력된 값을 상태로 업데이트
     const handleInputChange = (e) => {
         setInputText(e.target.value);
     };
 
+    //채팅창에 텍스트를 입력할 때마다 입력된 값을 상태로 업데이트
     const handleNewMessageChange = (e) => {
         setNewMessage(e.target.value);
     };
 
+    // 채팅
     const sendMessage = () => {
         setMessages([newMessage, ...messages]);
         setNewMessage('');
     };
 
+    // 채팅 input 엔터키 이벤트 처리
     const handleInputKeyPress = (e) => {
         // 엔터 키를 눌렀을 때 sendMessage 함수 호출
         if (e.key === 'Enter') {
             sendMessage();
+            if (newMessage === item){
+                console.log('정답')
+            }
+            else {
+                console.log('땡')
+            }
         }
     };
 
+    // 이미지 생성 input 엔터키 이벤트 처리
     const handleInputKey = (e) => {
-        // 엔터 키를 눌렀을 때 sendMessage 함수 호출
         if (e.key === 'Enter') {
             createImage();
+            setItem(e.target.value)
         }
     };
 
@@ -79,12 +94,26 @@ const GamePage = () => {
                     </button>
                 </div>
                 <div className='user-list'>
-                    <div className='user'>1</div>
-                    <div className='user'>2</div>
-                    <div className='user'>3</div>
-                    <div className='user'>4</div>
-                    <div className='user'>5</div>
-                    <div className='user'>6</div>
+                    <div className='user'>
+                        <div className='l-a'>
+                            <div className='p-img'>
+                                <img src={process.env.PUBLIC_URL + "/img/Main.png"} alt=""/>
+                            </div>
+                            <div className='nick-name'>
+                                asd
+                            </div>
+                        </div>
+                        <div className='score'>
+                            <div>
+                                10점
+                            </div>
+                        </div>
+                    </div>
+                    <div className='user'></div>
+                    <div className='user'></div>
+                    <div className='user'></div>
+                    <div className='user'></div>
+                    <div className='user'></div>
                 </div>
             </div>
             <div className='chat'>
@@ -97,6 +126,7 @@ const GamePage = () => {
                 <div className='chat-input'>
                     <input
                         type='text'
+                        className='chating'
                         value={newMessage}
                         onChange={handleNewMessageChange}
                         onKeyPress={handleInputKeyPress}
