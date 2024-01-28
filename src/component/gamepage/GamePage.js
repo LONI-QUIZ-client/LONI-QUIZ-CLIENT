@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './scss/GamePage.scss';
 import { IMG_URL } from '../../config/host-config';
 
@@ -74,6 +74,30 @@ const GamePage = () => {
         }
     };
 
+    useEffect(() => {
+        fetch("http://localhost:8888/game/room",{
+            method: 'post',
+            headers: {
+                'content-type':'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    gno: 'ff8080818d3b98d6018d3b9939860002',
+                    userId : 'dd123'
+                }
+            )
+        })
+            .then(res => {
+                if (res.status === 200){
+                    return res.json();
+                }
+            })
+            .then(json => {
+                console.log(json)
+            })
+
+    }, []);
+
     return (
         <div className='box'>
             <div className='a'>
@@ -136,6 +160,8 @@ const GamePage = () => {
             </div>
         </div>
     );
+
+
 };
 
 export default GamePage;
