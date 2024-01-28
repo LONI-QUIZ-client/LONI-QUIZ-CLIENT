@@ -11,10 +11,15 @@ import {LOGIN_URL} from "../config/host-config";
 import kakaoSymbol from "../scss/img/kakao_symbol.png";
 import minLogo from "../scss/img/min_logo.png";
 import {Button, Link} from "@mui/material";
-import {json} from "react-router-dom";
+import {json, useNavigate} from "react-router-dom";
+import async from "async";
+import {TOKEN, USERNAME} from "../config/login-util";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 
 const Login = () => {
+
+    const redirect = useNavigate()
 
     // 로그인 입력
     const [userLogin, setUserLogin] =  useState({
@@ -25,84 +30,76 @@ const Login = () => {
     // 로그인 오류 메시지
     const [loginMessageError, setLoginMessageError] = useState('');
 
-    // 로그인 입력 조건 확인
-    const [loginInputCorrect, setLoginInputCorrect] =  useState({
-        id: false,
-        pw: false,
-    });
 
     // id
     const userIdHandler = e => {
 
         const idVal = e.target.value;
-        console.log(idVal);
 
         setUserLogin({
             ...userLogin,
             id: idVal
         });
-
-        setLoginInputCorrect({
-            ...loginInputCorrect,
-            id: true
-        })
-
     }
 
     // 패스워드
     const userPasswordHandler = e =>{
 
         const passwordVal = e.target.value;
-        console.log(passwordVal);
 
         setUserLogin({
             ...userLogin,
             pw: passwordVal
         });
 
-        setLoginInputCorrect({
-            ...loginInputCorrect,
-            pw: true
-        })
-
     }
 
-    // 로그인 버튼
-    const userLoginHandler = e => {
-
-        if(!userLogin.id){
-            setLoginMessageError('Please enter a ID');
-        } else if (!userLogin.pw) {
-            setLoginMessageError('Please enter a password');
-        } else if (!userLogin.pw) {
-            setLoginMessageError('Please enter a password');
-        } else if (!userLogin.pw) {
-            setLoginMessageError('Please enter a password');
-        }
-
-        else {
-            setLoginMessageError('');
-        }
+    const fetchLoginProcess = async () => {
 
         const payload = {
             id : userLogin.id,
             pw : userLogin.pw
         }
 
-         fetch(`${LOGIN_URL}`,{
+        const res = await fetch(`${LOGIN_URL}`,{
             method: "POST",
             headers: {'content-type':'application/json'},
             body: JSON.stringify(payload)
-        })
-             .then(res => {
-                if (res.status === 200){
-                    return res.text();
-                    // return res.json();
-                }
-            })
-            .then(json => {
-                console.log(json);
-            })
+        });
+
+        if(res.status===200){
+            /*const json = await res.json();
+            console.log(json);*/
+            setLoginMessageError('');
+
+            const {token, userNickname} = await res.json();
+            // console.log(token, userNickname);
+
+            localStorage.setItem(TOKEN, token);
+            localStorage.setItem(USERNAME, userNickname);
+
+            redirect('/join'); // 로그인 후 이동
+
+        }
+        else if(res.status===400) { // 회원가입이 안된 아이디 이거나 비밀번호가 틀림
+            setLoginMessageError('아이디 또는 비밀번호를 잘못 입력했습니다.' +
+                ' 입력하신 내용을 다시 확인해주세요.');
+        }
+
+    }
+
+    // 로그인 버튼
+    const userLoginHandler = (e) => {
+        e.preventDefault();
+
+        if(!userLogin.id){
+            setLoginMessageError('아이디를 입력해 주세요');
+        } else if (!userLogin.pw) {
+            setLoginMessageError('비밀번호를 입력해 주세요');
+        } else {
+            fetchLoginProcess();
+        }
+
     }
 
     return (
@@ -110,7 +107,7 @@ const Login = () => {
             <div className={"sign-in-background"}>
                 <div className={"user-sign-in-modal"}>
                     <div className={"LONI-QUIZ-logo"}></div>
-                    <form className={"sign-in-items"}>
+                    <form className={"sign-in-items"} noValidate onSubmit={userLoginHandler}>
                         <div className={"sign-in-id-item"}>
                             <BsPerson />
                             <input type={"text"} className={"sign-in-id-input"} placeholder="ID" onChange={userIdHandler}/>
@@ -127,7 +124,9 @@ const Login = () => {
                     <div className={"sign-in-buttons"}>
                         <div className={"sign-in-error-message"}>{loginMessageError}</div>
                         {/*<div className={"loni-quiz-sign-in-button"} onClick={loginHandler()}>*/}
-                        <Button type={"submit"} className={"loni-quiz-sign-in-button"} onClick={userLoginHandler}>
+                        <Button type="submit" className={"loni-quiz-sign-in-button"}
+                                onClick={userLoginHandler}
+                        >
                             <img src={minLogo} alt={"미니로고"}/>
                             LONI-QUIZ 로그인
                         </Button>

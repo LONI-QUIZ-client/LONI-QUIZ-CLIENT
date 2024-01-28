@@ -261,10 +261,8 @@ const JoinRight = () => {
         e.preventDefault();
 
         if(!lock) { // 잠겨있지 않을 때
-            // console.log('회원가입 성공!!');
             fetchJoinPost();
         } else { // 잠겨있을 때
-
             console.log('회원가입 실패!!');
         }
     }
@@ -317,9 +315,9 @@ const JoinRight = () => {
             // const json = await res.text();
             // console.log(json);
             alert('회원가입이 되었습니다');
+
             redirect('/login');
         } else {
-            // console.log('다시확인바람');
             alert('올바른 입력을 하셨는지 다시 확인해 주세요');
         }
 
@@ -399,7 +397,7 @@ const JoinRight = () => {
                 </div>
                 <div className={'join-button'}>
                     <button
-                        className={cn('join-practice', {'animate__animated animate__bounce': !lock ,lock})}
+                        className={cn('join-practice', {'animate__animated animate__bounce': !lock ,'animate__animated animate__headShake': lock, lock})}
                         type="submit"
                         onClick={joinHandler}
                         disabled={lock}>
