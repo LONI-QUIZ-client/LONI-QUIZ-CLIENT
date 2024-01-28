@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './scss/GamePage.scss';
 import { IMG_URL } from '../../config/host-config';
+import { SCORE_URL } from '../../config/host-config';
 
 const GamePage = () => {
     const [inputText, setInputText] = useState('');
