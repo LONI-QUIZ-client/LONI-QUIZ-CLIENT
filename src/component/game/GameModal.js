@@ -15,11 +15,14 @@ const GameModal = () => {
     const [isPrivate, setIsPrivate] = useState(false);
     const [password, setPassword] = useState('');
     const [roomName, setRoomName] = useState("테스트 방"); // 기본값 설정
-    const userId = "yy123";
+    const userId = "ddd123";
+
+    const redirect = useNavigate();
 
     const handleOpen = () => {
         setOpen(true);
     };
+
 
     const handleClose = () => {
         setOpen(false);
@@ -43,10 +46,12 @@ const GameModal = () => {
             .then(data => {
                 console.log(data);
             });
+
+        redirect('/gameRoom');
         handleClose();
     };
 
-    const redirect = useNavigate();
+
 
     return (
         <div>

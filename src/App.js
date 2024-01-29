@@ -11,6 +11,7 @@ import Join from "./user/Join";
 import TodoTemplate from "./component/game/GameLobby";
 import GameLobby from "./component/game/GameLobby";
 import Main from "./component/main/Main";
+import GamePage from "./component/gamepage/GamePage";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
               <Route path={'/login'} element={<Login />} />
               <Route path={'/join'} element={<Join />} />
               <Route path={'/lobby'} element={<GameLobby />} />
-
+              <Route path={'/gameRoom'} element={<GamePage />} />
           </Routes>
       </>
   );

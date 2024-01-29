@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './scss/GamePage.scss';
 import { IMG_URL } from '../../config/host-config';
 import { SCORE_URL } from '../../config/host-config';
+import {useLocation} from "react-router-dom";
 
 const GamePage = () => {
     const [inputText, setInputText] = useState('');
@@ -10,6 +11,9 @@ const GamePage = () => {
     const [newMessage, setNewMessage] = useState('');
     const [item, setItem ] = useState('');
     // const [count, setCount] = useState('');
+
+    const location = useLocation();
+    const roomId = location.state?.roomId;
 
     //이미지를 생성하는 API를 호출하고 그 결과를 처리
     const createImage = async () => {
@@ -83,8 +87,8 @@ const GamePage = () => {
             },
             body: JSON.stringify(
                 {
-                    gno: 'ff8080818d3b98d6018d3b9939860002',
-                    userId : 'dd123'
+                    gno: roomId,
+                    userId : 'sss123'
                 }
             )
         })
@@ -94,7 +98,7 @@ const GamePage = () => {
                 }
             })
             .then(json => {
-                console.log(json)
+                console.log(json.users)
             })
 
     }, []);

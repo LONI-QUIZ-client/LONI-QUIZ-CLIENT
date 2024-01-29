@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../scss/GameLobby.scss';
 import '../css/GameLobby.css';
+import {redirect, useNavigate} from "react-router-dom";
 
 const GameInput = ({ data }) => {
     const itemsPerPage = 6; // 한 페이지당 보여질 아이템 개수
@@ -24,12 +25,18 @@ const GameInput = ({ data }) => {
         setCurrentPage(pageNumber);
     };
 
+    const redirect = useNavigate()
+
+    const StartGameRoom = (roomId) => {
+        redirect('/gameRoom', {state:{roomId}});
+    }
+
     return (
         <>
             <div className='room_list'>
                 {getCurrentPageItems().map((item, index) => (
-                    <div className="room_container" key={index}>
-                        <div className="list">
+                    <div className="room_container" key={index} onClick={() => {StartGameRoom(item.gno)}}>
+                        <div className="list" >
                             <p>No. {index + 1 + (currentPage - 1) * itemsPerPage}</p>
                             <h2>{item.title}</h2>
                             <p>{item.userCount} / {item.lobbyMaxCount}</p>
