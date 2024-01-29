@@ -1,18 +1,17 @@
 import logo from './logo.svg';
 import './App.css';
-import Main from "./component/main/Main";
-import GamePage from "./component/gamepage/GamePage";
-import Header from "./component/main/Header";
+
+import TodoTemplate from "./component/game/GameLobby";
+import GameLobby from "./component/game/GameLobby";
 
 function App() {
   return (
-    // <Main />
       <>
-      <Header />
-        <GamePage/>
-        {/*  <Main/>*/}
+        <GameLobby />
+
       </>
   );
 }
+
 
 export default App;
