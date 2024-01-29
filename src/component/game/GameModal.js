@@ -25,7 +25,7 @@ const GameModal = () => {
     };
 
     const handleCreateRoom = () => {
-        fetch(LOBBY_URL, {
+        fetch(LOBBY_URL + "?page=1&amount=6", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
