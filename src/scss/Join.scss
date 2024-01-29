@@ -1,0 +1,33 @@
+
+//@import "common";
+
+.join-main-content{
+  width: 100%;
+  height: 100vh;
+  padding: 2rem 0;
+  display: flex; justify-content: center;
+  background: #252525;
+
+  /*background-image: url("./img/background-img.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;*/
+
+  .join-container{
+    display: flex; flex-flow: row nowrap;
+  }
+
+  // 950 이상
+  @media only screen and (min-height: 950px) {
+    height: 100vh;
+  }
+
+  // 950 이하
+  @media only screen and (max-height: 950px) {
+    height: 60rem;
+  }
+
+}
+
+
+
