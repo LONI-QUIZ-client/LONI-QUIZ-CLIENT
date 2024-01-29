@@ -10,15 +10,17 @@ import Join from "./user/Join";
 
 import TodoTemplate from "./component/game/GameLobby";
 import GameLobby from "./component/game/GameLobby";
+import Main from "./component/main/Main";
 
 function App() {
   return (
       <>
-
           <Routes>
-              <Route path={"/login"} element={<Login />} />
-              <Route path={"/join"} element={<Join />} />
-                            <GameLobby />
+              <Route path={'/'} element={<Main />} />
+              <Route path={'/login'} element={<Login />} />
+              <Route path={'/join'} element={<Join />} />
+              <Route path={'/lobby'} element={<GameLobby />} />
+
           </Routes>
       </>
   );

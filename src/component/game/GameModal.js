@@ -6,6 +6,7 @@ import SendIcon from '@mui/icons-material/Send';
 import '../scss/GameModal.scss';
 import { LOBBY_URL } from "../../config/host-config";
 import { FormControlLabel, Switch, TextField } from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 const GameModal = () => {
     const [open, setOpen] = useState(false);
@@ -44,6 +45,8 @@ const GameModal = () => {
             });
         handleClose();
     };
+
+    const redirect = useNavigate();
 
     return (
         <div>
