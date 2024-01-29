@@ -104,6 +104,7 @@ body {
       background-color: #0000ff;
       border: none;
       transition: all 0.2s ease-in-out;
+      cursor:pointer;
       &:hover {
         background-color: #6161ff;
         color: #FFFFFF;
@@ -155,6 +156,7 @@ body {
         border-radius: 20px;
         background-color: #d8e4ff;
         transition: all 0.2s ease-in-out;
+        cursor:pointer;
         &:hover {
           background-color: #737c92;
           color: #FFFFFF;
