@@ -48,8 +48,16 @@ const GameChat = () => {
                 content: input
             }));
         });
-
         setInput('');
+    }
+    useEffect(() => {
+        scrollToBottom();
+    }, [chatData]);
+
+    const scrollToBottom = () => {
+        if (messageAreaRef.current) {
+            messageAreaRef.current.scrollTop = messageAreaRef.current.scrollHeight;
+        }
     }
 
     return (
@@ -58,7 +66,8 @@ const GameChat = () => {
                 <ul id="messageArea" ref={messageAreaRef}>
                     {chatData.map((item, index) => (
                         <li key={index}>
-                            <span>{item.nickname}: {item.content}</span>
+
+                            <span>{item.nickName}: {item.allCmContent}</span>
                         </li>
                     ))}
                 </ul>
