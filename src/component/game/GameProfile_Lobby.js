@@ -1,5 +1,5 @@
 import React from 'react';
-import catImage from "../img/star.png";
+import catImage from "../../assets/img/star.png";
 import '../scss/GameLobby.scss';
 import '../css/GameLobby.css';
 
