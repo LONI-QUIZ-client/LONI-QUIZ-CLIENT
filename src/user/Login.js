@@ -13,7 +13,7 @@ import minLogo from "../scss/img/min_logo.png";
 import {Button, Link} from "@mui/material";
 import {json, useNavigate} from "react-router-dom";
 import async from "async";
-import {TOKEN, USERNAME} from "../config/login-util";
+import {TOKEN, ID, USERNAME} from "../config/login-util";
 
 
 const Login = () => {
@@ -71,10 +71,11 @@ const Login = () => {
             console.log(json);*/
             setLoginMessageError('');
 
-            const {token, userNickname} = await res.json();
+            const {token, id, userNickname} = await res.json();
             // console.log(token, userNickname);
 
             localStorage.setItem(TOKEN, token);
+            localStorage.setItem(ID, id);
             localStorage.setItem(USERNAME, userNickname);
 
             redirect('/'); // 로그인 후 이동
