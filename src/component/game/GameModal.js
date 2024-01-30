@@ -7,6 +7,7 @@ import '../scss/GameModal.scss';
 import { LOBBY_URL } from "../../config/host-config";
 import { FormControlLabel, Switch, TextField } from "@mui/material";
 import {useNavigate} from "react-router-dom";
+import {ID} from "../../config/login-util";
 
 const GameModal = () => {
     const [open, setOpen] = useState(false);
@@ -15,7 +16,7 @@ const GameModal = () => {
     const [isPrivate, setIsPrivate] = useState(false);
     const [password, setPassword] = useState('');
     const [roomName, setRoomName] = useState("테스트 방"); // 기본값 설정
-    const userId = "ddd123";
+    const userId = localStorage.getItem(ID);
 
     const redirect = useNavigate();
 
@@ -42,12 +43,19 @@ const GameModal = () => {
                 userId: userId,
             }),
         })
-            .then(res => res.json())
+            .then(res => {
+                if (res.status === 200){
+                    return res.json();
+                }
+                else{
+                    console.log(res.text())
+                }
+            })
             .then(data => {
                 console.log(data);
             });
 
-        redirect('/gameRoom');
+        // redirect('/gameRoom');
         handleClose();
     };
 
