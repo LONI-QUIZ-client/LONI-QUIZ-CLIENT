@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import '../scss/Login.scss'
+import './scss/Login.scss'
 
 import { BsPerson } from "react-icons/bs";
 import { BsLock } from "react-icons/bs";
@@ -8,8 +8,8 @@ import { FaRegCheckCircle } from "react-icons/fa";
 
 import {LOGIN_URL} from "../config/host-config";
 
-import kakaoSymbol from "../scss/img/kakao_symbol.png";
-import minLogo from "../scss/img/min_logo.png";
+import kakaoSymbol from "./scss/img/kakao_symbol.png";
+import minLogo from "./scss/img/min_logo.png";
 import {Button, Link} from "@mui/material";
 import {json, useNavigate} from "react-router-dom";
 import async from "async";
@@ -77,7 +77,7 @@ const Login = () => {
             localStorage.setItem(TOKEN, token);
             localStorage.setItem(USERNAME, userNickname);
 
-            redirect('/join'); // 로그인 후 이동
+            redirect('/lobby'); // 로그인 후 이동
 
         }
         else if(res.status===400) { // 회원가입이 안된 아이디 이거나 비밀번호가 틀림
