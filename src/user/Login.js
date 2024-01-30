@@ -77,7 +77,7 @@ const Login = () => {
             localStorage.setItem(TOKEN, token);
             localStorage.setItem(USERNAME, userNickname);
 
-            redirect('/lobby'); // 로그인 후 이동
+            redirect('/'); // 로그인 후 이동
 
         }
         else if(res.status===400) { // 회원가입이 안된 아이디 이거나 비밀번호가 틀림
