@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../scss/Join.scss'
+import './scss/Join.scss'
 
 import JoinLeft from "./JoinLeft";
 import JoinRight from "./JoinRight";

@@ -5,7 +5,7 @@ import {JOIN_URL} from "../config/host-config";
 import {useNavigate} from "react-router-dom";
 import cn from 'classnames';
 
-import "../scss/JoinRight.scss"
+import "./scss/JoinRight.scss"
 import 'animate.css';
 
 
