@@ -8,6 +8,8 @@ import cn from 'classnames';
 import "./scss/JoinRight.scss"
 import 'animate.css';
 
+import person from "../user/scss/img/person-fill.png"
+
 
 const JoinRight = () => {
 
@@ -25,17 +27,16 @@ const JoinRight = () => {
         id: false,
         password: false,
         passwordCheck: false,
-        profile: false,
     })
 
     const [joinInfo, setJoinInfo] = useState({
         nickname: '',
         id: '',
         pw:'',
-        // profile:'',
     })
 
-    const [lock, setLock] =  useState(true);
+    // 회원가입 버튼 활성화 여부
+    const [lock, setLock] = useState(true);
 
     // id 중복체크
     const fetchIdDuplicatedCheck = async (id) => {
@@ -94,7 +95,7 @@ const JoinRight = () => {
         setCheckInput({
             ...checkInput,
             nickName: flag
-        })
+        });
 
         setJoinInfo({
             ...joinInfo,
@@ -118,7 +119,7 @@ const JoinRight = () => {
             flag = false;
         } else {
             fetchNickNameDuplicatedCheck(nickNmVal);
-            return;
+            // return;
         }
 
         setInputErrorMessage({
@@ -139,11 +140,11 @@ const JoinRight = () => {
     }
 
     const idHandler = e => {
-        // console.log(inputVal);
         const idVal = e.target.value;
+        // console.log(inputVal);
 
-        const idRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{2,25}$/;
         // 아이디는 최소 5글자 ~ 최대 15글자
+        const idRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{2,25}$/;
 
         let msg, flag;
         if(!idVal){
@@ -248,14 +249,14 @@ const JoinRight = () => {
     }
 
 
-    const {nickName : nn, id, password : pw, passwordCheck : pwc, profile : pfe} =  checkInput;
+    const {nickName : nn, id, password : pw, passwordCheck : pwc} =  checkInput;
     useEffect(() => {
         // console.log(`${inputIsValid()} 값이 바뀌면 실행된다!!`)
 
         if(inputIsValid()) setLock(false)
         else setLock(true)
 
-    }, [nn, id, pw, pwc, pfe]);
+    }, [nn, id, pw, pwc]);
 
     const joinHandler = e => {
         e.preventDefault();
@@ -267,48 +268,50 @@ const JoinRight = () => {
         }
     }
 
+    // 이미지 데이터
     const [image, setImage] = useState(null);
-    const [imageSrc, setImageSrc] = useState("");
+
+    // 이미지 url
+    // const [imageSrc, setImageSrc] = useState("");
 
     const profileHandler = e => {
         document.getElementById('profile-img').click();
     }
 
-    const isProfile = (e) => {
-        const uploadFile = e.target.files[0];
-        console.log(uploadFile);
+    const isProfile = () => {
+        const uploadFile = document.getElementById('profile-img').files[0];
+        // console.log(uploadFile);
 
-        setImage(uploadFile);
-        setCheckInput({
-            ...checkInput,
-            profile: true
-        });
+        // setImage(uploadFile);
 
-        if(uploadFile){
-            const reader = new FileReader();
-            reader.readAsDataURL(uploadFile);
+        const reader = new FileReader();
+        reader.readAsDataURL(uploadFile);
 
-            reader.onload = () => {
-                setImageSrc(reader.result);
-                // console.log(reader.result);
-            }
-
+        reader.onload = () => {
+            setImage(reader.result);
+            // console.log(reader.result);
         }
 
     }
 
     const fetchJoinPost = async () => {
 
-        const formate = new FormData();
+        const jsonBlob = new Blob(
+            [ JSON.stringify(joinInfo) ],
+            { type: 'application/json' }
+        );
 
-        formate.append("id", joinInfo.id);
-        formate.append("pw", joinInfo.pw);
-        formate.append("nickname", joinInfo.nickname);
-        formate.append("profile", image);
+        const formDate = new FormData();
 
-        const res = await fetch(JOIN_URL, {
+        /*formDate.append("id", joinInfo.id);
+        formDate.append("pw", joinInfo.pw);
+        formDate.append("nickname", joinInfo.nickname);*/
+        formDate.append("user", jsonBlob);
+        formDate.append("profileImage", document.getElementById('profile-img').files[0]);
+
+        const res = await fetch(JOIN_URL,{
             method: 'POST',
-            body: formate
+            body: formDate
         });
 
         if(res.status === 200){
@@ -329,7 +332,8 @@ const JoinRight = () => {
                 <div
                     onClick={profileHandler}
                     className={'join-input-profile-item'}>
-                    { image ? (<img src={imageSrc} alt="Preview" />) : (<IoMdPerson style={{width: '5rem', height: '5rem', color: '#949494'}}/>) }
+                    <img src={image || person} alt={"profile"}/>
+
                 </div>
                 <input
                     onChange={isProfile}
