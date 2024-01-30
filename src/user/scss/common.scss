@@ -1,12 +1,11 @@
-/* reset css */
-//@import url('https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css');
+
 
 *{
   box-sizing: border-box;
 }
 
 :root {
-  font-size: 16px; /* 루트 요소의 폰트 크기를 16px로 정의 */
+  font-size: 16px;
 }
 
 a{
@@ -14,34 +13,19 @@ a{
   outline: none; border: none;
   color: inherit;
 }
-.clearfix::after{
-  content: ''; display: block; clear: both;
-}
-.btn{
-  background: #fff; color: #333; font: inherit;
-  font-weight: 700;
-  border-radius: 7px;
-  border: 2px solid #ededed;
-  padding: 7px 10px;
-  cursor: pointer;
-}
-.btn:hover{
-  background: #666;
-  color: #fff;
-}
-.btn-red{
-  background: #ff7575;
-  color: #fff;
-
-}
-.btn-red:hover{
-  background: #fff;
-  color: #ff2e2e;
-}
 
 input{
   border: 0; padding: 0;
 }
+
 input:focus{
   outline: none;
+}
+
+Button{
+  color: #000000;
+}
+
+Button:hover{
+  background: #FFFFFF;
 }

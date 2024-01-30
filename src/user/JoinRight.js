@@ -329,14 +329,8 @@ const JoinRight = () => {
                 <div
                     onClick={profileHandler}
                     className={'join-input-profile-item'}>
-                    {
-                        image ?
-                            (<img src={imageSrc} alt="Preview" />)
-                            :
-                            (<IoMdPerson style={{width: '5rem', height: '5rem', color: '#949494'}}/>)
-                    }
+                    { image ? (<img src={imageSrc} alt="Preview" />) : (<IoMdPerson style={{width: '5rem', height: '5rem', color: '#949494'}}/>) }
                 </div>
-
                 <input
                     onChange={isProfile}
                     type="file"
@@ -346,48 +340,43 @@ const JoinRight = () => {
                     name="profileImage" />
 
                 <div className={'join-input-items'}>
-                    <div className={'join-item'}>
+                    <div className={"join-item"}>
                         <TextField
-                            className={'join-input'}
-                            type={"text"}
-                            name="nickname"
-                            label="nickname"
+                            className="join-input"
+                            type="text"
+                            label="닉네임"
                             onChange={nickNameHandler}
                             error={!!inputErrorMessage.nickName && !checkInput.nickName}
                             variant="outlined"/>
                         <span className={cn('error-message', {nn})}>{inputErrorMessage.nickName}</span>
                     </div>
-                    <div className={'join-item'}>
+                    <div className={"join-item"}>
                         <TextField
-                            className={'join-input'}
-                            type={"text"}
-                            name="id"
-                            label="ID"
+                            className="join-input"
+                            type="text"
+                            label="아이디"
                             onChange={idHandler}
                             size={"medium"}
                             error={!!inputErrorMessage.id && !checkInput.id}
                             variant="outlined" />
                         <span className={cn('error-message', {id})}>{inputErrorMessage.id}</span>
                     </div>
-                    <div className={'join-item'}>
+                    <div className={"join-item"}>
                         <TextField
-                            className={'join-input'}
-                            type={"password"}
-                            name="pw"
-                            label="password"
+                            className="join-input"
+                            type="password"
+                            label="비밀번호"
                             onChange={passwordHandler}
                             size={"medium"}
                             error={!!inputErrorMessage.password && !checkInput.password}
                             variant="outlined" />
                         <span className={cn('error-message', {pw})}>{inputErrorMessage.password}</span>
                     </div>
-                    <div className={'join-item'}>
+                    <div className={"join-item"}>
                         <TextField
-                            style={{fontWeight:'bold'}}
-                            className={'join-input'}
-                            type={"password"}
-                            name="pwCheck"
-                            label="password-check"
+                            className="join-input"
+                            type="password"
+                            label="비밀번호 확인"
                             onChange={passwordCheckHandler}
                             error={!!inputErrorMessage.passwordCheck && !checkInput.passwordCheck}
                             size={"medium"}

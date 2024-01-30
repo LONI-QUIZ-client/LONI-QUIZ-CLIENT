@@ -1,0 +1,73 @@
+
+
+@import "common";
+
+.user-login-right{
+  background: #ffffff;
+  border: 1px solid #D9D9D9;
+  border-radius: 0 10px 10px 0;
+
+  width: 30rem;
+  height: 100%;
+  padding: 2rem;
+
+  display: flex; flex-flow: column wrap;
+  //justify-content: space-between;
+
+  .login-title{
+    font-size: 3rem;
+    font-weight: 700;
+    font-family: 'Assistant', sans-serif;
+    //margin: 0 auto;
+  }
+
+  .login-items{
+
+    .login-id-item
+    , .login-password-item
+    {
+      background: #efefef;
+
+      display: flex; align-items: center;
+
+      border: 2px solid #545454;
+      border-radius: 10px;
+
+      padding: 0.5rem 0.8rem;
+
+      .id-icon
+      , .password-icon
+      {
+        width: 2rem; height: 2rem;
+        margin-right: 1rem;
+        color: #545454;
+      }
+
+      .login-id-input
+      , .login-password-input
+      {
+        background: #FFFFFF00;
+        font-size: 1.5rem;
+      }
+
+    }
+
+    .auto-login-check{
+
+    }
+
+    .login-state-item{
+
+      .user-login-button{
+        width: 100%; padding: 1rem 0;
+        background: #D9D9D9;
+
+        color: #000000;
+        font-size: 1.5rem; font-weight: bold;
+      }
+
+    }
+
+  }
+
+}

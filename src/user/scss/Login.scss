@@ -1,15 +1,23 @@
 
 @import "common";
 
-$font-size: 16px;
+.user-login{
+  width: 100%;
+  height: 100vh;
+  padding: 2rem 0;
+  display: flex; justify-content: center;
+  background: #252525;
+}
 
-.sign-in-full-screen{
+
+
+/*.sign-in-full-screen{
   width: 100%;
 
   background: url("img/UserLoginBackGround.png");
-  /*background-repeat: no-repeat;
+  !*background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;*/
+  background-position: center;*!
 
   .sign-in-background{
     position: relative;
@@ -125,7 +133,7 @@ $font-size: 16px;
 
   }
 
-}
+}*/
 
 /*
 @media (max-width: 1500px) {

@@ -1,10 +1,10 @@
 import React from 'react';
-import "./scss/JoinLeft.scss"
+import "./scss/UserSideLeft.scss"
 
 import backgroundImage from './scss/img/background-img.png';
 
 
-const JoinLeft = () => {
+const UserSideLeft = () => {
 
     return (
         <>
@@ -25,4 +25,4 @@ const JoinLeft = () => {
     );
 };
 
-export default JoinLeft;
+export default UserSideLeft;
