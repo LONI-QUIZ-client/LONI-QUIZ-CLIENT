@@ -3,12 +3,15 @@ import './scss/GamePage.scss';
 import { IMG_URL } from '../../config/host-config';
 import { SCORE_URL } from '../../config/host-config';
 import {useLocation} from "react-router-dom";
+import {TOKEN, ID, USERNAME} from "../../config/login-util";
 
 const GamePage = () => {
     const [inputText, setInputText] = useState('');
     const [img, setImg] = useState([]);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+
+    // 문제 정답 담아두기
     const [item, setItem ] = useState('');
     // const [count, setCount] = useState('');
 
@@ -88,7 +91,7 @@ const GamePage = () => {
             body: JSON.stringify(
                 {
                     gno: roomId,
-                    userId : 'sss123'
+                    userId : 'oyg12345'
                 }
             )
         })
@@ -98,7 +101,8 @@ const GamePage = () => {
                 }
             })
             .then(json => {
-                console.log(json.users)
+                setUserData(json)
+                console.log(json)
             })
 
     }, []);
@@ -123,26 +127,26 @@ const GamePage = () => {
                     </button>
                 </div>
                 <div className='user-list'>
-                    <div className='user'>
-                        <div className='l-a'>
-                            <div className='p-img'>
-                                <img src={process.env.PUBLIC_URL + "/img/Main.png"} alt=""/>
+                    {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
+                    {userData && (
+                        userData.users.map((user, index) => (
+                            <div key={index} className='user'>
+                                <div className='l-a'>
+                                    <div className='p-img'>
+                                        <img src={user.profile} alt={`Profile ${index}`} />
+                                    </div>
+                                    <div className='nick-name'>
+                                        {user.userNickname}
+                                    </div>
+                                </div>
+                                <div className='score'>
+                                    <div>
+                                        {user.score}점
+                                    </div>
+                                </div>
                             </div>
-                            <div className='nick-name'>
-                                asd
-                            </div>
-                        </div>
-                        <div className='score'>
-                            <div>
-                                10점
-                            </div>
-                        </div>
-                    </div>
-                    <div className='user'></div>
-                    <div className='user'></div>
-                    <div className='user'></div>
-                    <div className='user'></div>
-                    <div className='user'></div>
+                        ))
+                    )}
                 </div>
             </div>
             <div className='chat'>
