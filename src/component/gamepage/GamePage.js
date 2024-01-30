@@ -3,7 +3,7 @@ import './scss/GamePage.scss';
 import { IMG_URL } from '../../config/host-config';
 import { SCORE_URL } from '../../config/host-config';
 import {useLocation} from "react-router-dom";
-import {TOKEN, ID, USERNAME} from "../../config/login-util";
+import {getCurrentLoginUser} from "../../config/login-util";
 
 const GamePage = () => {
     const [inputText, setInputText] = useState('');
@@ -15,8 +15,12 @@ const GamePage = () => {
     const [item, setItem ] = useState('');
     // const [count, setCount] = useState('');
 
+    // 유저 정보를 담을 상태 추가
+    const [userData, setUserData] = useState(null);
+
     const location = useLocation();
     const roomId = location.state?.roomId;
+    const userID = getCurrentLoginUser().id;
 
     //이미지를 생성하는 API를 호출하고 그 결과를 처리
     const createImage = async () => {
@@ -83,6 +87,7 @@ const GamePage = () => {
     };
 
     useEffect(() => {
+        console.log(userID)
         fetch("http://localhost:8888/game/room",{
             method: 'post',
             headers: {
@@ -91,7 +96,7 @@ const GamePage = () => {
             body: JSON.stringify(
                 {
                     gno: roomId,
-                    userId : 'oyg12345'
+                    userId : userID
                 }
             )
         })
