@@ -1,15 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './scss/GamePage.scss';
 import { IMG_URL } from '../../config/host-config';
 import { SCORE_URL } from '../../config/host-config';
 import {useLocation} from "react-router-dom";
 import {ID} from "../../config/login-util";
+import SockJS from "sockjs-client";
+import {Stomp} from "@stomp/stompjs";
+
 
 const GamePage = () => {
     const [inputText, setInputText] = useState('');
     const [img, setImg] = useState([]);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+
+    const messageAreaRef = useRef(null);
+
+    const [chatData, setChatData] = useState([]);
+
+    const [input, setInput] = useState('');
 
     // 문제 정답 담아두기
     const [item, setItem ] = useState('');
@@ -98,7 +107,47 @@ const GamePage = () => {
                 console.log(json)
             })
 
+        // Connect to WebSocket server
+        const socket = new SockJS('http://localhost:8888/ws');
+        const stompClient = Stomp.over(socket);
+        stompClient.connect({}, () => {
+            // Subscribe to topic
+            stompClient.subscribe('/topic/game/messages', message => {
+                const receivedMessage = JSON.parse(message.body);
+                setChatData(prevChatData => [...prevChatData, receivedMessage]);
+            });
+        });
+
+        return () => {
+            stompClient.disconnect();
+        };
+
     }, []);
+
+
+    useEffect(() => {
+        // Scroll to the bottom of the message area when chatData changes
+        if (messageAreaRef.current) {
+            messageAreaRef.current.scrollTop = messageAreaRef.current.scrollHeight;
+        }
+    }, [chatData]);
+
+
+    const inputSubmit = (e) => {
+        e.preventDefault();
+
+        // Send message via WebSocket
+        const socket = new SockJS('http://localhost:8888/ws');
+        const stompClient = Stomp.over(socket);
+        stompClient.connect({}, () => {
+            stompClient.send("/app/game/chat", {}, JSON.stringify({
+                gno: roomId,
+                userId: userID,
+                content: input
+            }));
+        });
+        setInput('');
+    }
 
     return (
         <div className='box'>
@@ -142,23 +191,53 @@ const GamePage = () => {
                     )}
                 </div>
             </div>
+            {/*<ul className='chat' ref={messageAreaRef}>*/}
+            {/*        {chatData.map((item, index) => (*/}
+            {/*            <li key={index}>*/}
+            {/*                <span>{item.userId}: {item.content}</span>*/}
+            {/*            </li>*/}
+            {/*        ))}*/}
+            {/*</ul>*/}
+            {/*<form id="messageForm" name="messageForm" onSubmit={inputSubmit}>*/}
+            {/*    <div className="form-group">*/}
+            {/*        <div className="input-group clearfix">*/}
+            {/*            <input*/}
+            {/*                id="message"*/}
+            {/*                placeholder="채팅 입력..."*/}
+            {/*                autoComplete="off"*/}
+            {/*                className="form-control"*/}
+            {/*                value={input}*/}
+            {/*                onChange={(e) => setInput(e.target.value)}*/}
+            {/*            />*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</form>*/}
             <div className='chat'>
-                <div className='chat-log'>
+                <ul className='chat-log' id="messageArea" ref={messageAreaRef}>
                     {/* 채팅 메시지를 화면에 표시 */}
-                    {messages.map((message, index) => (
-                        <div key={index}>{message}</div>
+                    {chatData.map((item, index) => (
+                        roomId === item.gno && (
+                            <li key={index}>
+                                <span>{item.userId}: {item.content}</span>
+                            </li>
+                        )
                     ))}
-                </div>
-                <div className='chat-input'>
-                    <input
-                        type='text'
-                        className='chating'
-                        value={newMessage}
-                        onChange={handleNewMessageChange}
-                        onKeyPress={handleInputKeyPress}
-                    />
-                    <button onClick={sendMessage}>전송</button>
-                </div>
+
+                </ul>
+                <form className='chat-input'name="messageForm" onSubmit={inputSubmit}>
+                    <div className="form-group">
+                        <div className="input-group clearfix">
+                            <input
+                                id="message"
+                                placeholder="채팅 입력..."
+                                autoComplete="off"
+                                className="form-control"
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     );
