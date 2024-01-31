@@ -1,6 +1,7 @@
 import React from 'react';
 import './scss/Button.scss';
 
+import {isLogin} from "../../config/login-util";
 import {Link, useNavigate} from 'react-router-dom';
 
 const Button = () => {
@@ -8,7 +9,11 @@ const Button = () => {
         const nav = useNavigate();
 
         const entry = () => {
+            if(!isLogin()){
+                nav('/login')
+            }else{
             nav('/lobby')
+            }
         }
     return (
         <div>
