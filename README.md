@@ -12,8 +12,9 @@
 <details>
   <summary>I. 팀 소개</summary>
   <!-- 할 일은 자신이 한 것을 <td>할 일</td> 내부에 <li></li>를 만들어 입력할 것. -->
-  <h2 align="center" id = "I_team">야자수 Team</h2>
-
+  <h2 align="center" id = "I_team">[Palm Tree] Team</h2>
+  <img alt="palm tree" src="https://github.com/sarimiro56/Markdown_Test/assets/128454837/463b4910-fa09-4f02-90e7-43554b236058" />  
+  <p align="center">※ 프로필 이미지를 누르면 해당 GitHub로 이동합니다! </p>
   <Table align="center">
     <tr>
       <td>Github</td>
