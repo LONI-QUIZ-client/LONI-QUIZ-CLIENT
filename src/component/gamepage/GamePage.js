@@ -31,6 +31,7 @@ const GamePage = () => {
     const roomId = location.state?.roomId;
     const userID = localStorage.getItem(ID);
 
+
     //이미지를 생성하는 API를 호출하고 그 결과를 처리
     const createImage = async () => {
         try {
@@ -101,8 +102,10 @@ const GamePage = () => {
 
         stompClient.connect({}, () => {
             stompClient.send("/app/game/memberList", {}, JSON.stringify({
+                gno: roomId
             }));
         });
+
     }, []);
 
     useEffect(() => {
@@ -123,11 +126,10 @@ const GamePage = () => {
         const socket = new SockJS('http://localhost:8888/ws');
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
-            stompClient.subscribe('/topic/game/memberList', member => {
-                const receivedUser = JSON.parse(member.body);
-                console.log(receivedUser)
+            stompClient.subscribe('/topic/game/memberList', memberList => {
+                const receivedUsers = JSON.parse(memberList.body);
+                setUserData(receivedUsers);
             });
-
         });
     }, []);
 
@@ -137,7 +139,6 @@ const GamePage = () => {
             messageAreaRef.current.scrollTop = messageAreaRef.current.scrollHeight;
         }
     }, [chatData]);
-
 
     const inputSubmit = (e) => {
         e.preventDefault();
