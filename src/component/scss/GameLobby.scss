@@ -1,6 +1,7 @@
 
 body {
   background-color: #ffffff;
+  overflow-x: hidden;
 }
 
 .lobby_container {
@@ -21,7 +22,7 @@ body {
 
   .profile {
     border-radius: 20px 0 0 20px;
-    background-color: #835d51;
+    background-color: #40128B;
     width: 204px;
     height: 320px;
     flex: 0 1 auto;
@@ -121,7 +122,7 @@ body {
       width: 204px;
       height: auto;
       font-size: 20px;
-      background-color: #FFEACA;
+      background-color: #fbca81;
       border: none;
       transition: all 0.2s ease-in-out;
       cursor:pointer;
