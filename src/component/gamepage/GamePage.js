@@ -25,7 +25,7 @@ const GamePage = () => {
     // const [count, setCount] = useState('');
 
     // 유저 정보를 담을 상태 추가
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState([]);
 
     const location = useLocation();
     const roomId = location.state?.roomId;
@@ -96,17 +96,16 @@ const GamePage = () => {
     };
 
     useEffect(() => {
-        fetch("http://localhost:8888/game/room/" + roomId)
-            .then(res => {
-                if (res.status === 200){
-                    return res.json();
-                }
-            })
-            .then(json => {
-                setUserData(json)
-                console.log(json)
-            })
+        const socket = new SockJS('http://localhost:8888/ws');
+        const stompClient = Stomp.over(socket);
 
+        stompClient.connect({}, () => {
+            stompClient.send("/app/game/memberList", {}, JSON.stringify({
+            }));
+        });
+    }, []);
+
+    useEffect(() => {
         // Connect to WebSocket server
         const socket = new SockJS('http://localhost:8888/ws');
         const stompClient = Stomp.over(socket);
@@ -117,13 +116,20 @@ const GamePage = () => {
                 setChatData(prevChatData => [...prevChatData, receivedMessage]);
             });
         });
-
-        return () => {
-            stompClient.disconnect();
-        };
-
     }, []);
 
+    useEffect(() => {
+        // Connect to WebSocket server
+        const socket = new SockJS('http://localhost:8888/ws');
+        const stompClient = Stomp.over(socket);
+        stompClient.connect({}, () => {
+            stompClient.subscribe('/topic/game/memberList', member => {
+                const receivedUser = JSON.parse(member.body);
+                console.log(receivedUser)
+            });
+
+        });
+    }, []);
 
     useEffect(() => {
         // Scroll to the bottom of the message area when chatData changes
@@ -149,6 +155,8 @@ const GamePage = () => {
         setInput('');
     }
 
+
+
     return (
         <div className='box'>
             <div className='a'>
@@ -171,19 +179,19 @@ const GamePage = () => {
                 <div className='user-list'>
                     {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
                     {userData && (
-                        userData.users.map((user, index) => (
+                        userData.map((user, index) => (
                             <div key={index} className='user'>
                                 <div className='l-a'>
-                                    <div className='p-img'>
-                                        <img src={user.profile} alt={`Profile ${index}`} />
-                                    </div>
+                                    {/*<div className='p-img'>*/}
+                                    {/*    <img src={user.profile} alt={`Profile ${index}`} />*/}
+                                    {/*</div>*/}
                                     <div className='nick-name'>
-                                        {user.userNickname}
+                                        {user.id}
                                     </div>
                                 </div>
                                 <div className='score'>
                                     <div>
-                                        {user.score}점
+                                        {user.gno}점
                                     </div>
                                 </div>
                             </div>

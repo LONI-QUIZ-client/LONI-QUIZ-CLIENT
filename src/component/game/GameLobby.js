@@ -18,7 +18,6 @@ const GameLobby = () => {
         fetch(API_BASE_URL + "?page=1&amount=15")
             .then(res => res.json())
             .then(json => {
-                console.log(json);
                 setLobbyData(json);
             });
     }, []);
