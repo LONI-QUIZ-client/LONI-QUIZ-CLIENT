@@ -21,7 +21,7 @@ body {
 
   .profile {
     border-radius: 20px 0 0 20px;
-    background-color: #dbff00;
+    background-color: #835d51;
     width: 204px;
     height: 320px;
     flex: 0 1 auto;
@@ -51,6 +51,7 @@ body {
       font-size: 25px;
       text-align: center;
       cursor:pointer;
+      color: #FFFFFF;
     }
   }
 }
@@ -87,7 +88,7 @@ body {
       width: 204px;
       height: auto;
       color: #FFFFFF;
-      background-color: #800080;
+      background-color: #F08FC0;
       border: none;
       transition: all 0.2s ease-in-out;
       font-size: 20px;
@@ -104,7 +105,7 @@ body {
       width: 204px;
       font-size: 20px;
       height: auto;
-      background-color: #0000ff;
+      background-color: #FFBCBC;
       border: none;
       transition: all 0.2s ease-in-out;
       cursor:pointer;
@@ -120,7 +121,7 @@ body {
       width: 204px;
       height: auto;
       font-size: 20px;
-      background-color: #ff0000;
+      background-color: #FFEACA;
       border: none;
       transition: all 0.2s ease-in-out;
       cursor:pointer;
@@ -135,7 +136,7 @@ body {
 
 .lobby_box2 {
   float: left;
-  background-color: #00838e;
+  background-color: #92C7CF;
   width: 70%;
   height: auto;
   overflow: hidden;
@@ -158,11 +159,11 @@ body {
         margin: 20px;
         border: 2px solid transparent;
         border-radius: 20px;
-        background-color: #d8e4ff;
+        background-color: #DCF2F1;
         transition: all 0.2s ease-in-out;
         cursor:pointer;
         &:hover {
-          background-color: #737c92;
+          background-color: #365486;
           color: #FFFFFF;
         }
 
@@ -198,22 +199,25 @@ body {
     button {
       margin: 0 5px;
       padding: 5px 10px;
-      border: 1px solid #a0a0a0;
-      background-color: #fff;
+      //border: 1px solid #45FFCA;
+      background-color: #CDF0EA;
       cursor: pointer;
       border-radius: 20px;
       transition: all 0.2s ease-in-out;
+      border: none;
 
       &:hover {
-        background-color: #f0f0f0;
-        color: black;
+        background-color: #f4b3e5;
+        //border: 1px solid #ADA2FF;
+        color: #FFF;
+        border: none;
       }
     }
 
     .active {
-      background-color: #007bff;
-      color: #fff;
-      border-color: #007bff;
+      background-color: #FAF4B7;
+      color: #000;
+      border: none;
     }
   }
 
