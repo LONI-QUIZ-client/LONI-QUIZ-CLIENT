@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {IoMdPerson} from "react-icons/io";
 import {Link, TextField} from "@mui/material";
 import {JOIN_URL} from "../config/host-config";
 import {useNavigate} from "react-router-dom";
@@ -9,6 +8,7 @@ import "./scss/JoinRight.scss"
 import 'animate.css';
 
 import person from "../user/scss/img/person-fill.png"
+import userInfo from "./UserInfo";
 
 
 const JoinRight = () => {
@@ -234,45 +234,14 @@ const JoinRight = () => {
             passwordCheck: flag
         })
 
-        setJoinInfo({
+        /*setJoinInfo({
             ...joinInfo,
             passwordCheck: pwCheckVal
-        });
-    }
-
-    const inputIsValid = () => {
-        for (const key in checkInput) {
-            const valid = checkInput[key]
-            if(!valid) return false
-        }
-        return true;
-    }
-
-
-    const {nickName : nn, id, password : pw, passwordCheck : pwc} =  checkInput;
-    useEffect(() => {
-        // console.log(`${inputIsValid()} 값이 바뀌면 실행된다!!`)
-
-        if(inputIsValid()) setLock(false)
-        else setLock(true)
-
-    }, [nn, id, pw, pwc]);
-
-    const joinHandler = e => {
-        e.preventDefault();
-
-        if(!lock) { // 잠겨있지 않을 때
-            fetchJoinPost();
-        } else { // 잠겨있을 때
-            console.log('회원가입 실패!!');
-        }
+        });*/
     }
 
     // 이미지 데이터
-    const [image, setImage] = useState(null);
-
-    // 이미지 url
-    // const [imageSrc, setImageSrc] = useState("");
+    const [imageFile, setImageFile] = useState(null);
 
     const profileHandler = e => {
         document.getElementById('profile-img').click();
@@ -280,16 +249,12 @@ const JoinRight = () => {
 
     const isProfile = () => {
         const uploadFile = document.getElementById('profile-img').files[0];
-        // console.log(uploadFile);
-
-        // setImage(uploadFile);
 
         const reader = new FileReader();
         reader.readAsDataURL(uploadFile);
 
         reader.onload = () => {
-            setImage(reader.result);
-            // console.log(reader.result);
+            setImageFile(reader.result);
         }
 
     }
@@ -301,28 +266,65 @@ const JoinRight = () => {
             { type: 'application/json' }
         );
 
-        const formDate = new FormData();
+        const formData = new FormData();
 
-        /*formDate.append("id", joinInfo.id);
-        formDate.append("pw", joinInfo.pw);
-        formDate.append("nickname", joinInfo.nickname);*/
-        formDate.append("user", jsonBlob);
-        formDate.append("profileImage", document.getElementById('profile-img').files[0]);
+        formData.append('user', jsonBlob);
+        formData.append('profileImage', document.getElementById('profile-img').files[0]);
 
         const res = await fetch(JOIN_URL,{
-            method: 'POST',
-            body: formDate
+            method: 'POST'
+            , body: formData
         });
 
         if(res.status === 200){
-            // const json = await res.text();
-            // console.log(json);
-            alert('회원가입이 되었습니다');
+            const json = await res.text();
+            alert(json);
 
             redirect('/login');
         } else {
-            alert('올바른 입력을 하셨는지 다시 확인해 주세요');
+            console.log(document.getElementById('profile-img').files[0])
+            console.log(joinInfo);
+            console.log(JOIN_URL)
+            alert('입력을 올바르게 하셨는지 다시 확인해 주세요');
         }
+
+    }
+
+    const inputIsValid = () => {
+        for (const key in checkInput) {
+            const valid = checkInput[key]
+            if(!valid) return false
+        }
+        return true;
+    }
+
+    const {nickName : nn, id, password : pw, passwordCheck : pwc} =  checkInput;
+
+    useEffect(() => {
+
+        if(inputIsValid()) setLock(false)
+        else setLock(true)
+
+    }, [nn, id, pw, pwc]);
+
+    const joinHandler = e => {
+        e.preventDefault();
+
+        if(!lock) {
+            fetchJoinPost();
+        } else {
+            alert('회원가입이 실패했습니다 다시 시도해 주세요');
+        }
+    }
+
+    const profileImageHandler = {
+        background: '#D9D9D9'
+        , borderRadius: '50%'
+        , width: '10rem', height: '10rem'
+        , overflow: 'hidden'
+        , display: 'flex', justifyContent: 'center', alignItems: 'center'
+        , backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
+        , backgroundImage: `url(${imageFile})`
 
     }
 
@@ -331,8 +333,11 @@ const JoinRight = () => {
             <div className={'join-right-item'}>
                 <div
                     onClick={profileHandler}
-                    className={'join-input-profile-item'}>
-                    <img src={image || person} alt={"profile"}/>
+                    className={'join-input-profile-item'}
+                    style={profileImageHandler}
+                >
+
+                    {/*<img src={imageFile || person} alt={"profile"}/>*/}
 
                 </div>
                 <input
