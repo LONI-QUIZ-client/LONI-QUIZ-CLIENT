@@ -119,7 +119,7 @@ const JoinRight = () => {
             flag = false;
         } else {
             fetchNickNameDuplicatedCheck(nickNmVal);
-            // return;
+            return;
         }
 
         setInputErrorMessage({
@@ -131,11 +131,6 @@ const JoinRight = () => {
             ...checkInput,
             nickName: flag
         })
-
-        setJoinInfo({
-            ...joinInfo,
-            nickname: nickNmVal
-        });
 
     }
 
@@ -168,10 +163,6 @@ const JoinRight = () => {
             id: flag
         })
 
-        setJoinInfo({
-            ...joinInfo,
-            id: idVal
-        });
     }
 
     const passwordHandler = e => {
@@ -234,10 +225,6 @@ const JoinRight = () => {
             passwordCheck: flag
         })
 
-        /*setJoinInfo({
-            ...joinInfo,
-            passwordCheck: pwCheckVal
-        });*/
     }
 
     // 이미지 데이터
@@ -266,7 +253,7 @@ const JoinRight = () => {
             { type: 'application/json' }
         );
 
-        const formData = new FormData();
+        const formData = new FormData;
 
         formData.append('user', jsonBlob);
         formData.append('profileImage', document.getElementById('profile-img').files[0]);
@@ -284,7 +271,7 @@ const JoinRight = () => {
         } else {
             console.log(document.getElementById('profile-img').files[0])
             console.log(joinInfo);
-            console.log(JOIN_URL)
+            console.log(JOIN_URL);
             alert('입력을 올바르게 하셨는지 다시 확인해 주세요');
         }
 
@@ -322,10 +309,10 @@ const JoinRight = () => {
         , borderRadius: '50%'
         , width: '10rem', height: '10rem'
         , overflow: 'hidden'
-        , display: 'flex', justifyContent: 'center', alignItems: 'center'
-        , backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'center'
-        , backgroundImage: `url(${imageFile})`
-
+        , backgroundRepeat: 'no-repeat'
+        , backgroundSize: `${imageFile ? 'contain' : ''}`
+        , backgroundPosition: 'center'
+        , backgroundImage: `url(${imageFile || person})`
     }
 
     return (
@@ -334,12 +321,7 @@ const JoinRight = () => {
                 <div
                     onClick={profileHandler}
                     className={'join-input-profile-item'}
-                    style={profileImageHandler}
-                >
-
-                    {/*<img src={imageFile || person} alt={"profile"}/>*/}
-
-                </div>
+                    style={profileImageHandler} />
                 <input
                     onChange={isProfile}
                     type="file"
