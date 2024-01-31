@@ -6,6 +6,7 @@ import {LOBBY_URL} from "../../config/host-config";
 import GameChat from "./GameChat";
 import GameProfileLobby from "./GameProfile_Lobby";
 import GameModal from "./GameModal";
+import {Link} from "react-router-dom";
 
 const API_BASE_URL = LOBBY_URL;
 
@@ -25,6 +26,7 @@ const GameLobby = () => {
     return (
         <>
             <div className='lobby_menu'>
+                <Link to={'/login'}>로그인/회원가입</Link>
                 <div className='btns_box'>
                     <button className='setting_btn'>Setting</button>
                     <GameModal />
