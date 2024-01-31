@@ -1,10 +1,13 @@
 import React from 'react';
 import './scss/Header.scss';
 import {isLogin} from "../../config/login-util";
+import {useNavigate} from "react-router-dom";
 
 const Header = () => {
+    const nav = useNavigate();
     const logoutHandler = e => {
         localStorage.clear();
+        nav('/')
         // setImgUrl(null);
         // redirection('/login');
     };
@@ -28,7 +31,7 @@ const Header = () => {
                                 )
                                 :
                                 (
-                                    <a href="/login">로그인/회원가입</a>
+                                    <a href="/login">로그인</a>
                                 )
 
                         }

@@ -23,9 +23,8 @@ const Main = () => {
                 <div className="box-wrap">
                     <div className='img-1'>
                         <div className="t-box">
-                            <div className="img">
                                 <img src={process.env.PUBLIC_URL + "/img/ASD.jpeg"} alt="Hover Effect"/>
-                            </div>
+
                             <div className="info">
                                 <h3>Design</h3>
                                 <p>일러스트를 이용한 디자인입니다.</p>
@@ -34,9 +33,8 @@ const Main = () => {
                     </div>
                     <div className='img-2'>
                         <div className="t-box">
-                            <div className="img">
                                 <img src={process.env.PUBLIC_URL + "/img/Main.png"} alt="Hover Effect"/>
-                            </div>
+
                             <div className="info">
                                 <h3>Design</h3>
                                 <p>일러스트를 이용한 디자인입니다.</p>
@@ -45,9 +43,7 @@ const Main = () => {
                     </div>
                     <div className='img-3'>
                         <div className="t-box">
-                            <div className="img">
                                 <img src={process.env.PUBLIC_URL + "/img/AS.png"} alt="Hover Effect"/>
-                            </div>
                             <div className="info">
                                 <h3>Design</h3>
                                 <p>일러스트를 이용한 디자인입니다.</p>
