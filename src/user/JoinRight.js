@@ -166,8 +166,6 @@ const JoinRight = () => {
     }
 
     const passwordHandler = e => {
-        // console.log(e.target.value);
-
         const pwVal = e.target.value;
         const pwRegex  = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,25}$/;; // 비밀번호는 최소 8글자 ~ 최대 25
 
@@ -200,17 +198,45 @@ const JoinRight = () => {
 
     }
 
+    const [pwCheckVal, setPwCheckVal] = useState('');
+
     const passwordCheckHandler = e => {
-        const pwCheckVal = e.target.value;
+        console.log(e.target.value);
+        setPwCheckVal(e.target.value);
+
+        /*let msg, flag;
+        if(!pwCheckVal){
+            msg = '비밀번호를 입력해주세요'
+            flag = false;
+        } else if(joinInfo.pw !== pwCheckVal){
+            msg = '비밀번호와 올바르지 않습니다';
+            flag = false;
+        } else if(checkInput.pw === true && joinInfo.pw === pwCheckVal){
+            msg = '비밀번호와 일치합니다';
+            flag = true;
+        }*/
+
+        /*setInputErrorMessage({
+            ...inputErrorMessage,
+            passwordCheck: msg
+        });
+
+        setCheckInput({
+            ...checkInput,
+            passwordCheck: flag
+        });*/
+    }
+
+    useEffect( () => {
 
         let msg, flag;
         if(!pwCheckVal){
-            msg = '비밀번호를 입력해 주세요';
+            msg = '';
             flag = false;
-        } else if(joinInfo.pw !== pwCheckVal){
+        } else if(checkInput.password === true && joinInfo.pw !== pwCheckVal){
             msg = '비밀번호와 일치하지 않습니다';
             flag = false;
-        } else {
+        } else if(checkInput.password === true && joinInfo.pw === pwCheckVal){
             msg = '비밀번호와 일치합니다';
             flag = true;
         }
@@ -223,11 +249,10 @@ const JoinRight = () => {
         setCheckInput({
             ...checkInput,
             passwordCheck: flag
-        })
+        });
 
-    }
+    }, [joinInfo.pw, pwCheckVal]);
 
-    // 이미지 데이터
     const [imageFile, setImageFile] = useState(null);
 
     const profileHandler = e => {
@@ -269,9 +294,6 @@ const JoinRight = () => {
 
             redirect('/login');
         } else {
-            console.log(document.getElementById('profile-img').files[0])
-            console.log(joinInfo);
-            console.log(JOIN_URL);
             alert('입력을 올바르게 하셨는지 다시 확인해 주세요');
         }
 
@@ -318,6 +340,7 @@ const JoinRight = () => {
     return (
         <form noValidate>
             <div className={'join-right-item'}>
+                <div className={"join-title"}>Join</div>
                 <div
                     onClick={profileHandler}
                     className={'join-input-profile-item'}
@@ -365,6 +388,7 @@ const JoinRight = () => {
                     </div>
                     <div className={"join-item"}>
                         <TextField
+                            id={"passwordCheck"}
                             className="join-input"
                             type="password"
                             label="비밀번호 확인"

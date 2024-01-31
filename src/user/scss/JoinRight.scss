@@ -15,6 +15,12 @@
   display: flex; flex-flow: column wrap;
   justify-content: space-between;
 
+  .join-title{
+    font-size: 3rem;
+    font-weight: 700;
+    font-family: 'Assistant', sans-serif;
+  }
+
   .join-input-items{
 
     .join-item{
