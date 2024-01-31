@@ -13,7 +13,7 @@ const Header = () => {
     };
     return (
         <div className="h-box">
-            <h2>로고</h2>
+            <img src={process.env.PUBLIC_URL + "/img/LOLO.png"} alt="asd"/>
             <div className="header">
                 <td className="header-table">
                     <li><a href="">사이트 개요</a></li>

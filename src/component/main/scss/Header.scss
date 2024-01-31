@@ -2,13 +2,18 @@
 .header-table{
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .h-box{
-  background: #393939;
   width: 100%;
   display: flex;
-  opacity: 0.8;
 }
+
+.h-box img{
+  width: 100px;
+  height: 100px;
+}
+
 li{
   list-style-type: none;
   margin: 10px;
