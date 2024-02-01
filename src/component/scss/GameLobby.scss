@@ -1,7 +1,15 @@
 
 body {
-  background-color: #ffffff;
   overflow-x: hidden;
+}
+.z{
+  margin-top: 100px;
+}
+
+.aa{
+  width: 2000px;
+  height: 1000px;
+  background-image: url("https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/932b2694-3e14-4c9a-a9a5-822f630fa050/original=true/00192-1996601262.jpeg");
 }
 
 .lobby_container {
@@ -22,7 +30,7 @@ body {
   height: auto;
   justify-content: center;
   margin-left: 80px;
-  margin-top: 70px;
+  //margin-top: 70px;
 
   .btns_box {
     display: flex;
