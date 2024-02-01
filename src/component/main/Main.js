@@ -1,10 +1,21 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './scss/Main.scss';
 import Button from "./Button";
 import Header from "./Header";
 import Slider from "./Slider";
 
 const Main = () => {
+
+    // 스크롤 이벤트 테스트중
+    const [scrollPosition, setScrollPosition] = useState(0);
+
+    const updateScroll = () => {
+        setScrollPosition(window.scrollY || document.documentElement.scrollTop);
+    };
+
+    useEffect(() => {
+        window.addEventListener("scroll", updateScroll);
+    }, []);
     return (
         <div>
             <section className='section'>
@@ -14,6 +25,7 @@ const Main = () => {
                         <div className='l-g'>
                             <h1 className='logo'>LONI<br/>QUIZ</h1>
                             <p>AI가 만든 이미지로 퀴즈 게임을 즐겨보세요</p>
+                            <div className={scrollPosition > 40 ? "scroll-text" : "scrolled-text"}>스크롤되면 색이 변함</div>
                             <Button/>
                         </div>
                     </div>

@@ -188,3 +188,15 @@ footer{
   position : absolute;
   bottom: 0;
 }
+
+// 스크롤 이벤트 테스트용 css
+.scroll-text {
+  font-size: 5rem;
+  transition: 1.5s;
+}
+
+.scrolled-text {
+  font-size: 5rem;
+  color: red;
+  transition: 1.5s;
+}
