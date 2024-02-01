@@ -6,6 +6,7 @@ import {LOBBY_URL} from "../../config/host-config";
 import GameChat from "./GameChat";
 import GameProfileLobby from "./GameProfile_Lobby";
 import GameModal from "./GameModal";
+import GameRanking from "./GameRanking";
 
 const API_BASE_URL = LOBBY_URL;
 
@@ -35,6 +36,7 @@ const GameLobby = () => {
                 <div className='lobby_box1'>
                     <div className='lobby_bbox1'>
                         <GameProfileLobby />
+                        <GameRanking />
                     </div>
                 </div>
                 <div className='lobby_box2'>

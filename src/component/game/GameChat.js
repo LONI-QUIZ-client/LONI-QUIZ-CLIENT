@@ -3,16 +3,25 @@ import '../scss/GameLobby.scss';
 import '../css/GameLobby.css';
 import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-// Import LOBBY_CHAT from the local host config
 import { LOBBY_CHAT } from "../../config/host-config";
+import { isLogin, getCurrentLoginUser } from "../../config/login-util";
 
 const GameChat = () => {
     const [input, setInput] = useState('');
     const [chatData, setChatData] = useState([]);
-    const userId = "yy123";
+    const [userId, setID] = useState('');
     const messageAreaRef = useRef(null);
 
     useEffect(() => {
+        // 여기서 로그인 여부를 체크하고, 로그인된 경우에만 userId를 설정
+        if (isLogin()) {
+            const currentUser = getCurrentLoginUser();
+            setID(currentUser.username);
+        } else {
+            alert("로그인이 필요합니다.");
+        }
+
+
         // Connect to WebSocket server
         const socket = new SockJS('http://localhost:8888/ws');
         const stompClient = Stomp.over(socket);
@@ -51,14 +60,12 @@ const GameChat = () => {
         setInput('');
     }
 
-
     return (
         <>
             <div className="chat-container">
                 <ul id="messageArea" ref={messageAreaRef}>
                     {chatData.map((item, index) => (
                         <li key={index}>
-
                             <span>{item.nickname}: {item.content}</span>
                         </li>
                     ))}
