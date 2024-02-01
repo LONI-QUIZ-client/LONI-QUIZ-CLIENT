@@ -4,11 +4,10 @@ import {useNavigate} from "react-router-dom";
 import { BsFillDoorOpenFill } from "react-icons/bs";
 import { BsFillPersonFill } from "react-icons/bs";
 import { BsPenFill } from "react-icons/bs";
-import { TbPlayerPauseFilled } from "react-icons/tb";
 import { BsStars } from "react-icons/bs";
 
-
 import "./scss/UserInfo.scss";
+import { BsFillPauseFill } from "react-icons/bs";
 
 const UserInfo = () => {
 
@@ -26,6 +25,10 @@ const UserInfo = () => {
         , marginRight: '0.2rem'
     }
 
+    const BsFillPersonFillIconStyle ={
+        fontSize: '6rem'
+    }
+
 
     return (
         <div className={"user-info"}>
@@ -36,26 +39,29 @@ const UserInfo = () => {
                 MOVE LOBBY
             </button>
 
-
             <div className={"user-page-background"}>
-                <div
-                    className={"user-page-profile"}>
-                    <BsFillPersonFill />
-                </div>
-                <div className={"user-info-contain"}>
-                    <div className={"user-info-change-item"}>
-                        <div className={"user-name"}>닉네임</div>
-                        <BsPenFill />
+                <div className={"user-info-item-content"}>
+                    <div className={"user-page-profile"}>
+                        <BsFillPersonFill style={BsFillPersonFillIconStyle}/>
                     </div>
-                    <div className={"user-login-state-item"}>
-                        <p className={"user-login-state-icon"}>
-                            <TbPlayerPauseFilled style={{width:'3rem',height:'3rem'}}/>
-                        </p>
-                        {/*<div className={"user-state"}>*/}
-                            Logged in
-                        {/*</div>*/}
+
+                    <div className={"user-info-contain"}>
+                        <div className={"user-info-change-item"}>
+                            닉네임
+                            <BsPenFill style={{fontSize: '2rem', marginLeft: '0.5rem'}}/>
+                        </div>
+                        <div className={"user-login-state-item"}>
+                            <div className="login-state-icon">
+                                <BsFillPauseFill/>
+                            </div>
+                            <div className={"login-state-modal"}>
+                                Logged in
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div className={"change-button-location"}>
                 <button className={"user-page-image-change-button"}>
                     <BsStars className={"BsStarsStyle"}/>
                     CHANGE IMAGE
