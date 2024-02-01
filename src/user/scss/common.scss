@@ -1,0 +1,35 @@
+
+
+*{
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 16px;
+}
+
+a{
+  text-decoration: none;
+  outline: none; border: none;
+  color: inherit;
+}
+
+input{
+  border: 0; padding: 0;
+}
+
+input:focus{
+  outline: none;
+}
+
+Button{
+  color: #000000;
+}
+
+Button:hover{
+  background: #FFFFFF;
+}
+
+div {
+  display: block;
+}
