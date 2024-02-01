@@ -340,7 +340,7 @@ const JoinRight = () => {
     return (
         <form noValidate>
             <div className={'join-right-item'}>
-                <div className={"join-title"}>Join</div>
+                {/*<div className={"join-title"}>Join LONIQUIZ</div>*/}
                 <div
                     onClick={profileHandler}
                     className={'join-input-profile-item'}

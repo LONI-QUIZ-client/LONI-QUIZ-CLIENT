@@ -23,7 +23,7 @@ function App() {
               <Route path={'/join'} element={<Join />} />
               <Route path={'/lobby'} element={<GameLobby />} />
               <Route path={'/gameRoom'} element={<GamePage />} />
-              <Route path={'/mypage/'} element={<UserInfo />} />
+              <Route path={'/mypage'} element={<UserInfo />} />
           </Routes>
       </>
   );

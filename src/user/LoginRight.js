@@ -120,7 +120,7 @@ const LoginRight = () => {
                         type="submit"
                         className={"user-login-button"}
                         onClick={userLoginHandler}>
-                        LOGIN
+                        Login
                     </Button>
                 </div>
             </form>
