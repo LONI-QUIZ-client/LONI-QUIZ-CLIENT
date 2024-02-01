@@ -128,7 +128,7 @@ const GamePage = () => {
             stompClient.subscribe('/topic/game/memberList', memberList => {
                 const receivedUsers = JSON.parse(memberList.body);
                 console.log(receivedUsers)
-                setUserData(receivedUsers);
+                setUserData(receivedUsers.members);
             });
         });
     }, []);
