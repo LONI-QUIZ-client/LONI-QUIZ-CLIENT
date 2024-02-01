@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './scss/GamePage.scss';
-import { IMG_URL } from '../../config/host-config';
-import { SCORE_URL } from '../../config/host-config';
+import {IMG_URL} from '../../config/host-config';
+import {SCORE_URL} from '../../config/host-config';
 import {useLocation} from "react-router-dom";
 import {ID} from "../../config/login-util";
 import SockJS from "sockjs-client";
@@ -21,7 +21,7 @@ const GamePage = () => {
     const [input, setInput] = useState('');
 
     // 문제 정답 담아두기
-    const [item, setItem ] = useState('');
+    const [item, setItem] = useState('');
     // const [count, setCount] = useState('');
 
     // 유저 정보를 담을 상태 추가
@@ -79,10 +79,9 @@ const GamePage = () => {
         // 엔터 키를 눌렀을 때 sendMessage 함수 호출
         if (e.key === 'Enter') {
             sendMessage();
-            if (newMessage === item){
+            if (newMessage === item) {
                 console.log('정답')
-            }
-            else {
+            } else {
                 console.log('땡')
             }
         }
@@ -128,6 +127,7 @@ const GamePage = () => {
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/game/memberList', memberList => {
                 const receivedUsers = JSON.parse(memberList.body);
+                console.log(receivedUsers)
                 setUserData(receivedUsers);
             });
         });
@@ -155,8 +155,9 @@ const GamePage = () => {
         });
         setInput('');
     }
-
-
+    window.onpopstate = function(event) {
+        alert("방탈출");
+    };
 
     return (
         <div className='box'>
@@ -164,7 +165,7 @@ const GamePage = () => {
                 <div className='show-img'>
                     {/* 이미지를 매핑하여 화면에 표시 */}
                     {img.map((image, index) => (
-                        <img key={index} src={image} alt={`Image ${index}`} className='img' />
+                        <img key={index} src={image} alt={`Image ${index}`} className='img'/>
                     ))}
                     <input
                         type='text'
@@ -181,21 +182,23 @@ const GamePage = () => {
                     {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
                     {userData && (
                         userData.map((user, index) => (
-                            <div key={index} className='user'>
-                                <div className='l-a'>
-                                    {/*<div className='p-img'>*/}
-                                    {/*    <img src={user.profile} alt={`Profile ${index}`} />*/}
-                                    {/*</div>*/}
-                                    <div className='nick-name'>
-                                        {user.id}
+                            roomId === user.gno && (
+                                <div key={index} className='user'>
+                                    <div className='l-a'>
+                                        {/*<div className='p-img'>*/}
+                                        {/*    <img src={user.profile} alt={`Profile ${index}`} />*/}
+                                        {/*</div>*/}
+                                        <div className='nick-name'>
+                                            {user.id}
+                                        </div>
+                                    </div>
+                                    <div className='score'>
+                                        <div>
+                                            {user.username}점
+                                        </div>
                                     </div>
                                 </div>
-                                <div className='score'>
-                                    <div>
-                                        {user.gno}점
-                                    </div>
-                                </div>
-                            </div>
+                            )
                         ))
                     )}
                 </div>
@@ -233,7 +236,7 @@ const GamePage = () => {
                     ))}
 
                 </ul>
-                <form className='chat-input'name="messageForm" onSubmit={inputSubmit}>
+                <form className='chat-input' name="messageForm" onSubmit={inputSubmit}>
                     <div className="form-group">
                         <div className="input-group clearfix">
                             <input

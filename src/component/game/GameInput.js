@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../scss/GameLobby.scss';
 import '../css/GameLobby.css';
 import {redirect, useNavigate} from "react-router-dom";
-import {ID} from '../../config/login-util';
+import {ID, USERNAME} from '../../config/login-util';
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
 
@@ -10,6 +10,7 @@ const GameInput = ({ data }) => {
     const itemsPerPage = 6; // 한 페이지당 보여질 아이템 개수
     const [currentPage, setCurrentPage] = useState(1);
     const userId = localStorage.getItem(ID);
+    const username = localStorage.getItem(USERNAME);
 
 
     // data.dto가 없거나 undefined인 경우 빈 배열로 초기화
@@ -32,17 +33,18 @@ const GameInput = ({ data }) => {
 
     const redirect = useNavigate()
 
-    const StartGameRoom = (roomId) => {
+    const StartGameRoom = (roomId, maxCount) => {
         const socket = new SockJS('http://localhost:8888/ws');
         const stompClient = Stomp.over(socket);
-
-
 
         stompClient.connect({}, () => {
             stompClient.send("/app/game/members", {}, JSON.stringify({
                 userId : userId,
                 gno: roomId,
+                username: username,
+                maxUser: maxCount
             }));
+
         });
 
 
@@ -56,7 +58,7 @@ const GameInput = ({ data }) => {
         <>
             <div className='room_list'>
                 {getCurrentPageItems().map((item, index) => (
-                    <div className="room_container" key={index} onClick={() => {StartGameRoom(item.gno)}}>
+                    <div className="room_container" key={index} onClick={() => {StartGameRoom(item.gno, item.maxCount)}}>
                         <div className="list" >
                             <p>No. {index + 1 + (currentPage - 1) * itemsPerPage}</p>
                             <h2>{item.title}</h2>
