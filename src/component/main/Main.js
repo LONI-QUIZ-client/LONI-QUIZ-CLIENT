@@ -17,9 +17,9 @@ const Main = () => {
         window.addEventListener("scroll", updateScroll);
     }, []);
     return (
-        <div>
+        <div className='outer'>
             <section className='section'>
-                <div className='container'>
+                <div className='inner container'>
                     <Header/>
                     <div className='main-box'>
                         <div className='l-g'>
@@ -31,7 +31,7 @@ const Main = () => {
                     </div>
                 </div>
             </section>
-            <section className='section'>
+            <section className='inner section'>
                 <div className='content-box'>
                     <h1 className='content-title'>AI 이미지 생성 기술은 처음이신가요?</h1>
                     <p>아래 사진들은 ai 이미지 생성 기술로 만들어진 사진들입니다 당신도 자신만의 이미지를 만들어보세요!</p>
@@ -68,7 +68,7 @@ const Main = () => {
                     </div>
                 </div>
             </section>
-            <section className='section'>
+            <section className='inner section'>
                 <div className='bottom-box'>
                     <footer>
                         <Slider/>
