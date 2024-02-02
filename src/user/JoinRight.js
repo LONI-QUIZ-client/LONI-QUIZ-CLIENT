@@ -290,7 +290,7 @@ const JoinRight = () => {
 
         if(res.status === 200){
             const json = await res.text();
-            alert(json);
+            alert(joinInfo.nickname);
 
             redirect('/login');
         } else {

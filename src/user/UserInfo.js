@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {useNavigate} from "react-router-dom";
 import { BsFillDoorOpenFill } from "react-icons/bs";
@@ -8,15 +8,36 @@ import { BsStars } from "react-icons/bs";
 
 import "./scss/UserInfo.scss";
 import { BsFillPauseFill } from "react-icons/bs";
+import { BsFillPlayFill } from "react-icons/bs";
+import cn from "classnames";
+import {getCurrentLoginUser, TOKEN, USERNAME} from "../config/login-util";
+import {JOIN_URL} from "../config/host-config";
+
 
 const UserInfo = () => {
 
     const redirect = useNavigate();
 
+    // 유저 로그인 상태
+    const [isUserLoginState, setIsUserLoginState] = useState(false);
+
+    // 유저 자기 자신인지 타인인지, 유저 닉네임을 받아서 확인할것
+    const [userPageMaster, setUserPageMaster] = useState('');
+
+    // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
+    useEffect(() => {
+        // fetch(JOIN_URL + '/' + )
+
+    }, [isUserLoginState]);
+
     // 로비 이동
     const moveLobbyHandler = e => {
         redirect('/lobby')
     }
+
+
+
+    // ==================scss==================
 
     // MOVE LOBBY Button
     const BsFillDoorOpenFillStyle = {
@@ -25,8 +46,11 @@ const UserInfo = () => {
         , marginRight: '0.2rem'
     }
 
-    const BsFillPersonFillIconStyle ={
-        fontSize: '6rem'
+    const BsPenFillIconStyle = {
+        fontSize: '2rem'
+        , marginLeft: '0.5rem'
+        , filter: 'drop-shadow(0px 0px 10px #9A95E2)'
+
     }
 
 
@@ -42,20 +66,18 @@ const UserInfo = () => {
             <div className={"user-page-background"}>
                 <div className={"user-info-item-content"}>
                     <div className={"user-page-profile"}>
-                        <BsFillPersonFill style={BsFillPersonFillIconStyle}/>
+                        <BsFillPersonFill />
                     </div>
-
                     <div className={"user-info-contain"}>
                         <div className={"user-info-change-item"}>
-                            닉네임
-                            <BsPenFill style={{fontSize: '2rem', marginLeft: '0.5rem'}}/>
+                            닉네임 <BsPenFill style={BsPenFillIconStyle} />
                         </div>
                         <div className={"user-login-state-item"}>
-                            <div className="login-state-icon">
-                                <BsFillPauseFill/>
+                            <div className={cn("logout-state-icon", {'login-state-icon':isUserLoginState})}>
+                                { isUserLoginState ? <BsFillPauseFill/> : <BsFillPlayFill /> }
                             </div>
-                            <div className={"login-state-modal"}>
-                                Logged in
+                            <div className={cn("logout-state-modal", {'login-state-modal':isUserLoginState})}>
+                                { isUserLoginState ? 'Logged in' : 'logged out' }
                             </div>
                         </div>
                     </div>
@@ -63,8 +85,7 @@ const UserInfo = () => {
             </div>
             <div className={"change-button-location"}>
                 <button className={"user-page-image-change-button"}>
-                    <BsStars className={"BsStarsStyle"}/>
-                    CHANGE IMAGE
+                    <BsStars className={"BsStarsStyle"}/> CHANGE IMAGE
                 </button>
             </div>
 
