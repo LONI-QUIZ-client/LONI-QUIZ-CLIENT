@@ -46,46 +46,46 @@ body {
       border-radius: 20px 20px 0 0;
       width: 204px;
       height: auto;
-      color: #FFFFFF;
-      background-color: #F08FC0;
+      color: #000000;
+      background-color: #EEBBCC;
       border: none;
       transition: all 0.2s ease-in-out;
       font-size: 20px;
       cursor:pointer;
       &:hover {
-        background-color: #cc01cc;
+        background-color: #C69CAA;
         color: #FFFFFF;
       }
     }
 
     .create_room_btn {
       border-radius: 20px 20px 0 0;
-      color: #FFFFFF;
+      color: #000000;
       width: 204px;
       font-size: 20px;
       height: auto;
-      background-color: #FFBCBC;
+      background-color: #FDD9DD;
       border: none;
       transition: all 0.2s ease-in-out;
       cursor:pointer;
       &:hover {
-        background-color: #6161ff;
+        background-color: #D8B3B7;
         color: #FFFFFF;
       }
     }
 
     .start_game_btn {
       border-radius: 20px 20px 0 0;
-      color: #FFFFFF;
+      color: #000000;
       width: 204px;
       height: auto;
       font-size: 20px;
-      background-color: #fbca81;
+      background-color: #FFF0EB;
       border: none;
       transition: all 0.2s ease-in-out;
       cursor:pointer;
       &:hover {
-        background-color: #ff5858;
+        background-color: #DAC9C3;
         color: #FFFFFF;
       }
     }
@@ -95,7 +95,7 @@ body {
 
 .lobby_box2 {
   float: left;
-  background-color: #92C7CF;
+  background-color: #61689F;
   width: 70%;
   height: auto;
   overflow: hidden;
@@ -118,11 +118,11 @@ body {
         margin: 20px;
         border: 2px solid transparent;
         border-radius: 20px;
-        background-color: #DCF2F1;
+        background-color: #D7C4E0;
         transition: all 0.2s ease-in-out;
         cursor:pointer;
         &:hover {
-          background-color: #365486;
+          background-color: #9B9AE2;
           color: #FFFFFF;
         }
 
@@ -159,14 +159,14 @@ body {
       margin: 0 5px;
       padding: 5px 10px;
       //border: 1px solid #45FFCA;
-      background-color: #CDF0EA;
+      background-color: #FDD9DD;
       cursor: pointer;
       border-radius: 20px;
       transition: all 0.2s ease-in-out;
       border: none;
 
       &:hover {
-        background-color: #f4b3e5;
+        background-color: #A48FB8;
         //border: 1px solid #ADA2FF;
         color: #FFF;
         border: none;
@@ -174,8 +174,8 @@ body {
     }
 
     .active {
-      background-color: #FAF4B7;
-      color: #000;
+      background-color: #EEBBCC;
+      color: #fff;
       border: none;
     }
   }
