@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import {useNavigate} from "react-router-dom";
+import {json, useNavigate} from "react-router-dom";
 import { BsFillDoorOpenFill } from "react-icons/bs";
 import { BsFillPersonFill } from "react-icons/bs";
 import { BsPenFill } from "react-icons/bs";
@@ -10,8 +10,11 @@ import "./scss/UserInfo.scss";
 import { BsFillPauseFill } from "react-icons/bs";
 import { BsFillPlayFill } from "react-icons/bs";
 import cn from "classnames";
-import {getCurrentLoginUser, TOKEN, USERNAME} from "../config/login-util";
+import {getCurrentLoginUser, ID, TOKEN, USERID, USERNAME} from "../config/login-util";
 import {JOIN_URL} from "../config/host-config";
+import { IoIosPower } from "react-icons/io";
+import { LuPowerOff } from "react-icons/lu";
+
 
 
 const UserInfo = () => {
@@ -21,13 +24,21 @@ const UserInfo = () => {
     // 유저 로그인 상태
     const [isUserLoginState, setIsUserLoginState] = useState(false);
 
+    // 유저 아이디 받아오기
+    const [userIdPage, setUserIdPage] = useState('');
+
     // 유저 자기 자신인지 타인인지, 유저 닉네임을 받아서 확인할것
-    const [userPageMaster, setUserPageMaster] = useState('');
+    const [userPageMaster, setUserPageMaster] = useState(true);
 
     // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
     useEffect(() => {
-        // fetch(JOIN_URL + '/' + )
-
+        fetch(JOIN_URL + '/' + id)
+            .then(res => {
+                res.json()
+            }).then(json => {
+                console.log(json.user)
+        })
+    //
     }, [isUserLoginState]);
 
     // 로비 이동
@@ -70,11 +81,14 @@ const UserInfo = () => {
                     </div>
                     <div className={"user-info-contain"}>
                         <div className={"user-info-change-item"}>
-                            닉네임 <BsPenFill style={BsPenFillIconStyle} />
+                            {} <BsPenFill style={BsPenFillIconStyle} />
                         </div>
                         <div className={"user-login-state-item"}>
                             <div className={cn("logout-state-icon", {'login-state-icon':isUserLoginState})}>
-                                { isUserLoginState ? <BsFillPauseFill/> : <BsFillPlayFill /> }
+                                { isUserLoginState ? <IoIosPower /> :
+                                    // <BsFillPlayFill />
+                                    <LuPowerOff />
+                                }
                             </div>
                             <div className={cn("logout-state-modal", {'login-state-modal':isUserLoginState})}>
                                 { isUserLoginState ? 'Logged in' : 'logged out' }
