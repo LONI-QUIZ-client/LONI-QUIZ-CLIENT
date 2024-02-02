@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import '../scss/GameLobby.scss';
 import '../css/GameLobby.css';
 import {redirect, useNavigate} from "react-router-dom";
+import {ID} from '../../config/login-util';
 
 const GameInput = ({ data }) => {
     const itemsPerPage = 6; // 한 페이지당 보여질 아이템 개수
     const [currentPage, setCurrentPage] = useState(1);
+    const userId = localStorage.getItem(ID);
 
     // data.dto가 없거나 undefined인 경우 빈 배열로 초기화
     const dtoArray = data && data.dto ? data.dto : [];
@@ -28,6 +30,25 @@ const GameInput = ({ data }) => {
     const redirect = useNavigate()
 
     const StartGameRoom = (roomId) => {
+        fetch("http://localhost:8888/game/room",{
+            method: 'post',
+            headers: {
+                'content-type' : 'application/json'
+            },
+            body: JSON.stringify({
+                gno : roomId,
+                userId : userId
+            })
+        })
+            .then(res => {
+                if (res.status === 200){
+                    return res.json();
+                }
+            })
+            .then(json => {
+                console.log(json)
+            })
+
         redirect('/gameRoom', {state:{roomId}});
     }
 
