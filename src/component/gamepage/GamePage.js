@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import './scss/GamePage.scss';
 import {IMG_URL} from '../../config/host-config';
 import {SCORE_URL} from '../../config/host-config';
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {ID} from "../../config/login-util";
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
@@ -31,6 +31,8 @@ const GamePage = () => {
     const location = useLocation();
     const roomId = location.state?.roomId;
     const userID = localStorage.getItem(ID);
+
+    const redirect = useNavigate()
 
     //이미지를 생성하는 API를 호출하고 그 결과를 처리
     const createImage = async () => {
@@ -127,6 +129,12 @@ const GamePage = () => {
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/game/memberList', memberList => {
                 const receivedUsers = JSON.parse(memberList.body);
+                console.log(receivedUsers)
+                const userExists = receivedUsers.some(user => user.userId === userID && user.gno === roomId);
+                if (!userExists) {
+                    alert("방이 다 찼습니다.")
+                    window.location.href = '/lobby';
+                }
                 setUserData(receivedUsers);
             });
         });
@@ -156,6 +164,7 @@ const GamePage = () => {
         setInput('');
     }
 
+
     const [time, setTime] = useState();
 
     useEffect(() => {
@@ -178,6 +187,7 @@ const GamePage = () => {
             stompClient.send("/app/game/timer", {}, JSON.stringify({}));
         });
     }
+
 
     window.onpopstate = function (event) {
         alert("방탈출");
