@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import {json, useNavigate} from "react-router-dom";
+import {json, useNavigate, useParams} from "react-router-dom";
 import { BsFillDoorOpenFill } from "react-icons/bs";
 import { BsFillPersonFill } from "react-icons/bs";
 import { BsPenFill } from "react-icons/bs";
@@ -10,7 +10,6 @@ import "./scss/UserInfo.scss";
 import { BsFillPauseFill } from "react-icons/bs";
 import { BsFillPlayFill } from "react-icons/bs";
 import cn from "classnames";
-import {getCurrentLoginUser, ID, TOKEN, USERID, USERNAME} from "../config/login-util";
 import {JOIN_URL} from "../config/host-config";
 import { IoIosPower } from "react-icons/io";
 import { LuPowerOff } from "react-icons/lu";
@@ -20,6 +19,18 @@ import { LuPowerOff } from "react-icons/lu";
 const UserInfo = () => {
 
     const redirect = useNavigate();
+
+    // 파라미터 가져오기
+    const {userId} = useParams();
+
+    // 유저 정보 가져오기
+    const [userPageInfo, setUserPageInfo] = useState({
+        id: ''
+        , pw: ''
+        , nickname: ''
+        , createDate: ''
+        , score: ''
+    });
 
     // 유저 로그인 상태
     const [isUserLoginState, setIsUserLoginState] = useState(false);
@@ -31,14 +42,23 @@ const UserInfo = () => {
     const [userPageMaster, setUserPageMaster] = useState(true);
 
     // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
-    useEffect(() => {
-        fetch(JOIN_URL + '/' + id)
-            .then(res => {
-                res.json()
-            }).then(json => {
-                console.log(json.user)
-        })
-    //
+    useEffect( () => {
+
+        fetch(JOIN_URL+'/'+userId)
+            .then(res=> {
+                return res.json()
+            })
+            .then(json => {
+                setUserPageInfo({
+                    id: json.id
+                    , pw: json.pw
+                    , nickname: json.nickname
+                    , createDate: json.createDate
+                    , score: json.score
+                });
+            })
+
+        console.log()
     }, [isUserLoginState]);
 
     // 로비 이동
@@ -46,9 +66,7 @@ const UserInfo = () => {
         redirect('/lobby')
     }
 
-
-
-    // ==================scss==================
+    // ================== scss ==================
 
     // MOVE LOBBY Button
     const BsFillDoorOpenFillStyle = {
@@ -81,14 +99,11 @@ const UserInfo = () => {
                     </div>
                     <div className={"user-info-contain"}>
                         <div className={"user-info-change-item"}>
-                            {} <BsPenFill style={BsPenFillIconStyle} />
+                            {userPageInfo.nickname} <BsPenFill style={BsPenFillIconStyle} />
                         </div>
                         <div className={"user-login-state-item"}>
                             <div className={cn("logout-state-icon", {'login-state-icon':isUserLoginState})}>
-                                { isUserLoginState ? <IoIosPower /> :
-                                    // <BsFillPlayFill />
-                                    <LuPowerOff />
-                                }
+                                { isUserLoginState ? <IoIosPower /> : <LuPowerOff /> }
                             </div>
                             <div className={cn("logout-state-modal", {'login-state-modal':isUserLoginState})}>
                                 { isUserLoginState ? 'Logged in' : 'logged out' }

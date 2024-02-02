@@ -15,6 +15,7 @@ import GamePage from "./component/gamepage/GamePage";
 import UserInfo from "./user/UserInfo";
 
 function App() {
+
   return (
       <>
           <Routes>
@@ -23,7 +24,7 @@ function App() {
               <Route path={'/join'} element={<Join />} />
               <Route path={'/lobby'} element={<GameLobby />} />
               <Route path={'/gameRoom'} element={<GamePage />} />
-              <Route path={'/mypage'} element={<UserInfo />} />
+              <Route path={'/myPage/:userId'} element={<UserInfo />} />
           </Routes>
       </>
   );
