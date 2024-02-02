@@ -23,45 +23,11 @@ const GamePage = () => {
 
         // 문제 정답 담아두기
         const [item, setItem] = useState('');
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
         // const [count, setCount] = useState('');
->>>>>>> leeeeebackkkkennndd
-=======
-        // const [count, setCount] = useState('');
-=======
->>>>>>> main
->>>>>>> Stashed changes
 
         // 유저 정보를 담을 상태 추가
         const [userData, setUserData] = useState([]);
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-        const [image, setImage] = useState();
-
-        const location = useLocation();
-        const roomId = location.state?.roomId;
-        const userID = localStorage.getItem(ID);
-
-
-        //이미지를 생성하는 API를 호출하고 그 결과를 처리
-        const createImage = async () => {
-            try {
-                const res = await fetch(IMG_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        prompt: inputText,
-                    }),
-                });
-
-=======
-=======
->>>>>>> Stashed changes
         const location = useLocation();
         const roomId = location.state?.roomId;
         const userID = localStorage.getItem(ID);
@@ -81,32 +47,6 @@ const GamePage = () => {
                     }),
                 });
 
-<<<<<<< Updated upstream
->>>>>>> leeeeebackkkkennndd
-=======
-=======
-        const [image, setImage] = useState();
-
-        const location = useLocation();
-        const roomId = location.state?.roomId;
-        const userID = localStorage.getItem(ID);
-
-
-        //이미지를 생성하는 API를 호출하고 그 결과를 처리
-        const createImage = async () => {
-            try {
-                const res = await fetch(IMG_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        prompt: inputText,
-                    }),
-                });
-
->>>>>>> main
->>>>>>> Stashed changes
                 if (res.status === 200) {
                     console.log('API 호출 성공');
                     const imgData = await res.json();
@@ -249,109 +189,37 @@ const GamePage = () => {
         }
 
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-        useEffect(() => {
-
-=======
-=======
->>>>>>> Stashed changes
         window.onpopstate = function (event) {
             alert("방탈출");
         };
+
+
+
         const [thisRoomsUsers, setthisRoomsUsers] = useState([]);
 
         useEffect(() => {
-<<<<<<< Updated upstream
->>>>>>> leeeeebackkkkennndd
-=======
-=======
-        useEffect(() => {
-
->>>>>>> main
->>>>>>> Stashed changes
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
 
             stompClient.connect({}, () => {
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-                stompClient.subscribe('/topic/game/image', image => {
-                    const images = image.body;
-                    setImage(images)
-=======
                 stompClient.subscribe('/topic/game/start', message => {
                     const receivedMessage = JSON.parse(message.body);
                     setthisRoomsUsers(receivedMessage);
->>>>>>> leeeeebackkkkennndd
-=======
-                stompClient.subscribe('/topic/game/start', message => {
-                    const receivedMessage = JSON.parse(message.body);
-                    setthisRoomsUsers(receivedMessage);
-=======
-                stompClient.subscribe('/topic/game/image', image => {
-                    const images = image.body;
-                    setImage(images)
->>>>>>> main
->>>>>>> Stashed changes
+                    console.log(thisRoomsUsers);
                 });
             });
         }, []);
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-
-        const imageHandler = e => {
-            const socket = new SockJS('http://localhost:8888/ws');
-            const stompClient = Stomp.over(socket);
-
-            stompClient.connect({}, (frame) => {
-                stompClient.send("/app/game/image", {}, JSON.stringify({
-                    image: e.target.src
-=======
-=======
->>>>>>> Stashed changes
         const startHandler = () => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
             stompClient.connect({}, (frame) => {
                 stompClient.send("/app/game/start", {}, JSON.stringify({
                     gno: roomId
-<<<<<<< Updated upstream
->>>>>>> leeeeebackkkkennndd
-=======
-=======
-
-        const imageHandler = e => {
-            const socket = new SockJS('http://localhost:8888/ws');
-            const stompClient = Stomp.over(socket);
-
-            stompClient.connect({}, (frame) => {
-                stompClient.send("/app/game/image", {}, JSON.stringify({
-                    image: e.target.src
->>>>>>> main
->>>>>>> Stashed changes
                 }));
             });
         }
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-
-        window.onpopstate = function (event) {
-            alert("방탈출");
-        };
-
-        return (
-            <div className='box'>
-
-                <img src={image}/>
-                <button onClick={timeHandler}></button>
-                <div>{time}</div>
-
-=======
-=======
->>>>>>> Stashed changes
         const nextTurnHandler = () => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
@@ -362,49 +230,45 @@ const GamePage = () => {
             });
         }
 
+
+        const [image, setImage] = useState();
+
+        useEffect(()=>{
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+            stompClient.connect({}, () => {
+                stompClient.subscribe('/topic/game/image', image => {
+                    const pickImage= image.body;
+                    setImage(pickImage);
+                });
+            });
+        }, [])
+
+        const imageHandler = e => {
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+            stompClient.connect({}, (frame) => {
+                stompClient.send("/app/game/image", {}, JSON.stringify({
+                    image : e.target.src
+                }));
+            });
+        }
+
         return (
             <div className='box'>
                 <button onClick={timeHandler}>시작</button>
                 <button onClick={startHandler}>게임시작</button>
                 <button onClick={nextTurnHandler}>턴넘기기</button>
 
+                <img src={image}/>
                 <div>
                     {time}
                 </div>
-<<<<<<< Updated upstream
->>>>>>> leeeeebackkkkennndd
-=======
-=======
-
-        window.onpopstate = function (event) {
-            alert("방탈출");
-        };
-
-        return (
-            <div className='box'>
-
-                <img src={image}/>
-                <button onClick={timeHandler}></button>
-                <div>{time}</div>
-
->>>>>>> main
->>>>>>> Stashed changes
                 <div className='a'>
                     <div className='show-img'>
                         {/* 이미지를 매핑하여 화면에 표시 */}
                         {img.map((image, index) => (
-<<<<<<< HEAD
-<<<<<<< Updated upstream
                             <img key={index} src={image} alt={`Image ${index}`} className='img' onClick={imageHandler}/>
-=======
-                            <img key={index} src={image} alt={`Image ${index}`} className='img'/>
->>>>>>> leeeeebackkkkennndd
-=======
-                            <img key={index} src={image} alt={`Image ${index}`} className='img'/>
-=======
-                            <img key={index} src={image} alt={`Image ${index}`} className='img' onClick={imageHandler}/>
->>>>>>> main
->>>>>>> Stashed changes
                         ))}
                         <input
                             type='text'
@@ -442,11 +306,6 @@ const GamePage = () => {
                         )}
                     </div>
                 </div>
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
                 {/*<ul className='chat' ref={messageAreaRef}>*/}
                 {/*        {chatData.map((item, index) => (*/}
                 {/*            <li key={index}>*/}
@@ -468,12 +327,6 @@ const GamePage = () => {
                 {/*        </div>*/}
                 {/*    </div>*/}
                 {/*</form>*/}
-<<<<<<< Updated upstream
->>>>>>> leeeeebackkkkennndd
-=======
-=======
->>>>>>> main
->>>>>>> Stashed changes
                 <div className='chat'>
                     <ul className='chat-log' id="messageArea" ref={messageAreaRef}>
                         {/* 채팅 메시지를 화면에 표시 */}
