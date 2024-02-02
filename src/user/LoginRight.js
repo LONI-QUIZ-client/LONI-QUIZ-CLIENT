@@ -8,10 +8,15 @@ import {LOGIN_URL} from "../config/host-config";
 import {ID, TOKEN, USERNAME} from "../config/login-util";
 
 import "../user/scss/LoginRight.scss"
+import cn from "classnames";
+import GameLobby from "../component/game/GameLobby";
 
 const LoginRight = () => {
 
     const redirect = useNavigate()
+
+    // 자동 로그인 여부
+    const [autoLogin, setAutoLogin] = useState(false);
 
     // 로그인 입력
     const [userLogin, setUserLogin] =  useState({
@@ -61,17 +66,23 @@ const LoginRight = () => {
 
         if(res.status===200){
             const {token, userNickname, id} = await res.json();
-            sessionStorage.setItem(TOKEN, token);
-            sessionStorage.setItem(USERNAME, userNickname);
-            sessionStorage.setItem(ID, id);
+
+            if(autoLogin===true){
+                localStorage.setItem(TOKEN, token);
+                localStorage.setItem(USERNAME, userNickname);
+                localStorage.setItem(ID, id);
+            } else {
+                sessionStorage.setItem(TOKEN, token);
+                sessionStorage.setItem(USERNAME, userNickname);
+                sessionStorage.setItem(ID, id);
+            }
 
             setLoginMessageError('');
             alert('로그인성공!')
 
             redirect('/lobby'); // 로그인 후 이동
 
-        }
-        else { // 회원가입이 안된 아이디 이거나 비밀번호가 틀림
+        } else { // 회원가입이 안된 아이디 이거나 비밀번호가 틀림
             const json = await res.text();
 
             setLoginMessageError('아이디 또는 비밀번호가 일치하지 않습니다');
@@ -99,6 +110,12 @@ const LoginRight = () => {
         redirect('/join')
     }
 
+    // 자동로그인
+    const authLoginHandler = e => {
+        setAutoLogin(!autoLogin);
+        console.log(autoLogin);
+    }
+
     return (
         <div className={"user-login-right"}>
             <div className={"login-title"}>Log In</div>
@@ -111,7 +128,7 @@ const LoginRight = () => {
                     <BsLock className={"password-icon"}/>
                     <input type={"password"} className={"login-password-input"} placeholder="비밀번호" onChange={userPasswordHandler}/>
                 </div>
-                <div className={"auto-login-check"}>
+                <div className={cn("auto-login-check", {autoLogin})} onClick={authLoginHandler}>
                     <FaRegCheckCircle />자동 로그인
                 </div>
                 <div className={"user-join-move-link"} onClick={moveJoinHandler}>회원가입</div>
