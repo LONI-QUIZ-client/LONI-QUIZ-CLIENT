@@ -6,7 +6,7 @@
 
   .profile {
     border-radius: 20px 0 0 0px;
-    background-color: #40128B;
+    background-color: #A48FB8;
     width: 204px;
     height: 320px;
     flex: 0 1 auto;
@@ -41,7 +41,7 @@
   }
 
   .rank_box {
-    background-color: #40128B;
+    background-color: #A48FB8;
     width: 204px;
     height: 400px;
     flex: 0 1 auto;
@@ -56,7 +56,7 @@
     .Rank_list{
       height: 100%;
       overflow-y: scroll;
-      margin: 20px;
+      margin: 5px;
       li {
         position: relative;
         .User_Ranking_box {
