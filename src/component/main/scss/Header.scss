@@ -2,13 +2,25 @@
 .header-table{
   display: flex;
   justify-content: center;
+  align-items: center;
 }
+
+.header-table li{
+  margin-right: 30px;
+}
+
 .h-box{
-  background: #393939;
   width: 100%;
   display: flex;
-  opacity: 0.8;
+  justify-content: space-between;
+  position: fixed;
 }
+
+.h-box img{
+  width: 100px;
+  height: 100px;
+}
+
 li{
   list-style-type: none;
   margin: 10px;
@@ -22,6 +34,4 @@ h2{
 }
 .header{
   display: flex;
-  justify-content: center;
-  margin: 0 auto;
 }

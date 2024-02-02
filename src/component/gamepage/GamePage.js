@@ -6,6 +6,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {ID} from "../../config/login-util";
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
+import {connect} from "react-redux";
 
 
 const GamePage = () => {
@@ -146,6 +147,7 @@ const GamePage = () => {
         }
     }, [chatData]);
 
+
     const inputSubmit = (e) => {
         e.preventDefault();
 
@@ -161,106 +163,137 @@ const GamePage = () => {
         });
         setInput('');
     }
+
+
+    const [time, setTime] = useState();
+
+    useEffect(() => {
+        const socket = new SockJS('http://localhost:8888/ws');
+        const stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, (frame) => {
+            stompClient.subscribe('/topic/game/timer', function (response) {
+                let countdownValue = JSON.parse(response.body);
+                setTime(countdownValue)
+            });
+        });
+    }, []);
+
+    const timeHandler = e => {
+        const socket = new SockJS('http://localhost:8888/ws');
+        const stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, (frame) => {
+            stompClient.send("/app/game/timer", {}, JSON.stringify({}));
+        });
+    }
+
+
     window.onpopstate = function (event) {
         alert("방탈출");
     };
 
-    return (
-        <div className='box'>
-            <div className='a'>
-                <div className='show-img'>
-                    {/* 이미지를 매핑하여 화면에 표시 */}
-                    {img.map((image, index) => (
-                        <img key={index} src={image} alt={`Image ${index}`} className='img'/>
-                    ))}
-                    <input
-                        type='text'
-                        className='input'
-                        value={inputText}
-                        onChange={handleInputChange}
-                        onKeyPress={handleInputKey}
-                    />
-                    <button className='create' onClick={createImage}>
-                        사진만들기
-                    </button>
-                </div>
-                <div className='user-list'>
-                    {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
-                    {userData && (
-                        userData.map((user, index) => (
-                            roomId === user.gno && (
-                                <div key={index} className='user'>
-                                    <div className='l-a'>
-                                        {/*<div className='p-img'>*/}
-                                        {/*    <img src={user.profile} alt={`Profile ${index}`} />*/}
-                                        {/*</div>*/}
-                                        <div className='nick-name'>
-                                            {user.id}
-                                        </div>
-                                    </div>
-                                    <div className='score'>
-                                        <div>
-                                            {user.username}점
-                                        </div>
+return (
+    <div className='box'>
+        <button onClick={timeHandler}>시작</button>
+        <div>
+            {time}
+        </div>
+        <div className='a'>
+            <div className='show-img'>
+                {/* 이미지를 매핑하여 화면에 표시 */}
+                {img.map((image, index) => (
+                    <img key={index} src={image} alt={`Image ${index}`} className='img'/>
+                ))}
+                <input
+                    type='text'
+                    className='input'
+                    value={inputText}
+                    onChange={handleInputChange}
+                    onKeyPress={handleInputKey}
+                />
+                <button className='create' onClick={createImage}>
+                    사진만들기
+                </button>
+            </div>
+            <div className='user-list'>
+                {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
+                {userData && (
+                    userData.map((user, index) => (
+                        roomId === user.gno && (
+                            <div key={index} className='user'>
+                                <div className='l-a'>
+                                    {/*<div className='p-img'>*/}
+                                    {/*    <img src={user.profile} alt={`Profile ${index}`} />*/}
+                                    {/*</div>*/}
+                                    <div className='nick-name'>
+                                        {user.id}
                                     </div>
                                 </div>
-                            )
-                        ))
-                    )}
-                </div>
-            </div>
-            {/*<ul className='chat' ref={messageAreaRef}>*/}
-            {/*        {chatData.map((item, index) => (*/}
-            {/*            <li key={index}>*/}
-            {/*                <span>{item.userId}: {item.content}</span>*/}
-            {/*            </li>*/}
-            {/*        ))}*/}
-            {/*</ul>*/}
-            {/*<form id="messageForm" name="messageForm" onSubmit={inputSubmit}>*/}
-            {/*    <div className="form-group">*/}
-            {/*        <div className="input-group clearfix">*/}
-            {/*            <input*/}
-            {/*                id="message"*/}
-            {/*                placeholder="채팅 입력..."*/}
-            {/*                autoComplete="off"*/}
-            {/*                className="form-control"*/}
-            {/*                value={input}*/}
-            {/*                onChange={(e) => setInput(e.target.value)}*/}
-            {/*            />*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</form>*/}
-            <div className='chat'>
-                <ul className='chat-log' id="messageArea" ref={messageAreaRef}>
-                    {/* 채팅 메시지를 화면에 표시 */}
-                    {chatData.map((item, index) => (
-                        roomId === item.gno && (
-                            <li key={index}>
-                                <span>{item.userId}: {item.content}</span>
-                            </li>
+                                <div className='score'>
+                                    <div>
+                                        {user.username}점
+                                    </div>
+                                </div>
+                            </div>
                         )
-                    ))}
-
-                </ul>
-                <form className='chat-input' name="messageForm" onSubmit={inputSubmit}>
-                    <div className="form-group">
-                        <div className="input-group clearfix">
-                            <input
-                                id="message"
-                                placeholder="채팅 입력..."
-                                autoComplete="off"
-                                className="form-control"
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                            />
-                        </div>
-                    </div>
-                </form>
+                    ))
+                )}
             </div>
         </div>
-    );
+        {/*<ul className='chat' ref={messageAreaRef}>*/}
+        {/*        {chatData.map((item, index) => (*/}
+        {/*            <li key={index}>*/}
+        {/*                <span>{item.userId}: {item.content}</span>*/}
+        {/*            </li>*/}
+        {/*        ))}*/}
+        {/*</ul>*/}
+        {/*<form id="messageForm" name="messageForm" onSubmit={inputSubmit}>*/}
+        {/*    <div className="form-group">*/}
+        {/*        <div className="input-group clearfix">*/}
+        {/*            <input*/}
+        {/*                id="message"*/}
+        {/*                placeholder="채팅 입력..."*/}
+        {/*                autoComplete="off"*/}
+        {/*                className="form-control"*/}
+        {/*                value={input}*/}
+        {/*                onChange={(e) => setInput(e.target.value)}*/}
+        {/*            />*/}
+        {/*        </div>*/}
+        {/*    </div>*/}
+        {/*</form>*/}
+        <div className='chat'>
+            <ul className='chat-log' id="messageArea" ref={messageAreaRef}>
+                {/* 채팅 메시지를 화면에 표시 */}
+                {chatData.map((item, index) => (
+                    roomId === item.gno && (
+                        <li key={index}>
+                            <span>{item.userId}: {item.content}</span>
+                        </li>
+                    )
+                ))}
+
+            </ul>
+            <form className='chat-input' name="messageForm" onSubmit={inputSubmit}>
+                <div className="form-group">
+                    <div className="input-group clearfix">
+                        <input
+                            id="message"
+                            placeholder="채팅 입력..."
+                            autoComplete="off"
+                            className="form-control"
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                        />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+);
 
 
-};
+}
+;
 
 export default GamePage;
