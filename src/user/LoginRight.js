@@ -5,7 +5,7 @@ import {FaRegCheckCircle} from "react-icons/fa";
 import {Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {LOGIN_URL} from "../config/host-config";
-import {TOKEN, USERID, USERNAME} from "../config/login-util";
+import {ID, TOKEN, USERNAME} from "../config/login-util";
 
 import "../user/scss/LoginRight.scss"
 
@@ -61,9 +61,9 @@ const LoginRight = () => {
 
         if(res.status===200){
             const {token, userNickname, id} = await res.json();
-            localStorage.setItem(TOKEN, token);
-            localStorage.setItem(USERNAME, userNickname);
-            localStorage.setItem(USERID, id);
+            sessionStorage.setItem(TOKEN, token);
+            sessionStorage.setItem(USERNAME, userNickname);
+            sessionStorage.setItem(ID, id);
 
             setLoginMessageError('');
             alert('로그인성공!')
