@@ -45,7 +45,7 @@ const GameInput = ({data}) => {
                 const isFullBoolean = !!receivedUsers.isFull;
                 console.log(isFullBoolean)
                 setFullMember(isFullBoolean)
-                // console.log(fullMember);
+
 
             });
         });
@@ -53,7 +53,6 @@ const GameInput = ({data}) => {
 
     useEffect(() => {
         console.log(fullMember);
-        move(null);
     }, [fullMember]);
 
     const StartGameRoom = (roomId, maxCount) => {
@@ -69,19 +68,9 @@ const GameInput = ({data}) => {
                 maxUser: maxCount
             }));
         });
-        // redirect('/gameRoom', {state: {roomId}});
-        // setTimeout(function() {
-        //     move(roomId)
-        // }, 3000);
+        redirect('/gameRoom', {state: {roomId}});
 
-    }
-    const move = (roomId) => {
-        console.log(fullMember)
-        if (fullMember) {
-            alert("방 다찼다")
-        } else {
-            // redirect('/gameRoom', {state: {roomId}});
-        }
+
     }
 
     return (
