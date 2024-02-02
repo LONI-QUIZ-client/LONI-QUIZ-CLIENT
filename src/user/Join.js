@@ -1,8 +1,8 @@
 import React from 'react';
 
-import '../scss/Join.scss'
+import './scss/Join.scss'
 
-import JoinLeft from "./JoinLeft";
+import UserSideLeft from "./UserSideLeft";
 import JoinRight from "./JoinRight";
 
 
@@ -12,7 +12,7 @@ const Join = () => {
         <div className={'join-main-content'}>
             <div className={'join-container'}>
                 {/*<div className={'game-logo'}></div>*/}
-                <JoinLeft />
+                <UserSideLeft />
                 <JoinRight />
             </div>
         </div>

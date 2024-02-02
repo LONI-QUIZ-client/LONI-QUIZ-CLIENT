@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {IoMdPerson} from "react-icons/io";
 import {Link, TextField} from "@mui/material";
 import {JOIN_URL} from "../config/host-config";
 import {useNavigate} from "react-router-dom";
 import cn from 'classnames';
 
-import "../scss/JoinRight.scss"
+import "./scss/JoinRight.scss"
 import 'animate.css';
+
+import person from "../user/scss/img/person-fill.png"
+import userInfo from "./UserInfo";
 
 
 const JoinRight = () => {
@@ -25,17 +27,16 @@ const JoinRight = () => {
         id: false,
         password: false,
         passwordCheck: false,
-        profile: false,
     })
 
     const [joinInfo, setJoinInfo] = useState({
         nickname: '',
         id: '',
         pw:'',
-        // profile:'',
     })
 
-    const [lock, setLock] =  useState(true);
+    // 회원가입 버튼 활성화 여부
+    const [lock, setLock] = useState(true);
 
     // id 중복체크
     const fetchIdDuplicatedCheck = async (id) => {
@@ -94,7 +95,7 @@ const JoinRight = () => {
         setCheckInput({
             ...checkInput,
             nickName: flag
-        })
+        });
 
         setJoinInfo({
             ...joinInfo,
@@ -131,19 +132,14 @@ const JoinRight = () => {
             nickName: flag
         })
 
-        setJoinInfo({
-            ...joinInfo,
-            nickname: nickNmVal
-        });
-
     }
 
     const idHandler = e => {
-        // console.log(inputVal);
         const idVal = e.target.value;
+        // console.log(inputVal);
 
-        const idRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{2,25}$/;
         // 아이디는 최소 5글자 ~ 최대 15글자
+        const idRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{2,25}$/;
 
         let msg, flag;
         if(!idVal){
@@ -167,15 +163,9 @@ const JoinRight = () => {
             id: flag
         })
 
-        setJoinInfo({
-            ...joinInfo,
-            id: idVal
-        });
     }
 
     const passwordHandler = e => {
-        // console.log(e.target.value);
-
         const pwVal = e.target.value;
         const pwRegex  = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,25}$/;; // 비밀번호는 최소 8글자 ~ 최대 25
 
@@ -208,17 +198,45 @@ const JoinRight = () => {
 
     }
 
+    const [pwCheckVal, setPwCheckVal] = useState('');
+
     const passwordCheckHandler = e => {
-        const pwCheckVal = e.target.value;
+        console.log(e.target.value);
+        setPwCheckVal(e.target.value);
+
+        /*let msg, flag;
+        if(!pwCheckVal){
+            msg = '비밀번호를 입력해주세요'
+            flag = false;
+        } else if(joinInfo.pw !== pwCheckVal){
+            msg = '비밀번호와 올바르지 않습니다';
+            flag = false;
+        } else if(checkInput.pw === true && joinInfo.pw === pwCheckVal){
+            msg = '비밀번호와 일치합니다';
+            flag = true;
+        }*/
+
+        /*setInputErrorMessage({
+            ...inputErrorMessage,
+            passwordCheck: msg
+        });
+
+        setCheckInput({
+            ...checkInput,
+            passwordCheck: flag
+        });*/
+    }
+
+    useEffect( () => {
 
         let msg, flag;
         if(!pwCheckVal){
-            msg = '비밀번호를 입력해 주세요';
+            msg = '';
             flag = false;
-        } else if(joinInfo.pw !== pwCheckVal){
+        } else if(checkInput.password === true && joinInfo.pw !== pwCheckVal){
             msg = '비밀번호와 일치하지 않습니다';
             flag = false;
-        } else {
+        } else if(checkInput.password === true && joinInfo.pw === pwCheckVal){
             msg = '비밀번호와 일치합니다';
             flag = true;
         }
@@ -231,12 +249,54 @@ const JoinRight = () => {
         setCheckInput({
             ...checkInput,
             passwordCheck: flag
-        })
-
-        setJoinInfo({
-            ...joinInfo,
-            passwordCheck: pwCheckVal
         });
+
+    }, [joinInfo.pw, pwCheckVal]);
+
+    const [imageFile, setImageFile] = useState(null);
+
+    const profileHandler = e => {
+        document.getElementById('profile-img').click();
+    }
+
+    const isProfile = () => {
+        const uploadFile = document.getElementById('profile-img').files[0];
+
+        const reader = new FileReader();
+        reader.readAsDataURL(uploadFile);
+
+        reader.onload = () => {
+            setImageFile(reader.result);
+        }
+
+    }
+
+    const fetchJoinPost = async () => {
+
+        const jsonBlob = new Blob(
+            [ JSON.stringify(joinInfo) ],
+            { type: 'application/json' }
+        );
+
+        const formData = new FormData;
+
+        formData.append('user', jsonBlob);
+        formData.append('profileImage', document.getElementById('profile-img').files[0]);
+
+        const res = await fetch(JOIN_URL,{
+            method: 'POST'
+            , body: formData
+        });
+
+        if(res.status === 200){
+            const json = await res.text();
+            alert(joinInfo.nickname);
+
+            redirect('/login');
+        } else {
+            alert('입력을 올바르게 하셨는지 다시 확인해 주세요');
+        }
+
     }
 
     const inputIsValid = () => {
@@ -247,96 +307,44 @@ const JoinRight = () => {
         return true;
     }
 
+    const {nickName : nn, id, password : pw, passwordCheck : pwc} =  checkInput;
 
-    const {nickName : nn, id, password : pw, passwordCheck : pwc, profile : pfe} =  checkInput;
     useEffect(() => {
-        // console.log(`${inputIsValid()} 값이 바뀌면 실행된다!!`)
 
         if(inputIsValid()) setLock(false)
         else setLock(true)
 
-    }, [nn, id, pw, pwc, pfe]);
+    }, [nn, id, pw, pwc]);
 
     const joinHandler = e => {
         e.preventDefault();
 
-        if(!lock) { // 잠겨있지 않을 때
+        if(!lock) {
             fetchJoinPost();
-        } else { // 잠겨있을 때
-            console.log('회원가입 실패!!');
-        }
-    }
-
-    const [image, setImage] = useState(null);
-    const [imageSrc, setImageSrc] = useState("");
-
-    const profileHandler = e => {
-        document.getElementById('profile-img').click();
-    }
-
-    const isProfile = (e) => {
-        const uploadFile = e.target.files[0];
-        console.log(uploadFile);
-
-        setImage(uploadFile);
-        setCheckInput({
-            ...checkInput,
-            profile: true
-        });
-
-        if(uploadFile){
-            const reader = new FileReader();
-            reader.readAsDataURL(uploadFile);
-
-            reader.onload = () => {
-                setImageSrc(reader.result);
-                // console.log(reader.result);
-            }
-
-        }
-
-    }
-
-    const fetchJoinPost = async () => {
-
-        const formate = new FormData();
-
-        formate.append("id", joinInfo.id);
-        formate.append("pw", joinInfo.pw);
-        formate.append("nickname", joinInfo.nickname);
-        formate.append("profile", image);
-
-        const res = await fetch(JOIN_URL, {
-            method: 'POST',
-            body: formate
-        });
-
-        if(res.status === 200){
-            // const json = await res.text();
-            // console.log(json);
-            alert('회원가입이 되었습니다');
-
-            redirect('/login');
         } else {
-            alert('올바른 입력을 하셨는지 다시 확인해 주세요');
+            alert('회원가입이 실패했습니다 다시 시도해 주세요');
         }
+    }
 
+    const profileImageHandler = {
+        background: '#D9D9D9'
+        , borderRadius: '50%'
+        , width: '10rem', height: '10rem'
+        , overflow: 'hidden'
+        , backgroundRepeat: 'no-repeat'
+        , backgroundSize: `${imageFile ? 'contain' : ''}`
+        , backgroundPosition: 'center'
+        , backgroundImage: `url(${imageFile || person})`
     }
 
     return (
         <form noValidate>
             <div className={'join-right-item'}>
+                {/*<div className={"join-title"}>Join LONIQUIZ</div>*/}
                 <div
                     onClick={profileHandler}
-                    className={'join-input-profile-item'}>
-                    {
-                        image ?
-                            (<img src={imageSrc} alt="Preview" />)
-                            :
-                            (<IoMdPerson style={{width: '5rem', height: '5rem', color: '#949494'}}/>)
-                    }
-                </div>
-
+                    className={'join-input-profile-item'}
+                    style={profileImageHandler} />
                 <input
                     onChange={isProfile}
                     type="file"
@@ -346,48 +354,44 @@ const JoinRight = () => {
                     name="profileImage" />
 
                 <div className={'join-input-items'}>
-                    <div className={'join-item'}>
+                    <div className={"join-item"}>
                         <TextField
-                            className={'join-input'}
-                            type={"text"}
-                            name="nickname"
-                            label="nickname"
+                            className="join-input"
+                            type="text"
+                            label="닉네임"
                             onChange={nickNameHandler}
                             error={!!inputErrorMessage.nickName && !checkInput.nickName}
                             variant="outlined"/>
                         <span className={cn('error-message', {nn})}>{inputErrorMessage.nickName}</span>
                     </div>
-                    <div className={'join-item'}>
+                    <div className={"join-item"}>
                         <TextField
-                            className={'join-input'}
-                            type={"text"}
-                            name="id"
-                            label="ID"
+                            className="join-input"
+                            type="text"
+                            label="아이디"
                             onChange={idHandler}
                             size={"medium"}
                             error={!!inputErrorMessage.id && !checkInput.id}
                             variant="outlined" />
                         <span className={cn('error-message', {id})}>{inputErrorMessage.id}</span>
                     </div>
-                    <div className={'join-item'}>
+                    <div className={"join-item"}>
                         <TextField
-                            className={'join-input'}
-                            type={"password"}
-                            name="pw"
-                            label="password"
+                            className="join-input"
+                            type="password"
+                            label="비밀번호"
                             onChange={passwordHandler}
                             size={"medium"}
                             error={!!inputErrorMessage.password && !checkInput.password}
                             variant="outlined" />
                         <span className={cn('error-message', {pw})}>{inputErrorMessage.password}</span>
                     </div>
-                    <div className={'join-item'}>
+                    <div className={"join-item"}>
                         <TextField
-                            style={{fontWeight:'bold'}}
-                            className={'join-input'}
-                            type={"password"}
-                            name="pwCheck"
-                            label="password-check"
+                            id={"passwordCheck"}
+                            className="join-input"
+                            type="password"
+                            label="비밀번호 확인"
                             onChange={passwordCheckHandler}
                             error={!!inputErrorMessage.passwordCheck && !checkInput.passwordCheck}
                             size={"medium"}
