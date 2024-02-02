@@ -7,4 +7,4 @@ $ npm install @mui/icons-material
 $ npm i sockjs
 $ npm i sockjs client
 $ npm i react-stomp 
-
+$ npm install sockjs-client stompjs
