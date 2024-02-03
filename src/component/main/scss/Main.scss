@@ -2,18 +2,20 @@
 body{
   margin: 0;
   overflow-y: hidden;
-  overflow-x: hidden;
+}
+
+.divider {
+  width: 100%;
+  height: 5px;
+  background-color: gray;
 }
 
 .inner{
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 100px;
 }
 
 .outer{
+  height: 100vh;
   overflow-y: auto;
 }
 /* 화면에서 스크롤바 안보이게 */
@@ -37,11 +39,11 @@ body{
   width: 100%;
   height: 100%;
   content: "";
-  background-image: url(https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f415ba1e-a5e8-49d9-b6a6-e61a7fc1c0cb/original=true/00082-1390529945-breakdomainrealistic_R2333-vae-ft-mse-840000-b3c6b014.jpeg);
+  background: url(https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f415ba1e-a5e8-49d9-b6a6-e61a7fc1c0cb/original=true/00082-1390529945-breakdomainrealistic_R2333-vae-ft-mse-840000-b3c6b014.jpeg) no-repeat;
   position: absolute;
   top: 0;
   left: 0;
-  z-index: -1;
+  z-index: -2;
   opacity: 0.8;
 }
 .main-box{
@@ -168,6 +170,7 @@ body{
 
 .content-box{
   margin-bottom: 80px;
+  padding-top: 60px;
 }
 .content-box p{
   text-align: center;
@@ -175,7 +178,6 @@ body{
 }
 
 .content-title{
-  margin: 50px 0 30px 0;
   text-align: center;
   font-size: 43px;
 }
@@ -188,30 +190,10 @@ body{
   position: relative;
   z-index: 1;
 }
-.bottom-box:after{
-  width: 100%;
-  height: 100%;
-  content: "";
-  background-image: url(https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/932b2694-3e14-4c9a-a9a5-822f630fa050/original=true/00192-1996601262.jpeg);
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  opacity: 0.8;
-}
+
+
 footer{
   position : absolute;
   bottom: 0;
 }
 
-// 스크롤 이벤트 테스트용 css
-.scroll-text {
-  font-size: 5rem;
-  transition: 1.5s;
-}
-
-.scrolled-text {
-  font-size: 5rem;
-  color: red;
-  transition: 1.5s;
-}
