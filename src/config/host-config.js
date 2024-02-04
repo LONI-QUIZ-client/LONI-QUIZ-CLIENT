@@ -7,6 +7,9 @@ const API_BASE_URL = 'http://localhost:' + LOCAL_PORT;
 const LOGIN = '/user/login';
 const JOIN = '/user';
 
+// 사이드 이미지
+const SIDE = '/side/side-menu';
+// http://localhost:8888/side/side-menu
 
 // 점수, 이미지생성
 const imageCreate = '/game/lobbyChat/imageCreate';
@@ -20,6 +23,8 @@ const ROOM = '/game/Gameroom';
 
 export const LOGIN_URL = API_BASE_URL + LOGIN;
 export const JOIN_URL = API_BASE_URL + JOIN;
+
+export const SIDE_URL = API_BASE_URL + SIDE;
 
 export const LOBBY_URL = API_BASE_URL + LOBBY;
 export const LOBBY_CHAT = API_BASE_URL + CHAT;
