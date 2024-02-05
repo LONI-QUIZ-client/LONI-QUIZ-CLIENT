@@ -133,7 +133,7 @@ const GamePage = () => {
             stompClient.connect({}, () => {
                 stompClient.subscribe('/topic/game/memberList', memberList => {
                     const receivedUsers = JSON.parse(memberList.body);
-                    console.log("만들어진 방들과 그 방에 유저들 {}", receivedUsers)
+                    console.log("만들어진 방들과 그 방에 유저들", receivedUsers)
                     const userExists = receivedUsers.some(user => user.userId === userID && user.gno === roomId);
                     if (!userExists) {
                         alert("방이 다 찼습니다.")
@@ -210,7 +210,7 @@ const GamePage = () => {
             stompClient.connect({}, () => {
                 stompClient.subscribe('/topic/game/start', message => {
                     const roomsUser = JSON.parse(message.body);
-                    console.log("방번호와 게임 시작중 쓰일 유저들의 상태{}", roomsUser)
+                    console.log("방번호와 게임 시작중 쓰일 유저들의 상태", roomsUser)
                     setthisRoomsUsers(roomsUser);
                 });
             });
@@ -237,7 +237,7 @@ const GamePage = () => {
             stompClient.connect({}, () => {
                 stompClient.subscribe('/topic/game/getSuperUser', superUsers => {
                     const receivedSuperUsers = JSON.parse(superUsers.body);
-                    console.log("방장!!! {}", receivedSuperUsers)
+                    console.log("방장!!!", receivedSuperUsers)
                     setThisRoomsSU(receivedSuperUsers);
                 });
             });
@@ -251,7 +251,7 @@ const GamePage = () => {
             stompClient.connect({}, () => {
                 stompClient.subscribe('/topic/game/next', gaming => {
                     const thisRoomGaming = JSON.parse(gaming.body);
-                    console.log("방 번호랑 지금 state{}",thisRoomGaming)
+                    console.log("방 번호랑 지금 state",thisRoomGaming)
                 });
             });
         }, []);
