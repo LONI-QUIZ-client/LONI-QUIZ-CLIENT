@@ -36,8 +36,7 @@
 
   .rank_box {
     background-color: #A48FB8;
-    width: 204px;
-    height: 400px;
+    height: 100%;
     flex: 0 1 auto;
     overflow: hidden;
     h4 {
@@ -48,7 +47,7 @@
       margin: 10px;
     }
     .Rank_list{
-      height: 100%;
+      height: 80%;
       overflow-y: scroll;
       margin: 5px;
       li {
@@ -61,8 +60,8 @@
             float: left;
           }
           .rank_score {
-            float: right;
             margin-right: 0;
+            float: right;
           }
         }
       }

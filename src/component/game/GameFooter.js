@@ -5,7 +5,6 @@ import '../scss/GameFooter.scss';
 const GameFooter = () => {
     return (
         <div className='footer-container'>
-            <GameRanking/>
             <GameFriends/>
         </div>
     );
