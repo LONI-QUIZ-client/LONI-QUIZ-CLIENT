@@ -6,8 +6,6 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {ID} from "../../config/login-util";
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
-import {connect} from "react-redux";
-
 
 const GamePage = () => {
         const [inputText, setInputText] = useState('');
@@ -33,6 +31,9 @@ const GamePage = () => {
         const userID = localStorage.getItem(ID);
 
         const redirect = useNavigate()
+        // 모달
+        const [modalOpen, setModalOpen] = useState(false);
+        const modalBackground = useRef();
 
         //이미지를 생성하는 API를 호출하고 그 결과를 처리
         const createImage = async () => {
@@ -46,7 +47,6 @@ const GamePage = () => {
                         prompt: inputText,
                     }),
                 });
-
                 if (res.status === 200) {
                     console.log('API 호출 성공');
                     const imgData = await res.json();
@@ -153,6 +153,7 @@ const GamePage = () => {
 
 
         // 채팅을 서버에 보내줌
+
         const inputSubmit = (e) => {
             e.preventDefault();
 
@@ -168,7 +169,6 @@ const GamePage = () => {
             });
             setInput('');
         }
-
 
         const [time, setTime] = useState();
 
@@ -194,7 +194,6 @@ const GamePage = () => {
                 stompClient.send("/app/game/timer", {}, JSON.stringify({}));
             });
         }
-
 
         window.onpopstate = function (event) {
             alert("방탈출");
@@ -256,7 +255,6 @@ const GamePage = () => {
             });
         }, []);
 
-
         // 현재 있는 유저들로 방의 인원을 구성
         const startHandler = () => {
             const socket = new SockJS('http://localhost:8888/ws');
@@ -279,12 +277,57 @@ const GamePage = () => {
             });
         }
 
+
+        const [image, setImage] = useState();
+
+        useEffect(() => {
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+            stompClient.connect({}, () => {
+                stompClient.subscribe('/topic/game/image', image => {
+                    const pickImage = image.body;
+                    setImage(pickImage);
+                });
+            });
+        }, [])
+
+        const imageHandler = e => {
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+            stompClient.connect({}, (frame) => {
+                stompClient.send("/app/game/image", {}, JSON.stringify({
+                    image: e.target.src
+                }));
+            });
+        }
+
         return (
             <div className='box'>
-                <button onClick={timeHandler}>시작</button>
-                <button onClick={startHandler}>게임시작</button>
-                <button onClick={nextTurnHandler}>턴넘기기</button>
+                <button onClick={timeHandler} className='p'>시작</button>
+                <button onClick={startHandler} className='o'>게임시작</button>
+                <button onClick={nextTurnHandler} className='i'>턴넘기기</button>
+                <div className={'btn-wrapper'}>
+                    <button className={'modal-open-btn'} onClick={() => setModalOpen(true)}>
+                        모달 열기
+                    </button>
+                </div>
+                {
+                    modalOpen &&
+                    <div className={'modal-container'} ref={modalBackground} onClick={e => {
+                        if (e.target === modalBackground.current) {
+                            setModalOpen(true);
+                        }
+                    }}>
+                        <div className={'modal-content'}>
+                            <p>리액트로 모달 구현하기</p>
+                            <button className={'modal-close-btn'} onClick={() => setModalOpen(false)}>
+                                모달 닫기
+                            </button>
+                        </div>
+                    </div>
+                }
 
+                <img className='showImg' src={image}/>
                 <div>
                     {time}
                 </div>
@@ -292,7 +335,7 @@ const GamePage = () => {
                     <div className='show-img'>
                         {/* 이미지를 매핑하여 화면에 표시 */}
                         {img.map((image, index) => (
-                            <img key={index} src={image} alt={`Image ${index}`} className='img'/>
+                            <img key={index} src={image} alt={`Image ${index}`} className='img' onClick={imageHandler}/>
                         ))}
                         <input
                             type='text'
@@ -303,6 +346,9 @@ const GamePage = () => {
                         />
                         <button className='create' onClick={createImage}>
                             사진만들기
+                        </button>
+                        <button className={'modal-close-btn'} onClick={() => setModalOpen(false)}>
+                            모달 닫기
                         </button>
                     </div>
                     <div className='user-list'>
@@ -330,27 +376,6 @@ const GamePage = () => {
                         )}
                     </div>
                 </div>
-                {/*<ul className='chat' ref={messageAreaRef}>*/}
-                {/*        {chatData.map((item, index) => (*/}
-                {/*            <li key={index}>*/}
-                {/*                <span>{item.userId}: {item.content}</span>*/}
-                {/*            </li>*/}
-                {/*        ))}*/}
-                {/*</ul>*/}
-                {/*<form id="messageForm" name="messageForm" onSubmit={inputSubmit}>*/}
-                {/*    <div className="form-group">*/}
-                {/*        <div className="input-group clearfix">*/}
-                {/*            <input*/}
-                {/*                id="message"*/}
-                {/*                placeholder="채팅 입력..."*/}
-                {/*                autoComplete="off"*/}
-                {/*                className="form-control"*/}
-                {/*                value={input}*/}
-                {/*                onChange={(e) => setInput(e.target.value)}*/}
-                {/*            />*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</form>*/}
                 <div className='chat'>
                     <ul className='chat-log' id="messageArea" ref={messageAreaRef}>
                         {/* 채팅 메시지를 화면에 표시 */}
