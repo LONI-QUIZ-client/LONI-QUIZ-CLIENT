@@ -201,6 +201,15 @@ const GamePage = () => {
 
         const [thisRoomsUsers, setthisRoomsUsers] = useState([]);
 
+        useEffect(() => {
+            const targetRoomIndex = thisRoomsUsers.findIndex(room => room.gno === roomId);
+            const targetRoomMembers = targetRoomIndex >= 0 ? thisRoomsUsers[targetRoomIndex].members : [];
+            console.log("w제발", targetRoomMembers)
+            const targetUserIndex = targetRoomMembers.findIndex(user => user.userId === userID);
+            const targetUser = targetRoomMembers[targetUserIndex].state;
+            console.log(targetUser)
+        }, [thisRoomsUsers])
+
         // 게임이 시작될 때 방에 있는 사람들의 상태가 만들어지고 그걸 확인
         useEffect(() => {
             const socket = new SockJS('http://localhost:8888/ws');
@@ -250,7 +259,8 @@ const GamePage = () => {
             stompClient.connect({}, () => {
                 stompClient.subscribe('/topic/game/next', gaming => {
                     const thisRoomGaming = JSON.parse(gaming.body);
-                    console.log("방 번호랑 지금 state",thisRoomGaming)
+                    console.log("방 번호랑 지금 state", thisRoomGaming)
+                    setthisRoomsUsers(thisRoomGaming)
                 });
             });
         }, []);
@@ -306,29 +316,9 @@ const GamePage = () => {
                 <button onClick={timeHandler} className='p'>시작</button>
                 <button onClick={startHandler} className='o'>게임시작</button>
                 <button onClick={nextTurnHandler} className='i'>턴넘기기</button>
-                <div className={'btn-wrapper'}>
-                    <button className={'modal-open-btn'} onClick={() => setModalOpen(true)}>
-                        모달 열기
-                    </button>
-                </div>
-                {
-                    modalOpen &&
-                    <div className={'modal-container'} ref={modalBackground} onClick={e => {
-                        if (e.target === modalBackground.current) {
-                            setModalOpen(true);
-                        }
-                    }}>
-                        <div className={'modal-content'}>
-                            <p>리액트로 모달 구현하기</p>
-                            <button className={'modal-close-btn'} onClick={() => setModalOpen(false)}>
-                                모달 닫기
-                            </button>
-                        </div>
-                    </div>
-                }
 
                 <img className='showImg' src={image}/>
-                <div>
+                <div className='time'>
                     {time}
                 </div>
                 <div className='a'>
@@ -376,6 +366,26 @@ const GamePage = () => {
                         )}
                     </div>
                 </div>
+                <div className={'btn-wrapper'}>
+                    <button className={'modal-open-btn'} onClick={() => setModalOpen(true)}>
+                        모달 열기
+                    </button>
+                </div>
+                {
+                    modalOpen &&
+                    <div className={'modal-container'} ref={modalBackground} onClick={e => {
+                        if (e.target === modalBackground.current) {
+                            setModalOpen(true);
+                        }
+                    }}>
+                        <div className='modal-content'>
+                            <p>리액트로 모달 구현하기</p>
+                            <button className={'modal-close-btn'} onClick={() => setModalOpen(false)}>
+                                모달 닫기
+                            </button>
+                        </div>
+                    </div>
+                }
                 <div className='chat'>
                     <ul className='chat-log' id="messageArea" ref={messageAreaRef}>
                         {/* 채팅 메시지를 화면에 표시 */}
@@ -405,8 +415,6 @@ const GamePage = () => {
                 </div>
             </div>
         );
-
-
     }
 ;
 
