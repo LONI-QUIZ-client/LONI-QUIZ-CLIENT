@@ -12,7 +12,8 @@ import TodoTemplate from "./component/game/GameLobby";
 import GameLobby from "./component/game/GameLobby";
 import Main from "./component/main/Main";
 import GamePage from "./component/gamepage/GamePage";
-import UserInfo from "./user/UserInfo";
+// import UserInfoHeader from "./user/UserInfoHeader";
+import UserMyPage from "./user/UserMyPage";
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
               <Route path={'/join'} element={<Join />} />
               <Route path={'/lobby'} element={<GameLobby />} />
               <Route path={'/gameRoom'} element={<GamePage />} />
-              <Route path={'/myPage/:userId'} element={<UserInfo />} />
+              <Route path={'/myPage/:userId'} element={<UserMyPage />} />
           </Routes>
       </>
   );
