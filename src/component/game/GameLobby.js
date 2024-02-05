@@ -6,9 +6,8 @@ import {LOBBY_URL} from "../../config/host-config";
 import GameChat from "./GameChat";
 import GameProfileLobby from "./GameProfile_Lobby";
 import GameModal from "./GameModal";
-import GameRanking from "./GameRanking";
 import {Link} from "react-router-dom";
-import GameFriends from "./GameFriends";
+import GameFooter from "./GameFooter";
 
 
 
@@ -54,11 +53,10 @@ const GameLobby = () => {
                             </div>
                         </div>
                     </div>
+                    <div className='lobby_footer'>
+                        <GameFooter/>
+                    </div>
                 </div>
-                <footer>
-                    <GameRanking/>
-                    <GameFriends/>
-                </footer>
             </div>
         </>
     );

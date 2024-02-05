@@ -18,8 +18,8 @@ const GameRanking = () => {
     };
 
     return (
-        <div>
-            <button className='create_room_btn_friend' onClick={handleOpen}>Friends</button>
+        <div className='lobby_ranking'>
+            <button className='create_room_btn_friend' onClick={handleOpen}>Ranking</button>
             <Modal
                 open={open}
                 onClose={handleClose}

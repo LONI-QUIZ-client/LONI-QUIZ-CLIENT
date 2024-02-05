@@ -16,7 +16,7 @@ const GameFriends = () => {
     };
 
     return (
-        <div>
+        <div className='lobby_friends'>
             <button className='create_room_btn_friend' onClick={handleOpen}>Friends</button>
             <Modal
                 open={open}
