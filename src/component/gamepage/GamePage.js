@@ -202,11 +202,14 @@ const GamePage = () => {
         const [thisRoomsUsers, setthisRoomsUsers] = useState([]);
 
         useEffect(() => {
+            if (thisRoomsUsers === null){
+                return
+            }
             const targetRoomIndex = thisRoomsUsers.findIndex(room => room.gno === roomId);
             const targetRoomMembers = targetRoomIndex >= 0 ? thisRoomsUsers[targetRoomIndex].members : [];
             console.log("w제발", targetRoomMembers)
             const targetUserIndex = targetRoomMembers.findIndex(user => user.userId === userID);
-            const targetUser = targetRoomMembers[targetUserIndex].state;
+            const targetUser = targetRoomMembers[targetUserIndex].turn;
             console.log(targetUser)
         }, [thisRoomsUsers])
 
@@ -317,29 +320,12 @@ const GamePage = () => {
                 <button onClick={startHandler} className='o'>게임시작</button>
                 <button onClick={nextTurnHandler} className='i'>턴넘기기</button>
 
-                <img className='showImg' src={image}/>
                 <div className='time'>
                     {time}
                 </div>
                 <div className='a'>
                     <div className='show-img'>
-                        {/* 이미지를 매핑하여 화면에 표시 */}
-                        {img.map((image, index) => (
-                            <img key={index} src={image} alt={`Image ${index}`} className='img' onClick={imageHandler}/>
-                        ))}
-                        <input
-                            type='text'
-                            className='input'
-                            value={inputText}
-                            onChange={handleInputChange}
-                            onKeyPress={handleInputKey}
-                        />
-                        <button className='create' onClick={createImage}>
-                            사진만들기
-                        </button>
-                        <button className={'modal-close-btn'} onClick={() => setModalOpen(false)}>
-                            모달 닫기
-                        </button>
+                        <img className='showImg' src={image}/>
                     </div>
                     <div className='user-list'>
                         {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
@@ -379,10 +365,29 @@ const GamePage = () => {
                         }
                     }}>
                         <div className='modal-content'>
-                            <p>리액트로 모달 구현하기</p>
-                            <button className={'modal-close-btn'} onClick={() => setModalOpen(false)}>
-                                모달 닫기
-                            </button>
+                            {/* 이미지를 매핑하여 화면에 표시 */}
+                            <div className='imgs'>
+                                {img.map((image, index) => (
+                                    <img key={index} src={image} alt={`Image ${index}`} className='img'
+                                         onClick={imageHandler}/>
+                                ))}
+                            </div>
+                            <div className='items'>
+                                <input
+                                    placeholder="제시어를 입력해주세요!"
+                                    type='text'
+                                    className='input'
+                                    value={inputText}
+                                    onChange={handleInputChange}
+                                    onKeyPress={handleInputKey}
+                                />
+                                <button className='create' onClick={createImage}>
+                                    사진만들기
+                                </button>
+                                <button className={'modal-close-btn'} onClick={() => setModalOpen(false)}>
+                                    모달 닫기
+                                </button>
+                            </div>
                         </div>
                     </div>
                 }
