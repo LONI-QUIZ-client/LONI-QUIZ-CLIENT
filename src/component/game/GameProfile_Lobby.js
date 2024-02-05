@@ -5,11 +5,11 @@ import '../scss/GameBbox1.scss';
 import '../css/GameLobby.css';
 import starImage from "../../assets/img/star.png";
 import GameChat from './GameChat';
-import { getCurrentLoginUser } from "../../config/login-util";
+import {getAutoCurrentLoginUser, getCurrentLoginUser, isLogin} from "../../config/login-util";
 import { JOIN_URL } from "../../config/host-config";
 
 const GameProfileLobby = () => {
-    const currentUserNickname = getCurrentLoginUser()?.username || '';
+    const currentUserNickname = (isLogin() ? getCurrentLoginUser() : getAutoCurrentLoginUser())?.username || '';
     const [imageFile, setImageFile] = useState(null);
 
     const fetchProfileImage = async () => {
@@ -18,7 +18,7 @@ const GameProfileLobby = () => {
         const res = await fetch(url, {
             method: 'GET',
             headers: {
-                'Authorization': 'Bearer ' + getCurrentLoginUser().token
+                'Authorization': 'Bearer ' + (isLogin() ? getCurrentLoginUser() : getAutoCurrentLoginUser()).token
             }
         });
 

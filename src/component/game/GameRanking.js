@@ -1,11 +1,11 @@
 import React from 'react';
-import { getCurrentLoginUser } from "../../config/login-util";
+import {getAutoCurrentLoginUser, getCurrentLoginUser, isLogin} from "../../config/login-util";
 import '../scss/GameBbox1.scss';
 import '../scss/GameLobby.scss';
 import '../css/GameLobby.css';
 
 const GameRanking = () => {
-    const currentUserNickname = getCurrentLoginUser()?.username || '';
+    const currentUserNickname = (isLogin() ? getCurrentLoginUser() : getAutoCurrentLoginUser())?.username || '';
 
     return (
         <div className='rank_box'>
