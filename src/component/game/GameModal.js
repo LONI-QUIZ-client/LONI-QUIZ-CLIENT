@@ -65,14 +65,16 @@ const GameModal = () => {
         <div>
             <button className='create_room_btn' onClick={handleOpen}>Create Room</button>
             <Modal
+                className='create_box'
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
             >
-                <Box sx={{ width: 300, bgcolor: 'background.paper', p: 2 }}>
+                <Box sx={{ width: 300, bgcolor: 'background.paper', p: 2 , textAlign: 'center'}}>
                     <h2 id="modal-title">Create Room</h2>
                     <TextField
+                        sx={{ md:10 }}
                         id="outlined-basic"
                         label="방 이름"
                         variant="outlined"
@@ -104,6 +106,7 @@ const GameModal = () => {
                         />
                     )}
                     <TextField
+                        sx={{ mt:1, md:10 }}
                         id="filled-number"
                         label="총 라운드 수"
                         type="number"

@@ -19,13 +19,14 @@ const GameFriends = () => {
         <div className='lobby_friends'>
             <button className='create_room_btn_friend' onClick={handleOpen}>Friends</button>
             <Modal
+                class='friends_box'
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
             >
-                <Box sx={{ width: 300, bgcolor: 'background.paper', p: 2 }}>
-
+                <Box sx={{ width: 300, bgcolor: 'background.paper', p: 2 ,borderRadius: 2, textAlign: 'center'}}>
+                    친구가 없네요...
                 </Box>
             </Modal>
         </div>
