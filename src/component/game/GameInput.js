@@ -5,6 +5,7 @@ import {redirect, useNavigate} from "react-router-dom";
 import {ID, USERNAME} from '../../config/login-util';
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
+import GameModal from "./GameModal";
 
 const GameInput = ({data}) => {
     const itemsPerPage = 6; // 한 페이지당 보여질 아이템 개수
@@ -89,16 +90,21 @@ const GameInput = ({data}) => {
                     </div>
                 ))}
             </div>
-            <div className="pagination">
-                {Array.from({length: totalPageCount}, (_, i) => i + 1).map((pageNumber) => (
-                    <button
-                        key={pageNumber}
-                        onClick={() => handlePageChange(pageNumber)}
-                        className={currentPage === pageNumber ? 'active' : ''}
-                    >
-                        {pageNumber}
-                    </button>
-                ))}
+            <div className='room_footer'>
+                <div className="pagination">
+                    {Array.from({length: totalPageCount}, (_, i) => i + 1).map((pageNumber) => (
+                        <button
+                            key={pageNumber}
+                            onClick={() => handlePageChange(pageNumber)}
+                            className={currentPage === pageNumber ? 'active' : ''}
+                        >
+                            {pageNumber}
+                        </button>
+                    ))}
+                </div>
+                <div>
+                    <GameModal/>
+                </div>
             </div>
         </>
     );

@@ -29,15 +29,6 @@ const GameLobby = () => {
         <>
             <div className='aa'>
                 <div className='z'>
-                    <div className='lobby_menu'>
-                      <Link to={'/login'}>로그인/회원가입</Link>
-                        <div className='btns_box'>
-                            <button className='setting_btn'>Setting</button>
-                            <GameModal/>
-                            <button className='start_game_btn'>Game Start</button>
-                        </div>
-
-                    </div>
                     <div className='lobby_container'>
                         <div className='lobby_box1'>
                             <div className='lobby_bbox1'>
