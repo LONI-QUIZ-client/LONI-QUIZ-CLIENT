@@ -8,6 +8,7 @@ import GameProfileLobby from "./GameProfile_Lobby";
 import GameModal from "./GameModal";
 import GameRanking from "./GameRanking";
 import {Link} from "react-router-dom";
+import GameFriends from "./GameFriends";
 
 
 
@@ -42,7 +43,6 @@ const GameLobby = () => {
                         <div className='lobby_box1'>
                             <div className='lobby_bbox1'>
                                 <GameProfileLobby/>
-                                <GameRanking/>
                             </div>
                         </div>
                         <div className='lobby_box2'>
@@ -55,6 +55,10 @@ const GameLobby = () => {
                         </div>
                     </div>
                 </div>
+                <footer>
+                    <GameRanking/>
+                    <GameFriends/>
+                </footer>
             </div>
         </>
     );
