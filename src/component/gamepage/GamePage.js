@@ -30,7 +30,6 @@ const GamePage = () => {
         const roomId = location.state?.roomId;
         const userID = localStorage.getItem(ID);
 
-        const redirect = useNavigate()
         // 모달
         const [modalOpen, setModalOpen] = useState(false);
         const modalBackground = useRef();
@@ -110,7 +109,6 @@ const GamePage = () => {
 
         }, []);
 
-
         // 메세지를 받아와서 담아줌
         useEffect(() => {
             // Connect to WebSocket server
@@ -120,10 +118,17 @@ const GamePage = () => {
                 // Subscribe to topic
                 stompClient.subscribe('/topic/game/messages', message => {
                     const receivedMessage = JSON.parse(message.body);
+                    answerHandler(receivedMessage)
                     setChatData(prevChatData => [...prevChatData, receivedMessage]);
                 });
             });
         }, []);
+
+        const answerHandler = (e) => {
+            if (e.content === inputText){
+                console.log('정답!')
+            }
+        }
 
         // 멤버리스트에서 비교해서 방이 다 찼는지 비교후 방이 다 찼으면 내보내고 아니면 리스트에 담아줌
         useEffect(() => {
@@ -202,16 +207,22 @@ const GamePage = () => {
         const [thisRoomsUsers, setthisRoomsUsers] = useState([]);
 
         useEffect(() => {
-            if (thisRoomsUsers === null){
-                return
+            if (thisRoomsUsers.length > 0) {
+                const targetRoomIndex = thisRoomsUsers.findIndex(room => room.gno === roomId);
+                const targetRoomMembers = targetRoomIndex >= 0 ? thisRoomsUsers[targetRoomIndex].members : [];
+                console.log("w제발", targetRoomMembers)
+                const targetUserIndex = targetRoomMembers.findIndex(user => user.userId === userID);
+                const targetUser = targetRoomMembers[targetUserIndex].turn;
+                setA(targetUser)
+                console.log(setA)
+                console.log(targetUser)
             }
-            const targetRoomIndex = thisRoomsUsers.findIndex(room => room.gno === roomId);
-            const targetRoomMembers = targetRoomIndex >= 0 ? thisRoomsUsers[targetRoomIndex].members : [];
-            console.log("w제발", targetRoomMembers)
-            const targetUserIndex = targetRoomMembers.findIndex(user => user.userId === userID);
-            const targetUser = targetRoomMembers[targetUserIndex].turn;
-            console.log(targetUser)
         }, [thisRoomsUsers])
+
+        const [userBool, setA] = useState(false)
+        useEffect(() => {
+            // console.log(a)
+        }, [userBool])
 
         // 게임이 시작될 때 방에 있는 사람들의 상태가 만들어지고 그걸 확인
         useEffect(() => {
@@ -291,15 +302,19 @@ const GamePage = () => {
         }
 
 
-        const [image, setImage] = useState();
+        const [image, setImage] = useState([]);
 
         useEffect(() => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
             stompClient.connect({}, () => {
                 stompClient.subscribe('/topic/game/image', image => {
-                    const pickImage = image.body;
+                    const pickImage = JSON.parse(image.body);
+                    if (pickImage.gno !== roomId) {
+                        return
+                    }
                     setImage(pickImage);
+                    console.log(pickImage)
                 });
             });
         }, [])
@@ -309,7 +324,8 @@ const GamePage = () => {
             const stompClient = Stomp.over(socket);
             stompClient.connect({}, (frame) => {
                 stompClient.send("/app/game/image", {}, JSON.stringify({
-                    image: e.target.src
+                    image: e.target.src,
+                    gno: roomId
                 }));
             });
         }
@@ -325,7 +341,7 @@ const GamePage = () => {
                 </div>
                 <div className='a'>
                     <div className='show-img'>
-                        <img className='showImg' src={image}/>
+                        <img className='showImg' src={image.image}/>
                     </div>
                     <div className='user-list'>
                         {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
@@ -353,7 +369,11 @@ const GamePage = () => {
                     </div>
                 </div>
                 <div className={'btn-wrapper'}>
-                    <button className={'modal-open-btn'} onClick={() => setModalOpen(true)}>
+                    <button
+                        className={'modal-open-btn'}
+                        onClick={() => setModalOpen(true)}
+                        style={{display: userBool !== false ? 'block' : 'none'}}
+                    >
                         모달 열기
                     </button>
                 </div>
@@ -401,7 +421,6 @@ const GamePage = () => {
                                 </li>
                             )
                         ))}
-
                     </ul>
                     <form className='chat-input' name="messageForm" onSubmit={inputSubmit}>
                         <div className="form-group">
