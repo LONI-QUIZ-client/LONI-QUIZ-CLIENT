@@ -6,20 +6,25 @@
   background: #151422;
   padding: 3% 0;
 
-  display: flex; flex-wrap: wrap;
-  align-content: space-between;
 
+  .user-setting-buttons{
+    display: flex; flex-direction: row;
+    align-content: space-between;
 
-  .lobby-move-button{
-    background: linear-gradient(180deg, rgba(51,48,80,1) 0%, rgba(21,20,34,1) 100%);
-    border: 2px solid #716E98; border-radius: 3rem;
-    color: #716E98;
-    font-size: 1.8rem;
-    display: flex;
-    align-items: center;
-    margin: 2rem 2rem;
-    padding: 0.5rem 2rem;
+    .lobby-move-button{
+      background: linear-gradient(180deg, rgba(51,48,80,1) 0%, rgba(21,20,34,1) 100%);
+      border: 2px solid #716E98; border-radius: 3rem;
+      color: #716E98;
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      margin: 2rem 2rem;
+      padding: 0.5rem 2rem;
+    }
+
   }
+
+
 
 
   .user-page-background{

@@ -14,6 +14,7 @@ import {JOIN_URL} from "../config/host-config";
 import { IoIosPower } from "react-icons/io";
 import { LuPowerOff } from "react-icons/lu";
 import Logout from "./Logout";
+import {getLoginUserCheck, isAutoLogin, isLogin} from "../config/login-util";
 
 
 
@@ -35,37 +36,49 @@ const UserInfo = () => {
     // 유저 로그인 상태
     const [isUserLoginState, setIsUserLoginState] = useState(false);
 
-    // 유저 아이디 받아오기
-    const [userIdPage, setUserIdPage] = useState('');
+    // 유저 자기 자신인지 타인인지, 유저 아이디을 받아서 확인할것
+    const [userPageMaster, setUserPageMaster] = useState(false);
 
-    // 유저 자기 자신인지 타인인지, 유저 닉네임을 받아서 확인할것
-    const [userPageMaster, setUserPageMaster] = useState(true);
-
-    // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
-    useEffect( () => {
-
-        fetch(JOIN_URL+'/'+userId)
-            .then(res=> {
-                return res.json()
-            })
-            .then(json => {
-                setUserPageInfo({
-                    id: json.id
-                    , nickname: json.nickname
-                    , createDate: json.createDate
-                    , score: json.score
-                });
-
-                console.log(json);
-                console.log(userPageInfo.id);
-            })
-
-    }, [isUserLoginState]);
+    const fetchUserInfo = async () => {
+        const res = await fetch(JOIN_URL + '/' + userId);
+        if(res.status===200){
+            const json = await res.json();
+            setUserPageInfo({
+                id: json.id
+                , nickname: json.nickname
+                , createDate: json.createDate
+                , score: json.score
+            });
+        } else {
+            alert('유저 정보를 불러올 수 없습니다');
+            redirect('/lobby');
+        }
+    }
 
     // 로비 이동
     const moveLobbyHandler = e => {
         redirect('/lobby')
     }
+
+    // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
+    useEffect(() => {
+        fetchUserInfo();
+
+        if(!isLogin() && !isAutoLogin()){
+            alert('로그인 하세요');
+            redirect('/login');
+        } else {
+            if(getLoginUserCheck().id !== userPageInfo.id){
+                setUserPageMaster(false);
+
+            } else { // if(getLoginUserCheck().id === userPageInfo.id)
+                setUserPageMaster(true);
+            }
+        }
+
+
+
+    }, [userPageInfo.id]);
 
     // ================== scss ==================
 
@@ -80,19 +93,19 @@ const UserInfo = () => {
         fontSize: '2rem'
         , marginLeft: '0.5rem'
         , filter: 'drop-shadow(0px 0px 10px #9A95E2)'
-
     }
-
 
     return (
         <div className={"user-info"}>
-            <button
-                onClick={moveLobbyHandler}
-                className={"lobby-move-button"}>
-                <BsFillDoorOpenFill style={BsFillDoorOpenFillStyle}/>
-                MOVE LOBBY
-            </button>
-            <Logout />
+            <div className={"user-setting-buttons"}>
+                <button
+                    onClick={moveLobbyHandler}
+                    className={"lobby-move-button"}>
+                    <BsFillDoorOpenFill style={BsFillDoorOpenFillStyle}/>
+                    MOVE LOBBY
+                </button>
+                { userPageMaster ? <Logout /> : '' }
+            </div>
 
             <div className={"user-page-background"}>
                 <div className={"user-info-item-content"}>
@@ -114,12 +127,6 @@ const UserInfo = () => {
                     </div>
                 </div>
             </div>
-            <div className={"change-button-location"}>
-                <button className={"user-page-image-change-button"}>
-                    <BsStars className={"BsStarsStyle"}/> CHANGE IMAGE
-                </button>
-            </div>
-
         </div>
     );
 };

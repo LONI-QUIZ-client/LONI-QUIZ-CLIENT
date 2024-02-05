@@ -24,3 +24,11 @@ export const getAutoCurrentLoginUser = () => {
     };
 };
 
+export const getLoginUserCheck = () => {
+    if(isLogin()){
+        return getCurrentLoginUser();
+    } else if(isAutoLogin()){
+        return getAutoCurrentLoginUser();
+    }
+}
+
