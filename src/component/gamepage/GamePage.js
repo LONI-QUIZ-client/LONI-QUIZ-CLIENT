@@ -6,7 +6,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {ID} from "../../config/login-util";
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
-import {connect} from "react-redux";
+// import {connect} from "react-redux";
 
 
 const GamePage = () => {
@@ -33,6 +33,9 @@ const GamePage = () => {
         const userID = localStorage.getItem(ID);
 
         const redirect = useNavigate()
+    // 모달
+    const [modalOpen, setModalOpen] = useState(false);
+    const modalBackground = useRef();
 
         //이미지를 생성하는 API를 호출하고 그 결과를 처리
         const createImage = async () => {
@@ -259,8 +262,28 @@ const GamePage = () => {
                 <button onClick={timeHandler}>시작</button>
                 <button onClick={startHandler}>게임시작</button>
                 <button onClick={nextTurnHandler}>턴넘기기</button>
+                <div className={'btn-wrapper'}>
+                    <button className={'modal-open-btn'} onClick={() => setModalOpen(true)}>
+                        모달 열기
+                    </button>
+                </div>
+                {
+                    modalOpen &&
+                    <div className={'modal-container'} ref={modalBackground} onClick={e => {
+                        if (e.target === modalBackground.current) {
+                            setModalOpen(true);
+                        }
+                    }}>
+                        <div className={'modal-content'}>
+                            <p>리액트로 모달 구현하기</p>
+                            <button className={'modal-close-btn'} onClick={() => setModalOpen(false)}>
+                                모달 닫기
+                            </button>
+                        </div>
+                    </div>
+                }
 
-                <img src={image}/>
+                <img className='showImg' src={image}/>
                 <div>
                     {time}
                 </div>
@@ -279,6 +302,9 @@ const GamePage = () => {
                         />
                         <button className='create' onClick={createImage}>
                             사진만들기
+                        </button>
+                        <button className={'modal-close-btn'} onClick={() => setModalOpen(false)}>
+                            모달 닫기
                         </button>
                     </div>
                     <div className='user-list'>

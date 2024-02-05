@@ -1,20 +1,22 @@
 import React from 'react';
 import './scss/Button.scss';
 
-import {isLogin} from "../../config/login-util";
+import {isAutoLogin, isLogin} from "../../config/login-util";
 import {Link, useNavigate} from 'react-router-dom';
 
 const Button = () => {
 
-        const nav = useNavigate();
+    const nav = useNavigate();
 
-        const entry = () => {
-            if(!isLogin()){
-                nav('/login')
-            }else{
+    const entry = () => {
+        if(!isLogin()){
+            nav('/login')
+        } else if(!isAutoLogin()){
+            nav('/login')
+        } else{
             nav('/lobby')
-            }
         }
+    }
     return (
         <div>
             <div className="button_container">
