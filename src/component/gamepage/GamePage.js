@@ -207,11 +207,51 @@ const GamePage = () => {
             stompClient.connect({}, () => {
                 stompClient.subscribe('/topic/game/start', message => {
                     const receivedMessage = JSON.parse(message.body);
+                    console.log(receivedMessage)
                     setthisRoomsUsers(receivedMessage);
                     console.log(thisRoomsUsers);
                 });
             });
         }, []);
+
+        const [thisRoomsSU, setThisRoomsSU] = useState([]);
+        useEffect(() => {
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, () => {
+                stompClient.send("/app/game/getSuperUser", {}, JSON.stringify({
+                    gno: roomId
+                }));
+            });
+        }, []);
+
+        useEffect(() => {
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, () => {
+                stompClient.subscribe('/topic/game/getSuperUser', superUsers => {
+                    const receivedSuperUsers = JSON.parse(superUsers.body);
+                    console.log(receivedSuperUsers)
+                    setThisRoomsSU(receivedSuperUsers);
+                });
+            });
+        }, []);
+
+    useEffect(() => {
+        const socket = new SockJS('http://localhost:8888/ws');
+        const stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, () => {
+            stompClient.subscribe('/topic/game/next', gaming => {
+                const thisRoomGaming = JSON.parse(gaming.body);
+                console.log(thisRoomGaming)
+            });
+        });
+    }, []);
+
+
 
         const startHandler = () => {
             const socket = new SockJS('http://localhost:8888/ws');
