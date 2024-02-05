@@ -25,13 +25,7 @@ const UserSideLeft = () => {
             setImagePath(imgUrl);
 
             console.log(imagePath);
-
-            /*const getImage = (
-                <div className={'background-img'} style={{ backgroundImage: `url(${imagePath})` }}></div>
-            )*/
         } else {
-            // const errMsg = await res.text();
-            // alert(errMsg);
             setImagePath(null);
         }
 
@@ -41,15 +35,10 @@ const UserSideLeft = () => {
         fetchSideMenuImage();
     }, []);
 
-
-
     return (
         <>
             <div className={'join-left'}>
-                {/*<img src={imagePath} alt={"image"}/>*/}
-                <div className={'background-img'}
-                     style={{ backgroundImage: `url(${imagePath})` }}
-                ></div>
+                <div className={'background-img'} style={{ backgroundImage: `url(${imagePath})` }}></div>
                 <div className={'left-container'} >
                     <div className={'join-introductory-article'}>
                         <div className={'h1-join-title'}>

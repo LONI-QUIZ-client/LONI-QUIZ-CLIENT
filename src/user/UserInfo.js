@@ -13,6 +13,7 @@ import cn from "classnames";
 import {JOIN_URL} from "../config/host-config";
 import { IoIosPower } from "react-icons/io";
 import { LuPowerOff } from "react-icons/lu";
+import Logout from "./Logout";
 
 
 
@@ -26,7 +27,6 @@ const UserInfo = () => {
     // 유저 정보 가져오기
     const [userPageInfo, setUserPageInfo] = useState({
         id: ''
-        , pw: ''
         , nickname: ''
         , createDate: ''
         , score: ''
@@ -51,14 +51,15 @@ const UserInfo = () => {
             .then(json => {
                 setUserPageInfo({
                     id: json.id
-                    , pw: json.pw
                     , nickname: json.nickname
                     , createDate: json.createDate
                     , score: json.score
                 });
+
+                console.log(json);
+                console.log(userPageInfo.id);
             })
 
-        console.log()
     }, [isUserLoginState]);
 
     // 로비 이동
@@ -91,6 +92,7 @@ const UserInfo = () => {
                 <BsFillDoorOpenFill style={BsFillDoorOpenFillStyle}/>
                 MOVE LOBBY
             </button>
+            <Logout />
 
             <div className={"user-page-background"}>
                 <div className={"user-info-item-content"}>
