@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { getCurrentLoginUser } from "../../config/login-util";
+import {getAutoCurrentLoginUser, getCurrentLoginUser, isLogin} from "../../config/login-util";
 import '../scss/GameBbox1.scss';
 import '../scss/GameLobby.scss';
 import '../css/GameLobby.css';
@@ -7,7 +7,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 
 const GameRanking = () => {
-    const currentUserNickname = getCurrentLoginUser()?.username || '';
+    const currentUserNickname = (isLogin() ? getCurrentLoginUser() : getAutoCurrentLoginUser())?.username || '';
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
         setOpen(true);
@@ -16,7 +16,6 @@ const GameRanking = () => {
     const handleClose = () => {
         setOpen(false);
     };
-
     return (
         <div className='lobby_ranking'>
             <button className='create_room_btn_friend' onClick={handleOpen}>Ranking</button>
