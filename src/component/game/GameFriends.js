@@ -32,9 +32,11 @@ const AddFriendSection = () => (
             <ul>
                 <li>
                     친구 1
+                    <button className='follow_btn'>팔로우</button>
                 </li>
                 <li>
                     친구 2
+                    <button className='follow_btn'>팔로우</button>
                 </li>
             </ul>
         </div>

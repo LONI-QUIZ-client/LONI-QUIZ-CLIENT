@@ -1,5 +1,10 @@
 // 모달 페이지
 .add_friend_menu {
+
+  h2 {
+    font-size: 40px;
+    margin-bottom: 10px;
+  }
   .lobby_search_friend_box {
 
   }
@@ -10,9 +15,18 @@
 
 .list_friend_menu {
 
+  h2 {
+    font-size: 40px;
+    margin-bottom: 10px;
+  }
 }
 
 .chat_friend_menu {
+
+  h2 {
+    font-size: 40px;
+    margin-bottom: 10px;
+  }
   .chating_texts {
 
   }
@@ -25,15 +39,21 @@
 
   }
   .game_friend_modal_menu {
+
     .friends_menu_list {
-      .add_fri_btn {
+      display: flex;
 
-      }
-      .list_fri_btn {
-
-      }
+      .add_fri_btn,
+      .list_fri_btn,
       .chat_fri_btn {
-
+        flex: 1;
+        border-radius: 50px;
+        border: none;
+        background-color: #FFFFFF;
+        cursor: pointer;
+        &:hover {
+          background-color: #868686;
+        }
       }
     }
   }
