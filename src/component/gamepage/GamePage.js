@@ -27,6 +27,8 @@ const GamePage = () => {
         // 유저 정보를 담을 상태 추가
         const [userData, setUserData] = useState([]);
 
+        const [answerKey, setAnswerKey] = useState('');
+
         const location = useLocation();
         const roomId = location.state?.roomId;
         const userID = localStorage.getItem(ID);
@@ -37,6 +39,14 @@ const GamePage = () => {
 
         //이미지를 생성하는 API를 호출하고 그 결과를 처리
         const createImage = async () => {
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+            stompClient.connect({}, () => {
+                stompClient.send("/app/game/answerKey", {}, JSON.stringify({
+                    gno: roomId,
+                    answerKey: inputText
+                }));
+            });
             try {
                 const res = await fetch(IMG_URL, {
                     method: 'POST',
@@ -119,17 +129,11 @@ const GamePage = () => {
                 // Subscribe to topic
                 stompClient.subscribe('/topic/game/messages', message => {
                     const receivedMessage = JSON.parse(message.body);
-                    answerHandler(receivedMessage)
                     setChatData(prevChatData => [...prevChatData, receivedMessage]);
                 });
             });
         }, []);
 
-        const answerHandler = (e) => {
-            if (e.content === inputText){
-                console.log('정답!')
-            }
-        }
 
         // 멤버리스트에서 비교해서 방이 다 찼는지 비교후 방이 다 찼으면 내보내고 아니면 리스트에 담아줌
         useEffect(() => {
@@ -163,7 +167,21 @@ const GamePage = () => {
         const inputSubmit = (e) => {
             e.preventDefault();
 
-            // Send message via WebSocket
+            if (input === answerKey) {
+                console.log("정답!!!!")
+                const socket = new SockJS('http://localhost:8888/ws');
+                const stompClient = Stomp.over(socket);
+                stompClient.connect({}, () => {
+                    stompClient.send("/app/game/userPointUp", {}, JSON.stringify({
+                        gno: roomId,
+                        userId: userID
+                    }));
+                    stompClient.send("/app/game/answerKey", {}, JSON.stringify({
+                        gno: roomId,
+                        answerKey: ''
+                    }));
+                });
+            }
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
             stompClient.connect({}, () => {
@@ -172,6 +190,7 @@ const GamePage = () => {
                     userId: userID,
                     content: input
                 }));
+
             });
             setInput('');
         }
@@ -279,6 +298,28 @@ const GamePage = () => {
                 });
             });
         }, []);
+
+        // 정답을 상태변수에 저장
+        useEffect(() => {
+            // Connect to WebSocket server
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+            stompClient.connect({}, () => {
+                // Subscribe to topic
+                stompClient.subscribe('/topic/game/answerKey', message => {
+                    const receivedCheck = JSON.parse(message.body);
+                    if (receivedCheck.gno !== roomId) {
+                        return
+                    }
+                    console.log(receivedCheck)
+                    setAnswerKey(receivedCheck.answerKey);
+                });
+            });
+        }, []);
+
+        useEffect(() => {
+            console.log(answerKey)
+        }, [answerKey]);
 
         // 현재 있는 유저들로 방의 인원을 구성
         const startHandler = () => {
