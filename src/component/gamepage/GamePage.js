@@ -8,6 +8,7 @@ import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
 
 const GamePage = () => {
+        const nav = useNavigate();
         const [inputText, setInputText] = useState('');
         const [img, setImg] = useState([]);
         const [messages, setMessages] = useState([]);
@@ -330,12 +331,16 @@ const GamePage = () => {
             });
         }
 
+        const exitHandler = () => {
+            nav('/lobby')
+        }
+
         return (
             <div className='box'>
                 <button onClick={timeHandler} className='p'>시작</button>
                 <button onClick={startHandler} className='o'>게임시작</button>
                 <button onClick={nextTurnHandler} className='i'>턴넘기기</button>
-                <button onClick={nextTurnHandler} className='u'>나가기</button>
+                <button onClick={exitHandler} className='u'>나가기</button>
 
                 <div className='time'>
                     {time}
