@@ -37,7 +37,7 @@ textarea {
 }
 
 .chat-container {
-    height: 350px;
+    height: 300px;
     margin-left: auto;
     margin-right: auto;
     background-color: #fff;
@@ -82,7 +82,7 @@ textarea {
     background-color: #FFF;
     overflow: auto;
     overflow-y: scroll;
-    padding: 13px 20px 0px 20px;
+    padding: 5px 20px 0 20px;
     height: calc(100% - 90px);
     margin-bottom: 0;
 }

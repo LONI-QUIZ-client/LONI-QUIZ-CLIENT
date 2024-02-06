@@ -6,6 +6,10 @@ import {ID, USERNAME} from '../../config/login-util';
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
 import GameModal from "./GameModal";
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
 
 const GameInput = ({data}) => {
     const itemsPerPage = 6; // 한 페이지당 보여질 아이템 개수
@@ -76,6 +80,21 @@ const GameInput = ({data}) => {
 
     return (
         <>
+            <div className='lobby_search_room_box'>
+                <Paper
+                    component="form"
+                    sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
+                >
+                    <InputBase
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="Search User"
+                        inputProps={{ 'aria-label': 'search user' }}
+                    />
+                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                        <SearchIcon />
+                    </IconButton>
+                </Paper>
+            </div>
             <div className='room_list'>
                 {getCurrentPageItems().map((item, index) => (
                     <div className="room_container" key={index} onClick={() => {
