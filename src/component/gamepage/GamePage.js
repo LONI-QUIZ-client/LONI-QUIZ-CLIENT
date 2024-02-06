@@ -335,6 +335,7 @@ const GamePage = () => {
                 <button onClick={timeHandler} className='p'>시작</button>
                 <button onClick={startHandler} className='o'>게임시작</button>
                 <button onClick={nextTurnHandler} className='i'>턴넘기기</button>
+                <button onClick={nextTurnHandler} className='u'>나가기</button>
 
                 <div className='time'>
                     {time}
@@ -386,6 +387,7 @@ const GamePage = () => {
                     }}>
                         <div className='modal-content'>
                             {/* 이미지를 매핑하여 화면에 표시 */}
+                            <div className="loading_circle"></div>
                             <div className='imgs'>
                                 {img.map((image, index) => (
                                     <img key={index} src={image} alt={`Image ${index}`} className='img'
@@ -413,14 +415,16 @@ const GamePage = () => {
                 }
                 <div className='chat'>
                     <ul className='chat-log' id="messageArea" ref={messageAreaRef}>
-                        {/* 채팅 메시지를 화면에 표시 */}
-                        {chatData.map((item, index) => (
-                            roomId === item.gno && (
+                        {/* 채팅 메시지를 화면에 역순으로 표시 */}
+                        {chatData
+                            .filter(item => roomId === item.gno)
+                            .reverse()
+                            .map((item, index) => (
                                 <li key={index}>
                                     <span>{item.userId}: {item.content}</span>
                                 </li>
-                            )
-                        ))}
+                            ))
+                        }
                     </ul>
                     <form className='chat-input' name="messageForm" onSubmit={inputSubmit}>
                         <div className="form-group">
@@ -431,7 +435,7 @@ const GamePage = () => {
                                     autoComplete="off"
                                     className="form-control"
                                     value={input}
-                                    onChange={inputCheckHendler}
+                                    onChange={(e) => setInput(e.target.value)}
                                 />
                             </div>
                         </div>
