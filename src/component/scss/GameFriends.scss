@@ -1,0 +1,40 @@
+// 모달 페이지
+.add_friend_menu {
+  .lobby_search_friend_box {
+
+  }
+  .search_friend_list {
+
+  }
+}
+
+.list_friend_menu {
+
+}
+
+.chat_friend_menu {
+  .chating_texts {
+
+  }
+}
+
+// return SCSS (단, 전체적 모달 부분은 제외한다.)
+
+.game_friend_modal_container {
+  .game_friend_modal_page {
+
+  }
+  .game_friend_modal_menu {
+    .friends_menu_list {
+      .add_fri_btn {
+
+      }
+      .list_fri_btn {
+
+      }
+      .chat_fri_btn {
+
+      }
+    }
+  }
+}
