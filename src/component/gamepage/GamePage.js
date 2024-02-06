@@ -210,6 +210,7 @@ const GamePage = () => {
             });
         }, []);
 
+
         // 서버에 시간을 받아오는 요청을 보냄
         const timeHandler = e => {
             const socket = new SockJS('http://localhost:8888/ws');
@@ -221,11 +222,22 @@ const GamePage = () => {
         }
 
         window.onpopstate = function (event) {
+            removeUserList()
             alert("방탈출");
         };
 
         const [thisRoomsUsers, setthisRoomsUsers] = useState([]);
 
+        useEffect(() => {
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+            stompClient.connect({}, (frame) => {
+                stompClient.subscribe('/topic/game/exitRoom', function (response) {
+                    const exitAfter = JSON.parse(response.body);
+                    getList();
+                });
+            });
+        }, []);
         useEffect(() => {
             if (thisRoomsUsers.length > 0) {
                 const targetRoomIndex = thisRoomsUsers.findIndex(room => room.gno === roomId);
@@ -373,9 +385,31 @@ const GamePage = () => {
         }
 
         const exitHandler = () => {
+            removeUserList()
             nav('/lobby')
         }
 
+        const removeUserList = () => {
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+            stompClient.connect({}, (frame) => {
+                stompClient.send("/app/game/exitRoom", {}, JSON.stringify({
+                    gno: roomId,
+                    userId: userID
+                }));
+            });
+        }
+
+        const getList = () => {
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, () => {
+                stompClient.send("/app/game/memberList", {}, JSON.stringify({
+                    gno: roomId
+                }));
+            });
+        }
         return (
             <div className='box'>
                 <button onClick={timeHandler} className='p'>시작</button>
