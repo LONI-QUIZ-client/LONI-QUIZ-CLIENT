@@ -226,23 +226,28 @@ const GamePage = () => {
 
         const [thisRoomsUsers, setthisRoomsUsers] = useState([]);
 
+        const [roomMembers, setRoomMembers] = useState([]);
+
         useEffect(() => {
             if (thisRoomsUsers.length > 0) {
                 const targetRoomIndex = thisRoomsUsers.findIndex(room => room.gno === roomId);
                 const targetRoomMembers = targetRoomIndex >= 0 ? thisRoomsUsers[targetRoomIndex].members : [];
+                setRoomMembers(targetRoomMembers)
                 console.log("w제발", targetRoomMembers)
                 const targetUserIndex = targetRoomMembers.findIndex(user => user.userId === userID);
                 const targetUser = targetRoomMembers[targetUserIndex].turn;
                 setA(targetUser)
-                console.log(setA)
                 console.log(targetUser)
             }
         }, [thisRoomsUsers])
 
+    useEffect(() => {
+        console.log(roomMembers)
+    }, [roomMembers]);
+
+        // 유저 턴
         const [userBool, setA] = useState(false)
-        useEffect(() => {
-            // console.log(a)
-        }, [userBool])
+
 
         // 게임이 시작될 때 방에 있는 사람들의 상태가 만들어지고 그걸 확인
         useEffect(() => {
@@ -372,6 +377,7 @@ const GamePage = () => {
             });
         }
 
+        // 나가기
         const exitHandler = () => {
             nav('/lobby')
         }
@@ -391,28 +397,28 @@ const GamePage = () => {
                         <img className='showImg' src={image.image}/>
                     </div>
                     <div className='user-list'>
-                        {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
-                        {userData && (
-                            userData.map((user, index) => (
-                                roomId === user.gno && (
-                                    <div key={index} className='user'>
-                                        <div className='l-a'>
+
+                        <div className='user'>
+                            {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
+                            {userData && (
+                                userData.map((user, index) => (
+                                    roomId === user.gno && (
+                                        <div className='l-a' key={index}>
                                             {/*<div className='p-img'>*/}
                                             {/*    <img src={user.profile} alt={`Profile ${index}`} />*/}
                                             {/*</div>*/}
                                             <div className='nick-name'>
                                                 {user.username}
                                             </div>
-                                        </div>
-                                        <div className='score'>
-                                            <div>
-                                                {user.username}점
+                                            <div className='score'>
+                                                <div>{roomMembers && roomMembers[index] ? roomMembers[index].point : 0}점</div>
                                             </div>
+
                                         </div>
-                                    </div>
-                                )
-                            ))
-                        )}
+                                    )
+                                ))
+                            )}
+                        </div>
                     </div>
                 </div>
                 <div className={'btn-wrapper'}>
@@ -488,7 +494,8 @@ const GamePage = () => {
                     </form>
                 </div>
             </div>
-        );
+        )
+            ;
     }
 ;
 
