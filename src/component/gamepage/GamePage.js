@@ -125,10 +125,12 @@ const GamePage = () => {
         }, []);
 
         const answerHandler = (e) => {
-            if (e.content === inputText){
+            if (e.content === inputText) {
                 console.log('정답!')
             }
         }
+
+        const [g, setG] = useState();
 
         // 멤버리스트에서 비교해서 방이 다 찼는지 비교후 방이 다 찼으면 내보내고 아니면 리스트에 담아줌
         useEffect(() => {
@@ -185,7 +187,8 @@ const GamePage = () => {
             stompClient.connect({}, (frame) => {
                 stompClient.subscribe('/topic/game/timer', function (response) {
                     let countdownValue = JSON.parse(response.body);
-                    setTime(countdownValue)
+                    setG(countdownValue.gno);
+                    setTime(countdownValue.time);
                 });
             });
         }, []);
@@ -196,7 +199,9 @@ const GamePage = () => {
             const stompClient = Stomp.over(socket);
 
             stompClient.connect({}, (frame) => {
-                stompClient.send("/app/game/timer", {}, JSON.stringify({}));
+                stompClient.send("/app/game/timer", {}, JSON.stringify({
+                    gno: roomId
+                }));
             });
         }
 
@@ -336,9 +341,16 @@ const GamePage = () => {
                 <button onClick={startHandler} className='o'>게임시작</button>
                 <button onClick={nextTurnHandler} className='i'>턴넘기기</button>
 
-                <div className='time'>
-                    {time}
-                </div>
+                {
+                    g === roomId && (
+                        <div className='time'>
+                            {time}
+                        </div>
+                    )
+                }
+
+
+
                 <div className='a'>
                     <div className='show-img'>
                         <img className='showImg' src={image.image}/>
@@ -431,7 +443,6 @@ const GamePage = () => {
                                     autoComplete="off"
                                     className="form-control"
                                     value={input}
-                                    onChange={inputCheckHendler}
                                 />
                             </div>
                         </div>
