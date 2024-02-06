@@ -354,7 +354,7 @@ const GamePage = () => {
                                             {/*    <img src={user.profile} alt={`Profile ${index}`} />*/}
                                             {/*</div>*/}
                                             <div className='nick-name'>
-                                                {user.id}
+                                                {user.username}
                                             </div>
                                         </div>
                                         <div className='score'>
@@ -431,7 +431,7 @@ const GamePage = () => {
                                     autoComplete="off"
                                     className="form-control"
                                     value={input}
-                                    onChange={(e) => setInput(e.target.value)}
+                                    onChange={inputCheckHendler}
                                 />
                             </div>
                         </div>
