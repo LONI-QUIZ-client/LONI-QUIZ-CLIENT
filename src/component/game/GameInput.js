@@ -88,7 +88,7 @@ const GameInput = ({data}) => {
                     <InputBase
                         sx={{ ml: 1, flex: 1 }}
                         placeholder="Search User"
-                        inputProps={{ 'aria-label': 'search user' }}
+                        inputprops={{ 'aria-label': 'search user' }}
                     />
                     <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
                         <SearchIcon />

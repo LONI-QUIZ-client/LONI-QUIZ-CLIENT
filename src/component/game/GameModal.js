@@ -71,7 +71,7 @@ const GameModal = () => {
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
             >
-                <Box sx={{ width: 300, bgcolor: 'background.paper', p: 2 , textAlign: 'center'}}>
+                <Box sx={{ width: 300, bgcolor: 'background.paper', p: 2 , textAlign: 'center', borderRadius: 2}}>
                     <h2 id="modal-title">Create Room</h2>
                     <TextField
                         sx={{ md:10 }}
@@ -118,6 +118,7 @@ const GameModal = () => {
                         onChange={(e) => setTotalRounds(Math.max(1, Math.min(4, Number(e.target.value))))}
                     />
                     <TextField
+                        sx={{ mb: 3 }}
                         id="filled-number_two"
                         label="입장 유저 수"
                         type="number"
@@ -128,7 +129,7 @@ const GameModal = () => {
                         value={maxUsers}
                         onChange={(e) => setMaxUsers(Math.max(2, Math.min(6, Number(e.target.value))))}
                     />
-                    <Button variant="contained" endIcon={<SendIcon />} onClick={handleCreateRoom}>
+                    <Button sx={{ mr: 4 }} variant="contained" endIcon={<SendIcon />} onClick={handleCreateRoom}>
                         Create!
                     </Button>
                     <Button onClick={handleClose}>Close</Button>
