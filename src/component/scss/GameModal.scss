@@ -1,22 +1,25 @@
 // 전체적인 모달 Mui 수정용 SCSS + 모달 버튼 디자인 수정
 .create_room_btn{
-  .create_box{
-    display: flex;
-    justify-content: center;
-    height: 450px;
-    margin-top: 200px;
-    h2 {
-      font-size: 30px;
-      font-weight: 400;
-      margin-bottom: 20px;
-    }
-  }
+
 }
 
 .create_room_btn_friend{
-  .friends_box{
-    height: 450px;
-    margin-top: 200px;
+
+}
+
+.create_box{
+  display: flex;
+  justify-content: center;
+  height: 450px;
+  margin-top: 200px;
+  h2 {
+    font-size: 30px;
+    font-weight: 400;
+    margin-bottom: 20px;
   }
 }
 
+.friends_box{
+  height: 450px;
+  margin-top: 200px;
+}
