@@ -8,75 +8,9 @@ import listFriendBtn from "../../assets/img/baseline_view_list_black_24dp.png";
 import chatFriendBtn from "../../assets/img/baseline_question_answer_black_24dp.png";
 import { InputBase, IconButton, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-
-
-const AddFriendSection = () => (
-    <div className='add_friend_menu'>
-        <h2>Add Friend</h2>
-        <div className='lobby_search_friend_box'>
-            <Paper
-                component="form"
-                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 250 }}
-            >
-                <InputBase
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="Search User"
-                    inputProps={{ 'aria-label': 'search user' }}
-                />
-                <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                    <SearchIcon />
-                </IconButton>
-            </Paper>
-        </div>
-        <div className='search_friend_list'>
-            <ul>
-                <li>
-                    친구 1
-                    <button className='follow_btn'>팔로우</button>
-                </li>
-                <li>
-                    친구 2
-                    <button className='follow_btn'>팔로우</button>
-                </li>
-            </ul>
-        </div>
-    </div>
-);
-
-const FriendListSection = () => (
-    <div className='list_friend_menu'>
-        <h2>Friend List</h2>
-        <div className='list_friends_box'>
-            <ul>
-                <li>
-                    <p>Friend 1</p>
-                    <button className='follow_btn'>팔로우</button>
-                </li>
-                <li>
-                    <p>Friend 2</p>
-                    <button className='follow_btn'>팔로우</button>
-                </li>
-                <li>
-                    <p>Friend 3</p>
-                    <button className='follow_btn'>팔로우</button>
-                </li>
-            </ul>
-        </div>
-    </div>
-);
-
-const ChatSection = () => (
-    <div className='chat_friend_menu'>
-        <h2>Chat</h2>
-        <div className='chating_texts'>
-            {/* Display Chat Messages */}
-        </div>
-        <div>
-            <input type="text" placeholder="Type your message" />
-            <button>Send</button>
-        </div>
-    </div>
-);
+import AddFriendSection from "./AddFriendSection";
+import FriendListSection from "./FriendListSection";
+import ChatSection from "./ChatSection";
 
 const GameFriends = () => {
     const [open, setOpen] = useState(false);
@@ -90,6 +24,26 @@ const GameFriends = () => {
         setOpen(false);
     };
 
+    const ChatListSection = () => {
+        return (
+            <div className='chat_friend_menu'>
+                <div className='chat_friend_menu_header'>
+                    <h2>Chat List</h2>
+                </div>
+                <div className='chat_list'>
+                    <ol>
+                        <li onClick={() => setActiveSection('chatFriend')}>
+                            <div className='chat_list_ch'>
+                                <p>친구 1</p>
+                                <p>메시지</p>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        );
+    }
+
     const renderActiveSection = () => {
         switch (activeSection) {
             case 'addFriend':
@@ -97,6 +51,8 @@ const GameFriends = () => {
             case 'friendList':
                 return <FriendListSection />;
             case 'chat':
+                return <ChatListSection />;
+            case 'chatFriend':
                 return <ChatSection />;
             default:
                 return null;
@@ -132,7 +88,7 @@ const GameFriends = () => {
                                 </li>
                                 <li>
                                     <button className='chat_fri_btn' onClick={() => setActiveSection('chat')}>
-                                        <img src={chatFriendBtn} alt='친구 1:1 채팅'/>
+                                        <img src={chatFriendBtn} alt='채팅 리스트'/>
                                     </button>
                                 </li>
                             </ul>
