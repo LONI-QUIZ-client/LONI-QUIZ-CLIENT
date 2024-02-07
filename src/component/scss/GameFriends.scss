@@ -1,4 +1,5 @@
 // 모달 페이지 (메뉴 버튼을 눌렀을 시 나오는 전환용 페이지)
+// 친구 추가(검색) 리스트
 .add_friend_menu {
 
   h2 {
@@ -13,6 +14,7 @@
   }
 }
 
+// 친구창 리스트
 .list_friend_menu {
 
   h2 {
@@ -21,6 +23,7 @@
   }
 }
 
+// 채팅창 리스트
 .chat_friend_menu {
   .chat_friend_menu_header {
     h2 {
@@ -29,13 +32,27 @@
     }
   }
 }
+
+// 채팅창 화면
 .chat_friend_menu_ch {
-  .chat_friend_menu_ch_header{
+  .chat_friend_menu_ch_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
     h2 {
-      font-size: 40px;
+      font-size: 20px;
       margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .chat_out {
+      background-color: #9B9AE2;
+      border: none;
+      border-radius: 10px;
     }
   }
+
   .chat_texts {
     .your_text_balloon {
       background-color: #1ddc8c;
@@ -44,10 +61,12 @@
       background-color: #78c7d2;
     }
   }
+
   .my_input_text {
 
   }
 }
+
 
 
 // return SCSS (단, 전체적 모달 부분은 제외한다.)

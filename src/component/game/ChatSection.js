@@ -26,8 +26,8 @@ const ChatSection = () => {
     return (
         <div className='chat_friend_menu_ch'>
             <div className='chat_friend_menu_ch_header'>
-                <h2>Chat</h2>
-                <button>나가기</button>
+                <h2>친구 1</h2>
+                <button className='chat_out'>나가기</button>
             </div>
             <div className='chat_texts'>
                 {chatMessages.map((message, index) => (
