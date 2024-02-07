@@ -33,7 +33,7 @@
   flex-direction: row;
 }
 .user{
-  width: 18%;
+  width: 30%;
   height: 100%;
   background: #61dafb;
   border: 1px solid black;
@@ -51,6 +51,9 @@
 .img{
   width: 20%;
   border: 1px solid black;
+}
+.img.selected {
+  border: 2px solid blue; /* 선택된 이미지에 대한 테두리 스타일 */
 }
 .chat-log{
   width: 100%;

@@ -3,7 +3,7 @@ import './scss/GamePage.scss';
 import {IMG_URL} from '../../config/host-config';
 import {SCORE_URL} from '../../config/host-config';
 import {useLocation, useNavigate} from "react-router-dom";
-import {ID} from "../../config/login-util";
+import {ID, USERNAME} from "../../config/login-util";
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
 
@@ -32,6 +32,7 @@ const GamePage = () => {
         const location = useLocation();
         const roomId = location.state?.roomId;
         const userID = localStorage.getItem(ID);
+        const username = localStorage.getItem(USERNAME);
 
         // 모달
         const [modalOpen, setModalOpen] = useState(false);
@@ -187,7 +188,7 @@ const GamePage = () => {
             stompClient.connect({}, () => {
                 stompClient.send("/app/game/chat", {}, JSON.stringify({
                     gno: roomId,
-                    userId: userID,
+                    userId: username,
                     content: input
                 }));
 
@@ -366,12 +367,20 @@ const GamePage = () => {
             });
         }, [])
 
+        const [choicedImg, setChoicedImg] = useState("")
         const imageHandler = e => {
+            setChoicedImg(e.target.src)
+            setSelectedImage(e.target.src)
+        }
+        const sendImageHandler = e => {
+            setInputText("");
+            setImg([]);
+            setModalOpen(false);
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
             stompClient.connect({}, (frame) => {
                 stompClient.send("/app/game/image", {}, JSON.stringify({
-                    image: e.target.src,
+                    image: choicedImg,
                     gno: roomId
                 }));
             });
@@ -382,6 +391,17 @@ const GamePage = () => {
             nav('/lobby')
         }
 
+        // 스피너 표시 여부를 관리합니다.
+        const [showSpinner, setShowSpinner] = useState(false);
+
+        // 이미지가 로딩되었을 때 스피너를 숨깁니다.
+        useEffect(() => {
+            if (img.length > 0) {
+                setShowSpinner(false);
+            }
+        }, [img]);
+
+    const [selectedImage, setSelectedImage] = useState(null);
         return (
             <div className='box'>
                 <button onClick={timeHandler} className='p'>시작</button>
@@ -439,11 +459,14 @@ const GamePage = () => {
                     }}>
                         <div className='modal-content'>
                             {/* 이미지를 매핑하여 화면에 표시 */}
-                            <div className="loading_circle"></div>
+                            <div className="loading_circle" style={{display: showSpinner ? 'block' : 'none'}}></div>
                             <div className='imgs'>
                                 {img.map((image, index) => (
-                                    <img key={index} src={image} alt={`Image ${index}`} className='img'
-                                         onClick={imageHandler}/>
+                                    <img key={index}
+                                         src={image}
+                                         alt={`Image ${index}`}
+                                         className={`img ${selectedImage === image ? 'selected' : ''}`}
+                                         onClick={imageHandler} />
                                 ))}
                             </div>
                             <div className='items'>
@@ -453,13 +476,21 @@ const GamePage = () => {
                                     className='input'
                                     value={inputText}
                                     onChange={handleInputChange}
-                                    onKeyPress={handleInputKey}
+                                    onKeyPress={(event) => {
+                                        if (event.key === 'Enter') {
+                                            handleInputKey(event);
+                                            setShowSpinner(true); // 인풋에서 엔터 키가 눌렸을 때 스피너를 표시합니다.
+                                        }
+                                    }}
                                 />
-                                <button className='create' onClick={createImage}>
+                                <button className='create' onClick={() => {
+                                    createImage();
+                                    setShowSpinner(true); // 사진 만들기 버튼이 클릭되었을 때 스피너를 표시합니다.
+                                }}>
                                     사진만들기
                                 </button>
-                                <button className={'modal-close-btn'} onClick={() => setModalOpen(false)}>
-                                    모달 닫기
+                                <button className={'modal-close-btn'} onClick={() => { sendImageHandler(); }}>
+                                    모달 닫기 및 이미지 전송
                                 </button>
                             </div>
                         </div>
