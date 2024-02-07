@@ -13,7 +13,7 @@ const UserSideLeft = () => {
     // 이미지 가져오기
     const fetchSideMenuImage = async ()=> {
 
-        const res = await fetch("http://localhost:8888/side/side-menu", {
+        const res = await fetch( SIDE_URL, {
             method: 'GET'
         });
 
