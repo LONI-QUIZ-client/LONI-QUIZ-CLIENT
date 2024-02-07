@@ -29,6 +29,7 @@ const UserMyPage = () => {
         , score: ''
     });
 
+    // ====== user state ======
     // 유저 로그인 상태
     const [isUserLoginState, setIsUserLoginState] = useState(false);
 
@@ -50,21 +51,13 @@ const UserMyPage = () => {
             redirect('/lobby');
         }
     }
+    // ====== end user state ======
 
-    // 로비 이동
-    const moveLobbyHandler = e => {
-        redirect('/lobby')
-    }
-
-    // MOVE LOBBY Button
-    const BsFillDoorOpenFillStyle = {
-        width: '3.5rem'
-        , height: '3.5rem'
-        , marginRight: '0.2rem'
-    }
-
+    // ======= background =======
     const [arrColor, setArrColor] = useState([]);
+
     const colorArray = ['#FF7759', '#FFE77C', '#AAFF59', '#59FFA5', '#59F5FF', '#59C8FF', '#5975FF', '#9459FF','#FF5986'];
+
     useEffect(() => {
         const sendColor = [];
         for (let i = 0; i < 2; i++) {
@@ -75,6 +68,18 @@ const UserMyPage = () => {
 
     }, []);
 
+    const backgroundHandler = {
+        background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
+    }
+
+    const iconHandler = {
+        background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
+        , boxShadow: `-5px -5px 10px 5px ${arrColor[0]+50}, 5px 5px 10px 5px ${arrColor[1]+50}`
+    }
+    // ======= end background =======
+
+
+    // ======= profile =======
     const [profilePath, setProfilePath] = useState('');
 
     const fetchProfile = async () => {
@@ -94,13 +99,16 @@ const UserMyPage = () => {
 
     }
 
-    /*const followUserHandler = async () => {
-        const res = await fetch(url ,{
-            method: 'POST'
-            , headers: {'content-type':'application/json'}
-            , body: JSON.stringify(followLoad)
-        });
-    }*/
+    const profileImage = {
+        backgroundImage: `url(${profilePath})`
+        , backgroundRepeat: 'no-repeat'
+        , backgroundSize: 'contain'
+        , backgroundPosition: 'center'
+    }
+    // ======= end profile =======
+
+    /*// ======= user game info =======
+    // ======= end user game info =======*/
 
     // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
     useEffect(() => {
@@ -123,28 +131,11 @@ const UserMyPage = () => {
 
     }, [userId]);
 
-    const backgroundHandler = {
-        background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
-    }
-
-    const iconHandler = {
-        background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
-        , boxShadow: `-5px -5px 10px 5px ${arrColor[0]+50}, 5px 5px 10px 5px ${arrColor[1]+50}`
-    }
-
-    const profileImage = {
-        backgroundImage: `url(${profilePath})`
-        , backgroundRepeat: 'no-repeat'
-        , backgroundSize: 'contain'
-        , backgroundPosition: 'center'
-
-    }
-
     return (
         <div className={"user-info"}>
             <div className={"user-setting-buttons"}>
-                { userPageMaster ? <LobbyButton /> : <MyPageButton /> }
-                { userPageMaster ? <Logout /> : '' }
+                <LobbyButton />
+                { userPageMaster ? <Logout /> : <MyPageButton /> }
             </div>
 
             <div className={"user-page-background"} style={backgroundHandler}>
@@ -170,12 +161,12 @@ const UserMyPage = () => {
             <div className={"user-game-info-contain"}>
                 <div className={"user-follow-item"}>
                     <div className={"follow-star-icon"}><FaStar /></div>
-                    <p>count</p>
+                    <p>100,000</p>
                     Following
                 </div>
                 <div className={"game-score-item"}>
                     <div className={"game-score-icon"}><BsFillXDiamondFill /></div>
-                    <p>score</p>
+                    <p>100,000,000</p>
                     Point
                 </div>
                 <div className={"game-playing-record"}>
@@ -184,7 +175,7 @@ const UserMyPage = () => {
                     Games
                 </div>
             </div>
-            {/*{ userPageMaster ? <MemberDelete /> : ''}*/}
+            { userPageMaster ? <MemberDelete /> : ''}
         </div>
     );
 };

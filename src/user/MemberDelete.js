@@ -38,9 +38,17 @@ const MemberDelete = () => {
         }
     }
 
+    const deleteMember = {
+        position: 'absolute'
+        , bottom: 0
+        , right: 0
+    }
+
     return (
         <>
-            <button onClick={getOutHandler} className={"disconnect-member"}>Delete</button>
+            <button onClick={getOutHandler} style={deleteMember} className={"button-item"}>
+                Delete
+            </button>
         </>
     );
 };
