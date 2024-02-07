@@ -13,6 +13,7 @@ import GameLobby from "./component/game/GameLobby";
 import Main from "./component/main/Main";
 import GamePage from "./component/gamepage/GamePage";
 import UserInfo from "./user/UserInfo";
+import KakaoLoading from "./user/KakaoLoading";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path={'/lobby'} element={<GameLobby />} />
               <Route path={'/gameRoom'} element={<GamePage />} />
               <Route path={'/mypage'} element={<UserInfo />} />
+              <Route path={'/oauth'} element={<KakaoLoading />} />
           </Routes>
       </>
   );

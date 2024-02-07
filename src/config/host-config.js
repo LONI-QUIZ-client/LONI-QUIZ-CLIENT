@@ -1,5 +1,3 @@
-
-
 const LOCAL_PORT = '8888';
 const API_BASE_URL = 'http://localhost:' + LOCAL_PORT;
 
@@ -18,6 +16,10 @@ const LOBBY = '/game/lobby';
 
 const ROOM = '/game/Gameroom';
 
+// 카카오 로그인
+const REACT_APP_REST_API_KEY = "b11f2fab760f545cb7340313e13ec03b"
+export const REACT_APP_REDIRECT_URL = "http://localhost:3000/oauth"
+
 export const LOGIN_URL = API_BASE_URL + LOGIN;
 export const JOIN_URL = API_BASE_URL + JOIN;
 
@@ -27,3 +29,5 @@ export const GAME_ROOM = API_BASE_URL + ROOM;
 
 export const IMG_URL = API_BASE_URL + imageCreate;
 export const SCORE_URL = API_BASE_URL + upScore;
+export const KAKAO_AUTH_URL
+    = `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_REST_API_KEY}&redirect_uri=${REACT_APP_REDIRECT_URL}&response_type=code`;

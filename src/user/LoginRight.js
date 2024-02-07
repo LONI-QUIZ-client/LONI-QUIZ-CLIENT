@@ -4,8 +4,9 @@ import {BsLock, BsPerson} from "react-icons/bs";
 import {FaRegCheckCircle} from "react-icons/fa";
 import {Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import {LOGIN_URL} from "../config/host-config";
+import {KAKAO_AUTH_URL, LOGIN_URL} from "../config/host-config";
 import {TOKEN, ID, USERNAME} from "../config/login-util";
+import KakaoImgBtn from "../assets/img/kakaoLoginBtn.png"
 
 import "../user/scss/LoginRight.scss"
 
@@ -109,10 +110,11 @@ const LoginRight = () => {
                 </div>
                 <div className={"login-password-item"}>
                     <BsLock className={"password-icon"}/>
-                    <input type={"password"} className={"login-password-input"} placeholder="비밀번호" onChange={userPasswordHandler}/>
+                    <input type={"password"} className={"login-password-input"} placeholder="비밀번호"
+                           onChange={userPasswordHandler}/>
                 </div>
                 <div className={"auto-login-check"}>
-                    <FaRegCheckCircle />자동 로그인
+                    <FaRegCheckCircle/>자동 로그인
                 </div>
                 <div className={"user-join-move-link"} onClick={moveJoinHandler}>회원가입</div>
                 <div className={"login-state-item"}>
@@ -125,6 +127,9 @@ const LoginRight = () => {
                     </Button>
                 </div>
             </form>
+            <a href={KAKAO_AUTH_URL} className='kakaoBtn'>
+                <img src={KakaoImgBtn} style={{width: '100%', marginTop: '10px'}} alt='로고'/>
+            </a>
         </div>
     );
 };
