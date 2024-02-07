@@ -37,7 +37,10 @@
     }
   }
   .chat_texts {
-    .text_balloon {
+    .your_text_balloon {
+
+    }
+    .my_text_balloon {
 
     }
   }
@@ -55,21 +58,14 @@
   }
   .game_friend_modal_menu {
 
-    .friends_menu_list {
-      display: flex;
-
-      .add_fri_btn,
-      .list_fri_btn,
-      .chat_fri_btn {
-        flex: 1;
-        border-radius: 50px;
-        border: none;
-        background-color: #FFFFFF;
-        cursor: pointer;
-        &:hover {
-          background-color: #868686;
-        }
-      }
+    .add_fri_btn,
+    .list_fri_btn,
+    .chat_fri_btn {
+      flex: 1;
+      border-radius: 100px;
+      border: none;
+      background-color: #FFFFFF;
+      cursor: pointer;
     }
   }
 }

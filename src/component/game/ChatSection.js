@@ -8,9 +8,11 @@ const ChatSection = () => {
                 <button>나가기</button>
             </div>
             <div className='chat_texts'>
-                <div className='text_balloon'>
-                    <p>친구 1</p>
+                <div className='your_text_balloon'>
                     <p>ㅎㅇ...</p>
+                </div>
+                <div className='my_text_balloon'>
+                    <p>ㅎㅇ...?</p>
                 </div>
             </div>
             <div className='my_input_text'>
