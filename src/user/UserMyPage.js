@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {BsFillDoorOpenFill, BsFillPersonFill} from "react-icons/bs";
 import Logout from "./Logout";
 import {useNavigate, useParams} from "react-router-dom";
-import {JOIN_URL} from "../config/host-config";
+import {FOLLOW_URL, JOIN_URL} from "../config/host-config";
 import {getCurrentLoginUser, getLoginUserCheck, isAutoLogin, isLogin} from "../config/login-util";
 import cn from "classnames";
 import {LuPower, LuPowerOff} from "react-icons/lu";
@@ -69,14 +69,11 @@ const UserMyPage = () => {
 
     }, []);
 
-    const [profilePath, setProfilePath] = useState(null);
+    const [profilePath, setProfilePath] = useState('');
 
     const fetchProfile = async () => {
-        const res = await fetch(JOIN_URL+"/profile-image", {
+        const res = await fetch(JOIN_URL+"/profile-image/"+userPageInfo.id, {
             method: 'GET'
-            , headers: {
-                'Authorization': 'Bearer ' + getLoginUserCheck().token
-            }
         });
 
         if(res.status===200){
@@ -86,10 +83,18 @@ const UserMyPage = () => {
         } else {
             const json = await res.text();
             alert(json)
-            setProfilePath(null);
+            setProfilePath('');
         }
 
     }
+
+    /*const followUserHandler = async () => {
+        const res = await fetch(url ,{
+            method: 'POST'
+            , headers: {'content-type':'application/json'}
+            , body: JSON.stringify(followLoad)
+        });
+    }*/
 
     // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
     useEffect(() => {
@@ -121,7 +126,11 @@ const UserMyPage = () => {
     }
 
     const profileImage = {
-        background: `url(${profilePath})`
+        backgroundImage: `url(${profilePath})`
+        , backgroundRepeat: 'no-repeat'
+        , backgroundSize: 'contain'
+        , backgroundPosition: 'center'
+
     }
 
     return (
@@ -140,7 +149,7 @@ const UserMyPage = () => {
             <div className={"user-page-background"} style={backgroundHandler}>
                 <div className={"user-info-item-content"}>
                     <div className={"user-page-profile"} style={profileImage}>
-                        {profileImage ? '' : <BsFillPersonFill/>}
+                        {profilePath ? '' : <BsFillPersonFill/>}
                     </div>
                     <div className={"user-info-contain"}>
                         <div className={"user-name-item"}>{userPageInfo.nickname}</div>
