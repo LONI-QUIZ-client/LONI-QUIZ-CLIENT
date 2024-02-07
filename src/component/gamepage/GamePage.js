@@ -130,7 +130,6 @@ const GamePage = () => {
             }
         }
 
-        const [g, setG] = useState();
 
         // 멤버리스트에서 비교해서 방이 다 찼는지 비교후 방이 다 찼으면 내보내고 아니면 리스트에 담아줌
         useEffect(() => {
@@ -179,19 +178,26 @@ const GamePage = () => {
 
         const [time, setTime] = useState();
 
+        const [g, setG] = useState();
+
+
         //서버에서 시간을 받아옴
         useEffect(() => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
 
+
             stompClient.connect({}, (frame) => {
-                stompClient.subscribe('/topic/game/timer', function (response) {
+                stompClient.subscribe('/topic/game/timer/' + roomId, function (response) {
                     let countdownValue = JSON.parse(response.body);
+
                     setG(countdownValue.gno);
+
                     setTime(countdownValue.time);
+
                 });
             });
-        }, []);
+        }, [roomId]);
 
         // 서버에 시간을 받아오는 요청을 보냄
         const timeHandler = e => {
@@ -199,7 +205,7 @@ const GamePage = () => {
             const stompClient = Stomp.over(socket);
 
             stompClient.connect({}, (frame) => {
-                stompClient.send("/app/game/timer", {}, JSON.stringify({
+                stompClient.send("/app/game/timer/" + roomId, {}, JSON.stringify({
                     gno: roomId
                 }));
             });
