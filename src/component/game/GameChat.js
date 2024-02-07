@@ -4,7 +4,7 @@ import '../css/GameLobby.css';
 import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { LOBBY_CHAT } from "../../config/host-config";
-import { isLogin, getCurrentLoginUser } from "../../config/login-util";
+import {isLogin, getCurrentLoginUser, isAutoLogin, getAutoCurrentLoginUser} from "../../config/login-util";
 import {useNavigate} from "react-router-dom";
 const GameChat = () => {
     const [input, setInput] = useState('');
@@ -13,16 +13,22 @@ const GameChat = () => {
     const messageAreaRef = useRef(null);
     const redirection = useNavigate();
 
+    // const [currentUser, setCurrentUser] = useState(null);
+
     useEffect(() => {
         // 여기서 로그인 여부를 체크하고, 로그인된 경우에만 userId를 설정
         if (isLogin()) {
             const currentUser = getCurrentLoginUser();
             setID(currentUser.username);
+        } else if(isAutoLogin()){
+            const currentUser = getAutoCurrentLoginUser();
+            setID(currentUser.username);
         } else {
             alert("로그인이 필요합니다.");
             redirection('/login');
         }
-
+            // const currentUser = getCurrentLoginUser();
+            // setID(currentUser.username);
 
         // Connect to WebSocket server
         const socket = new SockJS('http://localhost:8888/ws');

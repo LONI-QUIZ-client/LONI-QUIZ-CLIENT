@@ -1,22 +1,25 @@
-.css-79ws1d-MuiModal-root {
+// 전체적인 모달 Mui 수정용 SCSS + 모달 버튼 디자인 수정
+.create_room_btn{
+
+}
+
+.create_room_btn_friend{
+
+}
+
+.create_box{
   display: flex;
   justify-content: center;
   height: 450px;
   margin-top: 200px;
-
-}
-
-.css-104bpzz {
-  text-align: center;
-  border-radius: 30px;
-
   h2 {
     font-size: 30px;
     font-weight: 400;
     margin-bottom: 20px;
   }
+}
 
-  .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
-    margin-bottom: 10px;
-  }
+.friends_box{
+  height: 450px;
+  margin-top: 200px;
 }

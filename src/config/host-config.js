@@ -13,16 +13,20 @@ const imageCreate = '/game/lobbyChat/imageCreate';
 const upScore = '/game/room/upScore';
 
 // 채팅
-const CHAT = '/game/lobbyChat'
+const CHAT = '/game/lobbyChat';
 const LOBBY = '/game/lobby';
 
 const ROOM = '/game/Gameroom';
+
+const RANK = '/user/order/score';
 
 export const LOGIN_URL = API_BASE_URL + LOGIN;
 export const JOIN_URL = API_BASE_URL + JOIN;
 
 export const LOBBY_URL = API_BASE_URL + LOBBY;
 export const LOBBY_CHAT = API_BASE_URL + CHAT;
+export const LOBBY_RANK = API_BASE_URL + RANK;
+
 export const GAME_ROOM = API_BASE_URL + ROOM;
 
 export const IMG_URL = API_BASE_URL + imageCreate;
