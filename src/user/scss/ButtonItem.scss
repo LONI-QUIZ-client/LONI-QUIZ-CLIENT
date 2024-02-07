@@ -1,0 +1,26 @@
+
+.button-item{
+  //font-size: 2rem;
+  //font-family: 'Assistant', sans-serif;
+  //background: #FFFFFF00;
+  //padding: 0.5rem 2.5rem;
+  //color: #dfdfdf;
+  //display: flex;
+  //justify-content: center;
+  border: 0;
+  font-family: 'Assistant', sans-serif;
+  color: #dfdfdf;
+  font-weight: bold;
+  font-size: 1.8rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1.2rem;
+
+  .button-icon{
+    font-size: 2.5rem;
+    margin: 0.5rem;
+    display: flex; align-items: center;
+  }
+
+}

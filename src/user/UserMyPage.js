@@ -2,12 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {BsFillDoorOpenFill, BsFillPersonFill} from "react-icons/bs";
 import Logout from "./Logout";
 import {useNavigate, useParams} from "react-router-dom";
-import {FOLLOW_URL, JOIN_URL} from "../config/host-config";
-import {getCurrentLoginUser, getLoginUserCheck, isAutoLogin, isLogin} from "../config/login-util";
+import {JOIN_URL} from "../config/host-config";
+import {getLoginUserCheck, isAutoLogin, isLogin} from "../config/login-util";
 import cn from "classnames";
 import {LuPower, LuPowerOff} from "react-icons/lu";
 import "./scss/UserMyPage.scss"
-import MemberGetOut from "./MemberGetOut";
+import MemberDelete from "./MemberDelete";
+import { FaStar } from "react-icons/fa";
+import { BsFillXDiamondFill } from "react-icons/bs";
+import { FaRankingStar } from "react-icons/fa6";
+import MyPageButton from "./MyPageButton";
+import LobbyButton from "./LobbyButton";
+
 const UserMyPage = () => {
 
     const redirect = useNavigate();
@@ -106,7 +112,8 @@ const UserMyPage = () => {
             redirect('/login');
         } else {
             setIsUserLoginState(true);
-            if(getLoginUserCheck().id !== userPageInfo.id){
+
+            if(getLoginUserCheck().id !== userId){
                 setUserPageMaster(false);
 
             } else { // if(getLoginUserCheck().id === userPageInfo.id)
@@ -136,14 +143,8 @@ const UserMyPage = () => {
     return (
         <div className={"user-info"}>
             <div className={"user-setting-buttons"}>
-                <button
-                    onClick={moveLobbyHandler}
-                    className={"lobby-move-button"}>
-                    <BsFillDoorOpenFill style={BsFillDoorOpenFillStyle}/>
-                    MOVE LOBBY
-                </button>
+                { userPageMaster ? <LobbyButton /> : <MyPageButton /> }
                 { userPageMaster ? <Logout /> : '' }
-                { userPageMaster ? <MemberGetOut /> : ''}
             </div>
 
             <div className={"user-page-background"} style={backgroundHandler}>
@@ -166,12 +167,24 @@ const UserMyPage = () => {
                 </div>
             </div>
 
-            <div className={"user-follow-info-contain"}>
-                <div className={"follow-item"}>
-                    follow
-                    count
+            <div className={"user-game-info-contain"}>
+                <div className={"user-follow-item"}>
+                    <div className={"follow-star-icon"}><FaStar /></div>
+                    <p>count</p>
+                    Following
+                </div>
+                <div className={"game-score-item"}>
+                    <div className={"game-score-icon"}><BsFillXDiamondFill /></div>
+                    <p>score</p>
+                    Point
+                </div>
+                <div className={"game-playing-record"}>
+                    <div className={"game-playing-icon"}><FaRankingStar /></div>
+                    <p>record</p>
+                    Games
                 </div>
             </div>
+            {/*{ userPageMaster ? <MemberDelete /> : ''}*/}
         </div>
     );
 };

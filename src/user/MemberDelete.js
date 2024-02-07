@@ -2,18 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {JOIN_URL} from "../config/host-config";
 import {useNavigate, useNavigation, useParams} from "react-router-dom";
 
-import "./scss/MemberGetOut.scss"
+import "./scss/ButtonItem.scss";
 import {getLoginUserCheck, isAutoLogin, isLogin} from "../config/login-util";
 
-const MemberGetOut = () => {
+const MemberDelete = () => {
 
     const redirection= useNavigate();
 
     const [id, setId] = useState('');
 
     useEffect(() => {
+        console.log(getLoginUserCheck().id);
         setId(getLoginUserCheck().id);
-        console.log(getLoginUserCheck().id)
     }, []);
 
     const getOutHandler = async (e) => {
@@ -40,9 +40,9 @@ const MemberGetOut = () => {
 
     return (
         <>
-            <button onClick={getOutHandler} className={"disconnect-member"}>disconnect</button>
+            <button onClick={getOutHandler} className={"disconnect-member"}>Delete</button>
         </>
     );
 };
 
-export default MemberGetOut;
+export default MemberDelete;
