@@ -72,18 +72,21 @@ const UserMyPage = () => {
     const [profilePath, setProfilePath] = useState('');
 
     const fetchProfile = async () => {
-        const res = await fetch(JOIN_URL+"/profile-image/"+userPageInfo.id, {
+        const res = await fetch(JOIN_URL+'/user-page-profile/'+userPageInfo.id, {
             method: 'GET'
         });
 
+        console.log(res.status)
+
         if(res.status===200){
-            const json = await res.blob();
+            alert('어서와')
+            /*const json = await res.blob();
             const imageUrl = window.URL.createObjectURL(json);
-            setProfilePath(imageUrl);
+            setProfilePath(imageUrl);*/
         } else {
-            const json = await res.text();
-            alert(json)
-            setProfilePath('');
+            // const json = await res.text();
+            // alert(json)
+            // setProfilePath('');
         }
 
     }
@@ -99,7 +102,7 @@ const UserMyPage = () => {
     // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
     useEffect(() => {
         fetchUserInfo();
-        fetchProfile();
+        // fetchProfile();
 
         if(!isLogin() && !isAutoLogin()){
             alert('로그인 하세요');
@@ -113,6 +116,7 @@ const UserMyPage = () => {
                 setUserPageMaster(true);
             }
         }
+            console.log(getLoginUserCheck().id, userPageInfo )
 
     }, [userPageInfo.id]);
 
