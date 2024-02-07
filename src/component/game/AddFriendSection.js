@@ -28,6 +28,7 @@ const AddFriendSection = () => {
             <h2>Add Friend</h2>
             <div className='lobby_search_friend_box'>
                 <Paper
+                    className='search_user_form'
                     component="form"
                     sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 250 }}
                 >

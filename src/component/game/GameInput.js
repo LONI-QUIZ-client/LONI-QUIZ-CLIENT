@@ -82,13 +82,14 @@ const GameInput = ({data}) => {
         <>
             <div className='lobby_search_room_box'>
                 <Paper
+                    className = 'room_search_form'
                     component="form"
                     sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
                 >
                     <InputBase
                         sx={{ ml: 1, flex: 1 }}
-                        placeholder="Search User"
-                        inputprops={{ 'aria-label': 'search user' }}
+                        placeholder="Search Room"
+                        inputprops={{ 'aria-label': 'search room' }}
                     />
                     <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
                         <SearchIcon />
