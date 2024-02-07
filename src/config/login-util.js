@@ -16,6 +16,8 @@ export const getCurrentLoginUser = () => {
     };
 };
 
+
+// 로그인한 사용자의 데이터를 반환하는 함수(자동로그인용)
 export const getAutoCurrentLoginUser = () => {
     return {
         token: localStorage.getItem(TOKEN),

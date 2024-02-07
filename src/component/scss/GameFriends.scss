@@ -1,0 +1,75 @@
+// 모달 페이지 (메뉴 버튼을 눌렀을 시 나오는 전환용 페이지)
+.add_friend_menu {
+
+  h2 {
+    font-size: 40px;
+    margin-bottom: 10px;
+  }
+  .lobby_search_friend_box {
+
+  }
+  .search_friend_list {
+
+  }
+}
+
+.list_friend_menu {
+
+  h2 {
+    font-size: 40px;
+    margin-bottom: 10px;
+  }
+}
+
+.chat_friend_menu {
+  .chat_friend_menu_header {
+    h2 {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+  }
+}
+.chat_friend_menu_ch {
+  .chat_friend_menu_ch_header{
+    h2 {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+  }
+  .chat_texts {
+    .text_balloon {
+
+    }
+  }
+  .my_input_text {
+
+  }
+}
+
+
+// return SCSS (단, 전체적 모달 부분은 제외한다.)
+
+.game_friend_modal_container {
+  .game_friend_modal_page {
+
+  }
+  .game_friend_modal_menu {
+
+    .friends_menu_list {
+      display: flex;
+
+      .add_fri_btn,
+      .list_fri_btn,
+      .chat_fri_btn {
+        flex: 1;
+        border-radius: 50px;
+        border: none;
+        background-color: #FFFFFF;
+        cursor: pointer;
+        &:hover {
+          background-color: #868686;
+        }
+      }
+    }
+  }
+}
