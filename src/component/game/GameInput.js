@@ -104,7 +104,7 @@ const GameInput = ({data}) => {
                         <div className="list">
                             <p>No. {index + 1 + (currentPage - 1) * itemsPerPage}</p>
                             <h2>{item.title}</h2>
-                            <p>{item.userCount} / {item.lobbyMaxCount}</p>
+                            <p>{item.userCount} / {item.maxCount}</p>
                             <p className='list_name_right'>{item.userNickname}</p>
                         </div>
                     </div>

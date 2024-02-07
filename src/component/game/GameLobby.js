@@ -23,6 +23,7 @@ const GameLobby = () => {
             .then(res => res.json())
             .then(json => {
                 setLobbyData(json);
+                console.log(json);
             });
     }, []);
 

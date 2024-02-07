@@ -48,7 +48,7 @@ const GameModal = () => {
                     return res.json();
                 }
                 else{
-                    console.log(res.text())
+                    alert("방을 한번 만드셨습니다.");
                 }
             })
             .then(data => {
