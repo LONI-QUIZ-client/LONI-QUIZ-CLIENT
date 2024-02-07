@@ -8,7 +8,6 @@ import "./scss/JoinRight.scss"
 import 'animate.css';
 
 import person from "../user/scss/img/person-fill.png"
-import userInfo from "./UserInfo";
 
 
 const JoinRight = () => {
