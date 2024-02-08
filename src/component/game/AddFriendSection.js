@@ -16,6 +16,24 @@ const AddFriendSection = () => {
         const keyword = e.target.value;
         setSearchKeyword(keyword);
 
+        fetch("http://localhost:8888/user/nickname",{
+            method: "post",
+            headers : {
+                'content-type' : 'application/json'
+            },
+            body: JSON.stringify({
+                nickname: keyword
+            })
+        })
+            .then(res =>{
+                if (res.status === 200){
+                    return res.json()
+                }
+            })
+            .then(json =>{
+                console.log(json);
+            })
+
         // 검색어에 따라 목록을 필터링하여 업데이트
         const filteredList = initialFriends.filter(
             friend => friend.name.includes(keyword)

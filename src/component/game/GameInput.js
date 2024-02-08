@@ -22,6 +22,8 @@ const GameInput = ({data}) => {
     // data.dto가 없거나 undefined인 경우 빈 배열로 초기화
     const dtoArray = data && data.dto ? data.dto : [];
 
+    const [inputText, setInputText] = useState('');
+
     // 현재 페이지에 해당하는 리스트 가져오기
     const getCurrentPageItems = () => {
         const startIndex = (currentPage - 1) * itemsPerPage;
@@ -74,8 +76,6 @@ const GameInput = ({data}) => {
             }));
         });
         redirect('/gameRoom', {state: {roomId}});
-
-
     }
 
     return (
