@@ -7,6 +7,7 @@ import {ID, USERNAME} from "../../config/login-util";
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
 
+
 const GamePage = () => {
         const nav = useNavigate();
         const [inputText, setInputText] = useState('');
@@ -242,9 +243,9 @@ const GamePage = () => {
             }
         }, [thisRoomsUsers])
 
-    useEffect(() => {
-        console.log(roomMembers)
-    }, [roomMembers]);
+        useEffect(() => {
+            console.log(roomMembers)
+        }, [roomMembers]);
 
         // 유저 턴
         const [userBool, setA] = useState(false)
@@ -401,7 +402,7 @@ const GamePage = () => {
             }
         }, [img]);
 
-    const [selectedImage, setSelectedImage] = useState(null);
+        const [selectedImage, setSelectedImage] = useState(null);
         return (
             <div className='box'>
                 <button onClick={timeHandler} className='p'>시작</button>
@@ -409,12 +410,16 @@ const GamePage = () => {
                 <button onClick={nextTurnHandler} className='i'>턴넘기기</button>
                 <button onClick={exitHandler} className='u'>나가기</button>
 
-                <div className='time'>
-                    {time}
-                </div>
                 <div className='a'>
-                    <div className='show-img'>
+                    <div className='show-img' style={{
+                        // 백그라운드 바꿀꺼임
+                        backgroundImage: `url(${process.env.PUBLIC_URL + '/a0.png'})`
+                    }}>
                         <img className='showImg' src={image.image}/>
+                    </div>
+
+                    <div className='time'>
+                        {time}
                     </div>
                     <div className='user-list'>
 
@@ -433,7 +438,6 @@ const GamePage = () => {
                                             <div className='score'>
                                                 <div>{roomMembers && roomMembers[index] ? roomMembers[index].point : 0}점</div>
                                             </div>
-
                                         </div>
                                     )
                                 ))
@@ -466,7 +470,7 @@ const GamePage = () => {
                                          src={image}
                                          alt={`Image ${index}`}
                                          className={`img ${selectedImage === image ? 'selected' : ''}`}
-                                         onClick={imageHandler} />
+                                         onClick={imageHandler}/>
                                 ))}
                             </div>
                             <div className='items'>
@@ -489,7 +493,9 @@ const GamePage = () => {
                                 }}>
                                     사진만들기
                                 </button>
-                                <button className={'modal-close-btn'} onClick={() => { sendImageHandler(); }}>
+                                <button className={'modal-close-btn'} onClick={() => {
+                                    sendImageHandler();
+                                }}>
                                     모달 닫기 및 이미지 전송
                                 </button>
                             </div>
@@ -510,17 +516,15 @@ const GamePage = () => {
                         }
                     </ul>
                     <form className='chat-input' name="messageForm" onSubmit={inputSubmit}>
-                        <div className="form-group">
-                            <div className="input-group clearfix">
-                                <input
-                                    id="message"
-                                    placeholder="채팅 입력..."
-                                    autoComplete="off"
-                                    className="form-control"
-                                    value={input}
-                                    onChange={(e) => setInput(e.target.value)}
-                                />
-                            </div>
+                        <div className="input-group clearfix">
+                            <input
+                                id="messagee"
+                                placeholder="채팅 입력..."
+                                autoComplete="off"
+                                className="form-control"
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                            />
                         </div>
                     </form>
                 </div>
