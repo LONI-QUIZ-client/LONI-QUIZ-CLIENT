@@ -16,7 +16,7 @@ body {
 
 .lobby_container {
   display: flex;
-  justify-content: center;
+  height: 85vh;
 }
 
 .lobby_box1 {
@@ -96,9 +96,15 @@ body {
 .lobby_box2 {
   float: left;
   background-color: #61689F;
-  width: 70%;
+  width: 100%;
   height: auto;
   overflow: hidden;
+
+  .lobby_search_room_box {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
 
   .room_list {
     width: 100%;

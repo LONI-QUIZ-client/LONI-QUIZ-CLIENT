@@ -1,37 +1,105 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './scss/Main.scss';
 import Button from "./Button";
 import Header from "./Header";
 import Slider from "./Slider";
+import Dots from "./Dots";
 
 const Main = () => {
-
-    // 스크롤 이벤트 테스트중
-    const [scrollPosition, setScrollPosition] = useState(0);
-
-    const updateScroll = () => {
-        setScrollPosition(window.scrollY || document.documentElement.scrollTop);
-    };
-
+    const DIVIDER_HEIGHT = 5;
+    const outerDivRef = useRef();
+    const [currentPage, setCurrentPage] = useState(1);
     useEffect(() => {
-        window.addEventListener("scroll", updateScroll);
+        const wheelHandler = (e) => {
+            console.log(e)
+            e.preventDefault();
+            const {deltaY} = e;
+            const {scrollTop} = outerDivRef.current; // 스크롤 위쪽 끝부분 위치
+            const pageHeight = window.innerHeight; // 화면 세로길이, 100vh
+
+            if (deltaY > 0) {
+                // 스크롤 내릴 때
+                if (scrollTop >= 0 && scrollTop < pageHeight) {
+                    //현재 1페이지
+                    console.log("현재 1페이지, down");
+                    outerDivRef.current.scrollTo({
+                        top: pageHeight + DIVIDER_HEIGHT,
+                        left: 0,
+                        behavior: "smooth",
+                    });
+                    setCurrentPage(2);
+                } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
+                    //현재 2페이지
+                    console.log("현재 2페이지, down");
+                    outerDivRef.current.scrollTo({
+                        top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
+                        left: 0,
+                        behavior: "smooth",
+                    });
+                    setCurrentPage(3);
+                } else {
+                    // 현재 3페이지
+                    console.log("현재 3페이지, down");
+                    outerDivRef.current.scrollTo({
+                        top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
+                        left: 0,
+                        behavior: "smooth",
+                    });
+                }
+            } else {
+                // 스크롤 올릴 때
+                if (scrollTop >= 0 && scrollTop < pageHeight) {
+                    //현재 1페이지
+                    console.log("현재 1페이지, up");
+                    outerDivRef.current.scrollTo({
+                        top: 0,
+                        left: 0,
+                        behavior: "smooth",
+                    });
+                } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
+                    //현재 2페이지
+                    console.log("현재 2페이지, up");
+                    outerDivRef.current.scrollTo({
+                        top: 0,
+                        left: 0,
+                        behavior: "smooth",
+                    });
+                    setCurrentPage(1);
+                } else {
+                    // 현재 3페이지
+                    console.log("현재 3페이지, up");
+                    outerDivRef.current.scrollTo({
+                        top: pageHeight + DIVIDER_HEIGHT,
+                        left: 0,
+                        behavior: "smooth",
+                    });
+                    setCurrentPage(2);
+                }
+            }
+        };
+        const outerDivRefCurrent = outerDivRef.current;
+        outerDivRefCurrent.addEventListener("wheel", wheelHandler);
+        return () => {
+            outerDivRefCurrent.removeEventListener("wheel", wheelHandler);
+        };
     }, []);
     return (
-        <div className='outer'>
-            <section className='section'>
-                <div className='inner container'>
+        <div ref={outerDivRef} className='outer'>
+            <div className='inner section'>
+                <div className='container'>
+                    <Dots currentPage={currentPage}/>
                     <Header/>
                     <div className='main-box'>
                         <div className='l-g'>
                             <h1 className='logo'>LONI<br/>QUIZ</h1>
                             <p>AI가 만든 이미지로 퀴즈 게임을 즐겨보세요</p>
-                            <div className={scrollPosition > 40 ? "scroll-text" : "scrolled-text"}>스크롤되면 색이 변함</div>
                             <Button/>
                         </div>
                     </div>
                 </div>
-            </section>
-            <section className='inner section'>
+            </div>
+            <div className="divider"></div>
+            <div className='inner section'>
                 <div className='content-box'>
                     <h1 className='content-title'>AI 이미지 생성 기술은 처음이신가요?</h1>
                     <p>아래 사진들은 ai 이미지 생성 기술로 만들어진 사진들입니다 당신도 자신만의 이미지를 만들어보세요!</p>
@@ -67,14 +135,15 @@ const Main = () => {
                         </div>
                     </div>
                 </div>
-            </section>
-            <section className='inner section'>
+            </div>
+            <div className="divider"></div>
+            <div className='inner section'>
                 <div className='bottom-box'>
                     <footer>
                         <Slider/>
                     </footer>
                 </div>
-            </section>
+            </div>
         </div>
     );
 };

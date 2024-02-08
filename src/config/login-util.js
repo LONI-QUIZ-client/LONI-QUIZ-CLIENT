@@ -3,10 +3,9 @@ export const TOKEN = 'ACCESS_TOKEN';
 export const ID = "USER_ID";
 export const USERNAME = 'USER_NAME';
 
-export const USERID = 'USER_ID';
-
 // 로그인 여부를 확인하는 함수
-export const isLogin = () => !!localStorage.getItem(TOKEN);
+export const isLogin = () => !!sessionStorage.getItem(TOKEN);
+export const isAutoLogin = () => !!localStorage.getItem(TOKEN);
 
 export const isAutoLogin = () => !!sessionStorage.getItem(TOKEN);
 
@@ -27,3 +26,12 @@ export const getAutoCurrentLoginUser = () => {
         username: localStorage.getItem(USERNAME),
     };
 };
+
+export const getLoginUserCheck = () => {
+    if(isLogin()){
+        return getCurrentLoginUser();
+    } else if(isAutoLogin()){
+        return getAutoCurrentLoginUser();
+    }
+}
+

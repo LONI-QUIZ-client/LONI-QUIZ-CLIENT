@@ -5,6 +5,11 @@ import {redirect, useNavigate} from "react-router-dom";
 import {ID, USERNAME} from '../../config/login-util';
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
+import GameModal from "./GameModal";
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
 
 const GameInput = ({data}) => {
     const itemsPerPage = 6; // 한 페이지당 보여질 아이템 개수
@@ -16,6 +21,8 @@ const GameInput = ({data}) => {
 
     // data.dto가 없거나 undefined인 경우 빈 배열로 초기화
     const dtoArray = data && data.dto ? data.dto : [];
+
+    const [inputText, setInputText] = useState('');
 
     // 현재 페이지에 해당하는 리스트 가져오기
     const getCurrentPageItems = () => {
@@ -69,12 +76,26 @@ const GameInput = ({data}) => {
             }));
         });
         redirect('/gameRoom', {state: {roomId}});
-
-
     }
 
     return (
         <>
+            <div className='lobby_search_room_box'>
+                <Paper
+                    className = 'room_search_form'
+                    component="form"
+                    sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
+                >
+                    <InputBase
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="Search Room"
+                        inputprops={{ 'aria-label': 'search room' }}
+                    />
+                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                        <SearchIcon />
+                    </IconButton>
+                </Paper>
+            </div>
             <div className='room_list'>
                 {getCurrentPageItems().map((item, index) => (
                     <div className="room_container" key={index} onClick={() => {
@@ -83,22 +104,27 @@ const GameInput = ({data}) => {
                         <div className="list">
                             <p>No. {index + 1 + (currentPage - 1) * itemsPerPage}</p>
                             <h2>{item.title}</h2>
-                            <p>{item.userCount} / {item.lobbyMaxCount}</p>
+                            <p>{item.userCount} / {item.maxCount}</p>
                             <p className='list_name_right'>{item.userNickname}</p>
                         </div>
                     </div>
                 ))}
             </div>
-            <div className="pagination">
-                {Array.from({length: totalPageCount}, (_, i) => i + 1).map((pageNumber) => (
-                    <button
-                        key={pageNumber}
-                        onClick={() => handlePageChange(pageNumber)}
-                        className={currentPage === pageNumber ? 'active' : ''}
-                    >
-                        {pageNumber}
-                    </button>
-                ))}
+            <div className='room_footer'>
+                <div className="pagination">
+                    {Array.from({length: totalPageCount}, (_, i) => i + 1).map((pageNumber) => (
+                        <button
+                            key={pageNumber}
+                            onClick={() => handlePageChange(pageNumber)}
+                            className={currentPage === pageNumber ? 'active' : ''}
+                        >
+                            {pageNumber}
+                        </button>
+                    ))}
+                </div>
+                <div>
+                    <GameModal/>
+                </div>
             </div>
         </>
     );

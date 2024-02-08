@@ -1,0 +1,125 @@
+// 모달 페이지 (메뉴 버튼을 눌렀을 시 나오는 전환용 페이지)
+// 친구 추가(검색) 리스트
+.add_friend_menu {
+
+  h2 {
+    font-size: 40px;
+    margin-bottom: 15px;
+  }
+  .lobby_search_friend_box {
+    margin-bottom: 10px;
+  }
+  .search_friend_list {
+    li {
+      display: flex;
+      justify-content: space-between;
+      p {
+        font-weight: 700;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+// 친구창 리스트
+.list_friend_menu {
+  h2 {
+    font-size: 40px;
+    margin-bottom: 15px;
+  }
+  .list_friends_box {
+    li {
+      display: flex;
+      justify-content: space-between;
+      p {
+        font-weight: 500;
+        font-size: 15px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+// 채팅창 리스트
+.chat_friend_menu {
+  .chat_friend_menu_header {
+    h2 {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+  }
+  .chat_list {
+    .chat_list_ch {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      cursor: pointer;
+      h3 {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      p {
+        font-size: 15px;
+      }
+    }
+  }
+}
+
+// 채팅창 화면
+.chat_friend_menu_ch {
+  .chat_friend_menu_ch_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .chat_out {
+      background-color: #9B9AE2;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  }
+
+  .chat_texts {
+    .your_text_balloon {
+      background-color: #1ddc8c;
+    }
+    .my_text_balloon {
+      background-color: #78c7d2;
+    }
+  }
+
+  .my_input_text {
+
+  }
+}
+
+
+
+// return SCSS (단, 전체적 모달 부분은 제외한다.)
+
+.game_friend_modal_container {
+  .game_friend_modal_page {
+
+  }
+  .game_friend_modal_menu {
+
+    .add_fri_btn,
+    .list_fri_btn,
+    .chat_fri_btn {
+      flex: 1;
+      border-radius: 100px;
+      border: none;
+      background-color: #FFFFFF;
+      cursor: pointer;
+    }
+  }
+}
