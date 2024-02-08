@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {useNavigate} from "react-router-dom";
 import {REACT_API_REQUEST_URL} from "../config/host-config";
+import {ID, TOKEN, USERNAME} from "../config/login-util";
 
 const KakaoLoading = (props) => {
     const redirect = useNavigate();
@@ -17,8 +18,13 @@ const KakaoLoading = (props) => {
                     },
                 });
 
-                if (response.ok) {
-                    console.log(response)
+                if (response.status === 200) {
+                    const {token, userNickname, id} = await response.json();
+                    localStorage.setItem(TOKEN, token);
+                    localStorage.setItem(USERNAME, userNickname);
+                    localStorage.setItem(ID, id);
+
+                    redirect('/'); // 로그인 후 이동
                 }
                 //
                 // const data = await response.json();

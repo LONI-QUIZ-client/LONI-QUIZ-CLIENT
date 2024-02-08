@@ -67,7 +67,7 @@ const LoginRight = () => {
             localStorage.setItem(ID, id);
 
             setLoginMessageError('');
-            alert('로그인성공!')
+
 
             redirect('/lobby'); // 로그인 후 이동
 
