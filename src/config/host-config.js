@@ -22,6 +22,7 @@ const LOBBY = '/game/lobby';
 const ROOM = '/game/Gameroom';
 
 const RANK = '/user/order/score';
+const USEARCH = '/user/nickname';
 
 export const LOGIN_URL = API_BASE_URL + LOGIN;
 export const JOIN_URL = API_BASE_URL + JOIN;
@@ -31,6 +32,7 @@ export const SIDE_URL = API_BASE_URL + SIDE;
 export const LOBBY_URL = API_BASE_URL + LOBBY;
 export const LOBBY_CHAT = API_BASE_URL + CHAT;
 export const LOBBY_RANK = API_BASE_URL + RANK;
+export const USER_SEARCH = API_BASE_URL + USEARCH;
 
 export const GAME_ROOM = API_BASE_URL + ROOM;
 

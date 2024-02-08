@@ -1,44 +1,48 @@
 import React, { useState } from 'react';
 import { IconButton, InputBase, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { USER_SEARCH } from "../../config/host-config";
 
 const AddFriendSection = () => {
-    const initialFriends = [
-        { name: '친구 1', id: 1 },
-        { name: '친구 2', id: 2 },
-        { name: '킷캣쿠키앤크림', id: 3 },
-    ];
-
     const [searchKeyword, setSearchKeyword] = useState('');
-    const [filteredFriends, setFilteredFriends] = useState(initialFriends);
+    const [filteredFriends, setFilteredFriends] = useState([]);
 
     const handleSearchChange = (e) => {
         const keyword = e.target.value;
         setSearchKeyword(keyword);
 
-        fetch("http://localhost:8888/user/nickname",{
-            method: "post",
-            headers : {
-                'content-type' : 'application/json'
-            },
-            body: JSON.stringify({
-                nickname: keyword
+        if (keyword.trim() === '') {
+            // 빈 값일 때는 검색 결과를 초기화
+            setFilteredFriends([]);
+        } else {
+            fetch(USER_SEARCH, {
+                method: "POST",
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nickname: keyword
+                })
             })
-        })
-            .then(res =>{
-                if (res.status === 200){
-                    return res.json()
-                }
-            })
-            .then(json =>{
-                console.log(json);
-            })
+                .then(res => {
+                    if (res.status === 200) {
+                        return res.json();
+                    }
+                })
+                .then(json => {
+                    console.log(json);
 
-        // 검색어에 따라 목록을 필터링하여 업데이트
-        const filteredList = initialFriends.filter(
-            friend => friend.name.includes(keyword)
-        );
-        setFilteredFriends(filteredList);
+                    // 서버 응답 데이터를 활용하여 친구 목록 업데이트
+                    const serverFriends = json.map(user => ({
+                        name: user.nickname,
+                        id: user.id,
+                    }));
+                    setFilteredFriends(serverFriends);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
     };
 
     return (
@@ -63,14 +67,16 @@ const AddFriendSection = () => {
                 </Paper>
             </div>
             <div className='search_friend_list'>
-                <ul>
-                    {filteredFriends.map(friend => (
-                        <li key={friend.id}>
-                            <p>{friend.name}</p>
-                            <button className='follow_btn'>팔로우</button>
-                        </li>
-                    ))}
-                </ul>
+                {searchKeyword.trim() !== '' && (
+                    <ul>
+                        {filteredFriends.map(user => (
+                            <li key={user.id}>
+                                <p>{user.name}</p>
+                                <button className='follow_btn'>팔로우</button>
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
         </div>
     );
