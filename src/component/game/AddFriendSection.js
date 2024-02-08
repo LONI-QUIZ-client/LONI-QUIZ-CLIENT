@@ -2,10 +2,30 @@ import React, { useState } from 'react';
 import { IconButton, InputBase, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { USER_SEARCH } from "../../config/host-config";
+import {useNavigate} from "react-router-dom";
+import {red} from "@mui/material/colors";
 
 const AddFriendSection = () => {
     const [searchKeyword, setSearchKeyword] = useState('');
     const [filteredFriends, setFilteredFriends] = useState([]);
+
+    const redirection = useNavigate();
+
+    // 유저 마이페이지로 이동
+    const userMypageHandler = e => {
+        const followFriend = e.target.textContent;
+
+        filteredFriends.map(user=>{
+            console.log(user.name);
+            if(user.name===followFriend){
+                console.log(user.id)
+                redirection(`/mypage/${user.id}`);
+            }
+        });
+
+        // console.log(filteredFriends[]);
+        // redirection(`/mypage/${}`);
+    }
 
     const handleSearchChange = (e) => {
         const keyword = e.target.value;
@@ -70,7 +90,7 @@ const AddFriendSection = () => {
                 {searchKeyword.trim() !== '' && (
                     <ul>
                         {filteredFriends.map(user => (
-                            <li key={user.id}>
+                            <li key={user.id} onClick={userMypageHandler}>
                                 <p>{user.name}</p>
                                 <button className='follow_btn'>팔로우</button>
                             </li>
