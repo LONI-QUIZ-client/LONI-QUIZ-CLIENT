@@ -139,6 +139,11 @@ const Main = () => {
             <div className="divider"></div>
             <div className='inner section'>
                 <div className='bottom-box'>
+                    <div className='info'>
+                        <div>
+                        </div>
+                        <img src={process.env.PUBLIC_URL + "/img/pen.jpg"} alt=""/>
+                    </div>
                     <footer>
                         <Slider/>
                     </footer>
