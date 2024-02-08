@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {getLoginUserCheck, isAutoLogin, isLogin} from "../config/login-util";
+import { IoIosLogOut } from "react-icons/io";
 
-import "./scss/Logout.scss"
+import "./scss/ButtonItem.scss"
 
 const Logout = () => {
 
@@ -24,7 +25,12 @@ const Logout = () => {
 
     return (
         <>
-            <button className={"logout-button"} onClick={logoutHandler}>Log Out</button>
+            <button className={"logout-button button-item"} onClick={logoutHandler}>
+                <div className={"logout-icon button-icon"}>
+                    <IoIosLogOut />
+                </div>
+                Log Out
+            </button>
         </>
     );
 };

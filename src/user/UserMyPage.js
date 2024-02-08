@@ -2,12 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {BsFillDoorOpenFill, BsFillPersonFill} from "react-icons/bs";
 import Logout from "./Logout";
 import {useNavigate, useParams} from "react-router-dom";
-import {JOIN_URL} from "../config/host-config";
-import {getCurrentLoginUser, getLoginUserCheck, isAutoLogin, isLogin} from "../config/login-util";
+import {FOLLOW_URL, JOIN_URL} from "../config/host-config";
+import {getLoginUserCheck, isAutoLogin, isLogin} from "../config/login-util";
 import cn from "classnames";
 import {LuPower, LuPowerOff} from "react-icons/lu";
 import "./scss/UserMyPage.scss"
-import MemberGetOut from "./MemberGetOut";
+import MemberDelete from "./MemberDelete";
+import { FaStar } from "react-icons/fa";
+import { BsFillXDiamondFill } from "react-icons/bs";
+import { FaRankingStar } from "react-icons/fa6";
+import MyPageButton from "./MyPageButton";
+import LobbyButton from "./LobbyButton";
+
 const UserMyPage = () => {
 
     const redirect = useNavigate();
@@ -23,6 +29,7 @@ const UserMyPage = () => {
         , score: ''
     });
 
+    // ====== user state ======
     // 유저 로그인 상태
     const [isUserLoginState, setIsUserLoginState] = useState(false);
 
@@ -44,21 +51,13 @@ const UserMyPage = () => {
             redirect('/lobby');
         }
     }
+    // ====== end user state ======
 
-    // 로비 이동
-    const moveLobbyHandler = e => {
-        redirect('/lobby')
-    }
-
-    // MOVE LOBBY Button
-    const BsFillDoorOpenFillStyle = {
-        width: '3.5rem'
-        , height: '3.5rem'
-        , marginRight: '0.2rem'
-    }
-
+    // ======= background =======
     const [arrColor, setArrColor] = useState([]);
+
     const colorArray = ['#FF7759', '#FFE77C', '#AAFF59', '#59FFA5', '#59F5FF', '#59C8FF', '#5975FF', '#9459FF','#FF5986'];
+
     useEffect(() => {
         const sendColor = [];
         for (let i = 0; i < 2; i++) {
@@ -69,14 +68,25 @@ const UserMyPage = () => {
 
     }, []);
 
-    const [profilePath, setProfilePath] = useState(null);
+    const backgroundHandler = {
+        background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
+    }
+
+    const iconHandler = {
+        background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
+        , boxShadow: `-5px -5px 10px 5px ${arrColor[0]+50}, 5px 5px 10px 5px ${arrColor[1]+50}`
+    }
+    // ======= end background =======
+
+
+
+
+    // ======= profile =======
+    const [profilePath, setProfilePath] = useState('');
 
     const fetchProfile = async () => {
-        const res = await fetch(JOIN_URL+"/profile-image", {
+        const res = await fetch(JOIN_URL+'/profile-image/'+userId, {
             method: 'GET'
-            , headers: {
-                'Authorization': 'Bearer ' + getLoginUserCheck().token
-            }
         });
 
         if(res.status===200){
@@ -86,7 +96,46 @@ const UserMyPage = () => {
         } else {
             const json = await res.text();
             alert(json)
-            setProfilePath(null);
+            setProfilePath('');
+        }
+
+    }
+
+    const profileImage = {
+        backgroundImage: `url(${profilePath})`
+        , backgroundRepeat: 'no-repeat'
+        , backgroundSize: 'contain'
+        , backgroundPosition: 'center'
+    }
+    // ======= end profile =======
+
+
+    // ======== follow ========
+
+    // 팔로우 여부
+    const [starFollow, setStarFollow] = useState(false);
+
+    const payload = {
+        fid: userId
+        , userId: getLoginUserCheck().id
+    }
+    const starFollowHandler = async (e) => {
+
+        const res = await fetch( FOLLOW_URL, {
+            method: 'POST'
+            , headers: {'content-type':'application/json'}
+            , body: JSON.stringify(payload)
+        })
+
+        if(res.status===200){
+            const json = await res.json();
+            console.log(json);
+
+            setStarFollow(!starFollow);
+            console.log(starFollow);
+
+        } else {
+            console.log('팔로우를 할 수 엄슴');
         }
 
     }
@@ -101,7 +150,8 @@ const UserMyPage = () => {
             redirect('/login');
         } else {
             setIsUserLoginState(true);
-            if(getLoginUserCheck().id !== userPageInfo.id){
+
+            if(getLoginUserCheck().id !== userId){
                 setUserPageMaster(false);
 
             } else { // if(getLoginUserCheck().id === userPageInfo.id)
@@ -109,38 +159,19 @@ const UserMyPage = () => {
             }
         }
 
-    }, [userPageInfo.id]);
-
-    const backgroundHandler = {
-        background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
-    }
-
-    const iconHandler = {
-        background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
-        , boxShadow: `-5px -5px 10px 5px ${arrColor[0]+50}, 5px 5px 10px 5px ${arrColor[1]+50}`
-    }
-
-    const profileImage = {
-        background: `url(${profilePath})`
-    }
+    }, [userId]);
 
     return (
         <div className={"user-info"}>
             <div className={"user-setting-buttons"}>
-                <button
-                    onClick={moveLobbyHandler}
-                    className={"lobby-move-button"}>
-                    <BsFillDoorOpenFill style={BsFillDoorOpenFillStyle}/>
-                    MOVE LOBBY
-                </button>
-                { userPageMaster ? <Logout /> : '' }
-                { userPageMaster ? <MemberGetOut /> : ''}
+                <LobbyButton />
+                { userPageMaster ? <Logout /> : <MyPageButton /> }
             </div>
 
             <div className={"user-page-background"} style={backgroundHandler}>
                 <div className={"user-info-item-content"}>
                     <div className={"user-page-profile"} style={profileImage}>
-                        {profileImage ? '' : <BsFillPersonFill/>}
+                        {profilePath ? '' : <BsFillPersonFill/>}
                     </div>
                     <div className={"user-info-contain"}>
                         <div className={"user-name-item"}>{userPageInfo.nickname}</div>
@@ -157,12 +188,24 @@ const UserMyPage = () => {
                 </div>
             </div>
 
-            <div className={"user-follow-info-contain"}>
-                <div className={"follow-item"}>
-                    follow
-                    count
+            <div className={"user-game-info-contain"}>
+                <div className={"user-follow-item"}>
+                    <div className={"follow-star-icon"}><FaStar /></div>
+                    <p>100,000</p>
+                    { userPageMaster ? 'Followers' : <button onClick={starFollowHandler}> { starFollow ? 'Following' : 'Follow' } </button> }
+                </div>
+                <div className={"game-score-item"}>
+                    <div className={"game-score-icon"}><BsFillXDiamondFill /></div>
+                    <p>{userPageInfo.score}</p>
+                    Point
+                </div>
+                <div className={"game-playing-record"}>
+                    <div className={"game-playing-icon"}><FaRankingStar /></div>
+                    <p>record</p>
+                    Games
                 </div>
             </div>
+            { userPageMaster ? <MemberDelete /> : ''}
         </div>
     );
 };

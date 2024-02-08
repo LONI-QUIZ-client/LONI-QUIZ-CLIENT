@@ -24,6 +24,11 @@ const ROOM = '/game/Gameroom';
 const RANK = '/user/order/score';
 const USEARCH = '/user/nickname';
 
+//  팔로우
+const FOLLOW = '/follower';
+
+export const FOLLOW_URL = API_BASE_URL + FOLLOW;
+
 export const LOGIN_URL = API_BASE_URL + LOGIN;
 export const JOIN_URL = API_BASE_URL + JOIN;
 
