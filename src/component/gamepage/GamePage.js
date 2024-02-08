@@ -366,6 +366,8 @@ const GamePage = () => {
                     }
                     setImage(pickImage);
                     console.log(pickImage)
+                    // 사진 보낸 후 모달 닫기 버튼 null
+                    setSelectedImage(null);
                 });
             });
         }, [])
@@ -490,9 +492,14 @@ const GamePage = () => {
                                 }}>
                                     사진만들기
                                 </button>
-                                <button className={'modal-close-btn'} onClick={() => {
-                                    sendImageHandler();
-                                }}>
+                                <button
+                                    className={'modal-close-btn'}
+                                    onClick={() => {
+                                        sendImageHandler();
+                                        timeHandler();
+                                    }}
+                                    disabled={selectedImage === null} // selectedImage가 null이 아닌 경우에만 활성화됩니다.
+                                >
                                     모달 닫기 및 이미지 전송
                                 </button>
                             </div>
