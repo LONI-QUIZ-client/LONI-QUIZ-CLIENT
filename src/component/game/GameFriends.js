@@ -34,7 +34,7 @@ const GameFriends = () => {
                     <ol>
                         <li onClick={() => setActiveSection('chatFriend')}>
                             <div className='chat_list_ch'>
-                                <p>친구 1</p>
+                                <h3>친구 1</h3>
                                 <p>메시지</p>
                             </div>
                         </li>
