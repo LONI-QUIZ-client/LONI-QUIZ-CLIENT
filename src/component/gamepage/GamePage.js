@@ -569,7 +569,6 @@ const GamePage = () => {
                 }
                 <div className='chat'>
                     <ul className='chat-log' id="messageArea" ref={messageAreaRef}>
-                        {/* 채팅 메시지를 화면에 역순으로 표시 */}
                         {chatData
                             .filter(item => roomId === item.gno)
                             .reverse()
