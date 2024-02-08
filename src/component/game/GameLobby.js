@@ -6,7 +6,7 @@ import {LOBBY_URL} from "../../config/host-config";
 import GameChat from "./GameChat";
 import GameProfileLobby from "./GameProfile_Lobby";
 import GameModal from "./GameModal";
-import {Link} from "react-router-dom";
+import {json, Link} from "react-router-dom";
 import GameFooter from "./GameFooter";
 import GameRanking from "./GameRanking";
 
@@ -16,6 +16,7 @@ const API_BASE_URL = LOBBY_URL;
 
 const GameLobby = () => {
     const [lobbyData, setLobbyData] = useState([]);
+    const [text, setText] = useState();
 
 
     useEffect(() => {
@@ -23,9 +24,9 @@ const GameLobby = () => {
             .then(res => res.json())
             .then(json => {
                 setLobbyData(json);
-                console.log(json);
+                setText(json.gno);
             });
-    }, []);
+    }, [text]);
 
     return (
         <>
