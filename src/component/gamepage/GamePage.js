@@ -146,12 +146,14 @@ const GamePage = () => {
                 stompClient.subscribe('/topic/game/memberList', memberList => {
                     const receivedUsers = JSON.parse(memberList.body);
                     console.log("만들어진 방들과 그 방에 유저들", receivedUsers)
+                    const filteredUser = receivedUsers.filter(user => user.gno === roomId);
+                    console.log(filteredUser)
                     const userExists = receivedUsers.some(user => user.userId === userID && user.gno === roomId);
                     if (!userExists) {
                         alert("방이 다 찼습니다.")
                         window.location.href = '/lobby';
                     }
-                    setUserData(receivedUsers);
+                    setUserData(filteredUser);
                 });
             });
         }, []);
@@ -425,21 +427,16 @@ const GamePage = () => {
 
                         <div className='user'>
                             {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
-                            {userData && (
-                                userData.map((user, index) => (
-                                    roomId === user.gno && (
-                                        <div className='l-a' key={index}>
-                                            {/*<div className='p-img'>*/}
-                                            {/*    <img src={user.profile} alt={`Profile ${index}`} />*/}
-                                            {/*</div>*/}
-                                            <div className='nick-name'>
-                                                {user.username}
-                                            </div>
-                                            <div className='score'>
-                                                <div>{roomMembers && roomMembers[index] ? roomMembers[index].point : 0}점</div>
-                                            </div>
+                            {(userData.length > 0 || roomMembers.length > 0) && (
+                                (roomMembers.length > 0 ? roomMembers : userData).map((user) => (
+                                    <div className='l-a'>
+                                        <div className='nick-name'>
+                                            {roomMembers.length > 0 ? user.name : user.username}
                                         </div>
-                                    )
+                                        <div className='score'>
+                                            <div>{roomMembers.length > 0 ? user.point : 0}점</div>
+                                        </div>
+                                    </div>
                                 ))
                             )}
                         </div>
