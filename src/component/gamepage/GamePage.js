@@ -173,6 +173,7 @@ const GamePage = () => {
 
             if (input === answerKey) {
                 console.log("정답!!!!")
+                alert('정답!')
                 const socket = new SockJS('http://localhost:8888/ws');
                 const stompClient = Stomp.over(socket);
                 stompClient.connect({}, () => {
@@ -527,6 +528,7 @@ const GamePage = () => {
                                 autoComplete="off"
                                 className="form-control"
                                 value={input}
+                                disabled={userBool !== false}
                                 onChange={(e) => setInput(e.target.value)}
                             />
                         </div>
