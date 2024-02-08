@@ -119,6 +119,7 @@
   <h3 align="center"> DB </h3>
   <p align="center">
     <img alt="MariaDb" src="https://img.shields.io/badge/-MariaDB-003545?style=flat-square&logo=mariadb&logoColor=white" />
+    <img alt="AWS" src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white" />
   </p>
 
   <h3 align="center"> Tools </h3>
