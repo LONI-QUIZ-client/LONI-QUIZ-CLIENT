@@ -1,6 +1,8 @@
 // 전체적인 모달 Mui 수정용 SCSS + 모달 버튼 디자인 수정
 .create_room_btn{
-
+  border: none;
+  margin-left: 5px;
+  cursor: pointer;
 }
 
 .create_room_btn_friend{

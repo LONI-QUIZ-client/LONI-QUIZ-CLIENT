@@ -43,7 +43,7 @@ const ChatSection = () => {
                     value={inputMessage}
                     onChange={handleInputChange}
                 />
-                <button onClick={handleSendMessage}>Send</button>
+                <button className='send_text_to' onClick={handleSendMessage}>Send</button>
             </div>
         </div>
     );
