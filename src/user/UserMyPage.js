@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {BsFillDoorOpenFill, BsFillPersonFill} from "react-icons/bs";
 import Logout from "./Logout";
 import {useNavigate, useParams} from "react-router-dom";
-import {JOIN_URL} from "../config/host-config";
+import {FOLLOW_URL, JOIN_URL} from "../config/host-config";
 import {getLoginUserCheck, isAutoLogin, isLogin} from "../config/login-util";
 import cn from "classnames";
 import {LuPower, LuPowerOff} from "react-icons/lu";
@@ -79,6 +79,8 @@ const UserMyPage = () => {
     // ======= end background =======
 
 
+
+
     // ======= profile =======
     const [profilePath, setProfilePath] = useState('');
 
@@ -107,8 +109,36 @@ const UserMyPage = () => {
     }
     // ======= end profile =======
 
-    /*// ======= user game info =======
-    // ======= end user game info =======*/
+
+    // ======== follow ========
+
+    // 팔로우 여부
+    const [starFollow, setStarFollow] = useState(false);
+
+    const payload = {
+        fid: userId
+        , userId: getLoginUserCheck().id
+    }
+    const starFollowHandler = async (e) => {
+
+        const res = await fetch( FOLLOW_URL, {
+            method: 'POST'
+            , headers: {'content-type':'application/json'}
+            , body: JSON.stringify(payload)
+        })
+
+        if(res.status===200){
+            const json = await res.json();
+            console.log(json);
+
+            setStarFollow(!starFollow);
+            console.log(starFollow);
+
+        } else {
+            console.log('팔로우를 할 수 엄슴');
+        }
+
+    }
 
     // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
     useEffect(() => {
@@ -162,11 +192,11 @@ const UserMyPage = () => {
                 <div className={"user-follow-item"}>
                     <div className={"follow-star-icon"}><FaStar /></div>
                     <p>100,000</p>
-                    Following
+                    { userPageMaster ? 'Followers' : <button onClick={starFollowHandler}> { starFollow ? 'Following' : 'Follow' } </button> }
                 </div>
                 <div className={"game-score-item"}>
                     <div className={"game-score-icon"}><BsFillXDiamondFill /></div>
-                    <p>100,000,000</p>
+                    <p>{userPageInfo.score}</p>
                     Point
                 </div>
                 <div className={"game-playing-record"}>
