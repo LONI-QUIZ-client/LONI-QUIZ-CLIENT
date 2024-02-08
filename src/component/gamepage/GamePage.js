@@ -3,13 +3,13 @@ import './scss/GamePage.scss';
 import {IMG_URL} from '../../config/host-config';
 import {SCORE_URL} from '../../config/host-config';
 import {useLocation, useNavigate} from "react-router-dom";
-import {ID} from "../../config/login-util";
+import {ID, USERNAME} from "../../config/login-util";
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
-import {connect} from "react-redux";
 
 
 const GamePage = () => {
+        const nav = useNavigate();
         const [inputText, setInputText] = useState('');
         const [img, setImg] = useState([]);
         const [messages, setMessages] = useState([]);
@@ -28,14 +28,27 @@ const GamePage = () => {
         // 유저 정보를 담을 상태 추가
         const [userData, setUserData] = useState([]);
 
+        const [answerKey, setAnswerKey] = useState('');
+
         const location = useLocation();
         const roomId = location.state?.roomId;
         const userID = localStorage.getItem(ID);
+        const username = localStorage.getItem(USERNAME);
 
-        const redirect = useNavigate()
+        // 모달
+        const [modalOpen, setModalOpen] = useState(false);
+        const modalBackground = useRef();
 
         //이미지를 생성하는 API를 호출하고 그 결과를 처리
         const createImage = async () => {
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+            stompClient.connect({}, () => {
+                stompClient.send("/app/game/answerKey", {}, JSON.stringify({
+                    gno: roomId,
+                    answerKey: inputText
+                }));
+            });
             try {
                 const res = await fetch(IMG_URL, {
                     method: 'POST',
@@ -46,7 +59,6 @@ const GamePage = () => {
                         prompt: inputText,
                     }),
                 });
-
                 if (res.status === 200) {
                     console.log('API 호출 성공');
                     const imgData = await res.json();
@@ -97,6 +109,7 @@ const GamePage = () => {
             }
         };
 
+        // 맴버들을 계속 해서 갱신하며 추가한걸 띄워줌
         useEffect(() => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
@@ -109,6 +122,7 @@ const GamePage = () => {
 
         }, []);
 
+        // 메세지를 받아와서 담아줌
         useEffect(() => {
             // Connect to WebSocket server
             const socket = new SockJS('http://localhost:8888/ws');
@@ -122,6 +136,14 @@ const GamePage = () => {
             });
         }, []);
 
+        const answerHandler = (e) => {
+            if (e.content === inputText) {
+                console.log('정답!')
+            }
+        }
+
+
+        // 멤버리스트에서 비교해서 방이 다 찼는지 비교후 방이 다 찼으면 내보내고 아니면 리스트에 담아줌
         useEffect(() => {
             // Connect to WebSocket server
             const socket = new SockJS('http://localhost:8888/ws');
@@ -129,13 +151,15 @@ const GamePage = () => {
             stompClient.connect({}, () => {
                 stompClient.subscribe('/topic/game/memberList', memberList => {
                     const receivedUsers = JSON.parse(memberList.body);
-                    console.log(receivedUsers)
+                    console.log("만들어진 방들과 그 방에 유저들", receivedUsers)
+                    const filteredUser = receivedUsers.filter(user => user.gno === roomId);
+                    console.log(filteredUser)
                     const userExists = receivedUsers.some(user => user.userId === userID && user.gno === roomId);
                     if (!userExists) {
                         alert("방이 다 찼습니다.")
                         window.location.href = '/lobby';
                     }
-                    setUserData(receivedUsers);
+                    setUserData(filteredUser);
                 });
             });
         }, []);
@@ -148,68 +172,181 @@ const GamePage = () => {
         }, [chatData]);
 
 
+        // 채팅을 서버에 보내줌
+
         const inputSubmit = (e) => {
             e.preventDefault();
 
-            // Send message via WebSocket
+            if (input === answerKey) {
+                console.log("정답!!!!")
+                const socket = new SockJS('http://localhost:8888/ws');
+                const stompClient = Stomp.over(socket);
+                stompClient.connect({}, () => {
+                    stompClient.send("/app/game/userPointUp", {}, JSON.stringify({
+                        gno: roomId,
+                        userId: userID
+                    }));
+                    stompClient.send("/app/game/answerKey", {}, JSON.stringify({
+                        gno: roomId,
+                        answerKey: ''
+                    }));
+                });
+            }
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
             stompClient.connect({}, () => {
                 stompClient.send("/app/game/chat", {}, JSON.stringify({
                     gno: roomId,
-                    userId: userID,
+                    userId: username,
                     content: input
                 }));
+
             });
             setInput('');
         }
 
-
         const [time, setTime] = useState();
 
+        const [g, setG] = useState();
+
+
+        //서버에서 시간을 받아옴
         useEffect(() => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
 
+
             stompClient.connect({}, (frame) => {
-                stompClient.subscribe('/topic/game/timer', function (response) {
+                stompClient.subscribe('/topic/game/timer/' + roomId, function (response) {
                     let countdownValue = JSON.parse(response.body);
-                    setTime(countdownValue)
+
+                    setG(countdownValue.gno);
+
+                    setTime(countdownValue.time);
+
                 });
             });
-        }, []);
+        }, [roomId]);
 
+        // 서버에 시간을 받아오는 요청을 보냄
         const timeHandler = e => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
 
             stompClient.connect({}, (frame) => {
-                stompClient.send("/app/game/timer", {}, JSON.stringify({}));
+                stompClient.send("/app/game/timer/" + roomId, {}, JSON.stringify({
+                    gno: roomId
+                }));
             });
         }
-
 
         window.onpopstate = function (event) {
             alert("방탈출");
         };
 
-
-
         const [thisRoomsUsers, setthisRoomsUsers] = useState([]);
 
+        const [roomMembers, setRoomMembers] = useState([]);
+
+        useEffect(() => {
+            if (thisRoomsUsers.length > 0) {
+                const targetRoomIndex = thisRoomsUsers.findIndex(room => room.gno === roomId);
+                const targetRoomMembers = targetRoomIndex >= 0 ? thisRoomsUsers[targetRoomIndex].members : [];
+                setRoomMembers(targetRoomMembers)
+                console.log("w제발", targetRoomMembers)
+                const targetUserIndex = targetRoomMembers.findIndex(user => user.userId === userID);
+                const targetUser = targetRoomMembers[targetUserIndex].turn;
+                setA(targetUser)
+                console.log(targetUser)
+            }
+        }, [thisRoomsUsers])
+
+        useEffect(() => {
+            console.log(roomMembers)
+        }, [roomMembers]);
+
+        // 유저 턴
+        const [userBool, setA] = useState(false)
+
+
+        // 게임이 시작될 때 방에 있는 사람들의 상태가 만들어지고 그걸 확인
         useEffect(() => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
 
             stompClient.connect({}, () => {
                 stompClient.subscribe('/topic/game/start', message => {
-                    const receivedMessage = JSON.parse(message.body);
-                    setthisRoomsUsers(receivedMessage);
-                    console.log(thisRoomsUsers);
+                    const roomsUser = JSON.parse(message.body);
+                    console.log("방번호와 게임 시작중 쓰일 유저들의 상태", roomsUser)
+                    setthisRoomsUsers(roomsUser);
                 });
             });
         }, []);
 
+        // 방장을 생성
+        const [thisRoomsSU, setThisRoomsSU] = useState([]);
+        useEffect(() => {
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, () => {
+                stompClient.send("/app/game/getSuperUser", {}, JSON.stringify({
+                    gno: roomId
+                }));
+            });
+        }, []);
+
+        // 방장이 누군지 확인
+        useEffect(() => {
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, () => {
+                stompClient.subscribe('/topic/game/getSuperUser', superUsers => {
+                    const receivedSuperUsers = JSON.parse(superUsers.body);
+                    console.log("방장!!!", receivedSuperUsers)
+                    setThisRoomsSU(receivedSuperUsers);
+                });
+            });
+        }, []);
+
+        // 이 안에 게임 시작 이후 그 방에 유저와 진행 상태가 담김
+        useEffect(() => {
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, () => {
+                stompClient.subscribe('/topic/game/next', gaming => {
+                    const thisRoomGaming = JSON.parse(gaming.body);
+                    console.log("방 번호랑 지금 state", thisRoomGaming)
+                    setthisRoomsUsers(thisRoomGaming)
+                });
+            });
+        }, []);
+
+        // 정답을 상태변수에 저장
+        useEffect(() => {
+            // Connect to WebSocket server
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+            stompClient.connect({}, () => {
+                // Subscribe to topic
+                stompClient.subscribe('/topic/game/answerKey', message => {
+                    const receivedCheck = JSON.parse(message.body);
+                    if (receivedCheck.gno !== roomId) {
+                        return
+                    }
+                    console.log(receivedCheck)
+                    setAnswerKey(receivedCheck.answerKey);
+                });
+            });
+        }, []);
+
+        useEffect(() => {
+            console.log(answerKey)
+        }, [answerKey]);
+
+        // 현재 있는 유저들로 방의 인원을 구성
         const startHandler = () => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
@@ -220,6 +357,7 @@ const GamePage = () => {
             });
         }
 
+        // 다음 사람의 state를 true로 변경
         const nextTurnHandler = () => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
@@ -231,133 +369,197 @@ const GamePage = () => {
         }
 
 
-        const [image, setImage] = useState();
+        const [image, setImage] = useState([]);
 
-        useEffect(()=>{
+        useEffect(() => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
             stompClient.connect({}, () => {
                 stompClient.subscribe('/topic/game/image', image => {
-                    const pickImage= image.body;
+                    const pickImage = JSON.parse(image.body);
+                    if (pickImage.gno !== roomId) {
+                        return
+                    }
                     setImage(pickImage);
+                    console.log(pickImage)
+                    // 사진 보낸 후 모달 닫기 버튼 null
+                    setSelectedImage(null);
                 });
             });
         }, [])
 
+        const [choicedImg, setChoicedImg] = useState("")
         const imageHandler = e => {
+            setChoicedImg(e.target.src)
+            setSelectedImage(e.target.src)
+        }
+        const sendImageHandler = e => {
+            setInputText("");
+            setImg([]);
+            setModalOpen(false);
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
             stompClient.connect({}, (frame) => {
                 stompClient.send("/app/game/image", {}, JSON.stringify({
-                    image : e.target.src
+                    image: choicedImg,
+                    gno: roomId
                 }));
             });
         }
 
+        // 나가기
+        const exitHandler = () => {
+            nav('/lobby')
+        }
+
+        // 스피너 표시 여부를 관리합니다.
+        const [showSpinner, setShowSpinner] = useState(false);
+
+        // 이미지가 로딩되었을 때 스피너를 숨깁니다.
+        useEffect(() => {
+            if (img.length > 0) {
+                setShowSpinner(false);
+            }
+        }, [img]);
+
+        const [selectedImage, setSelectedImage] = useState(null);
         return (
             <div className='box'>
-                <button onClick={timeHandler}>시작</button>
-                <button onClick={startHandler}>게임시작</button>
-                <button onClick={nextTurnHandler}>턴넘기기</button>
+                <button onClick={timeHandler} className='p'>시작</button>
+                <button onClick={startHandler} className='o'>게임시작</button>
+                <button onClick={nextTurnHandler} className='i'>턴넘기기</button>
+                <button onClick={exitHandler} className='u'>나가기</button>
 
-                <img src={image}/>
-                <div>
-                    {time}
-                </div>
+                {
+                    g === roomId && (
+                        <div className='time'>
+                            {time}
+                        </div>
+                    )
+                }
+
                 <div className='a'>
-                    <div className='show-img'>
-                        {/* 이미지를 매핑하여 화면에 표시 */}
-                        {img.map((image, index) => (
-                            <img key={index} src={image} alt={`Image ${index}`} className='img' onClick={imageHandler}/>
-                        ))}
-                        <input
-                            type='text'
-                            className='input'
-                            value={inputText}
-                            onChange={handleInputChange}
-                            onKeyPress={handleInputKey}
-                        />
-                        <button className='create' onClick={createImage}>
-                            사진만들기
-                        </button>
+                    <div className='show-img' style={{
+                        // 백그라운드 바꿀꺼임
+                        backgroundImage: `url(${process.env.PUBLIC_URL + '/a0.png'})`
+                    }}>
+                        <img className='showImg' src={image.image}/>
+                    </div>
+
+                    <div className='time'>
+                        {time}
                     </div>
                     <div className='user-list'>
-                        {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
-                        {userData && (
-                            userData.map((user, index) => (
-                                roomId === user.gno && (
-                                    <div key={index} className='user'>
-                                        <div className='l-a'>
-                                            {/*<div className='p-img'>*/}
-                                            {/*    <img src={user.profile} alt={`Profile ${index}`} />*/}
-                                            {/*</div>*/}
-                                            <div className='nick-name'>
-                                                {user.id}
-                                            </div>
+
+                        <div className='user'>
+                            {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
+                            {(userData.length > 0 || roomMembers.length > 0) && (
+                                (roomMembers.length > 0 ? roomMembers : userData).map((user) => (
+                                    <div className='l-a'>
+                                        <div className='nick-name'>
+                                            {roomMembers.length > 0 ? user.name : user.username}
                                         </div>
                                         <div className='score'>
-                                            <div>
-                                                {user.username}점
-                                            </div>
+                                            <div>{roomMembers.length > 0 ? user.point : 0}점</div>
                                         </div>
                                     </div>
-                                )
-                            ))
-                        )}
+                                ))
+                            )}
+                        </div>
                     </div>
                 </div>
-                {/*<ul className='chat' ref={messageAreaRef}>*/}
-                {/*        {chatData.map((item, index) => (*/}
-                {/*            <li key={index}>*/}
-                {/*                <span>{item.userId}: {item.content}</span>*/}
-                {/*            </li>*/}
-                {/*        ))}*/}
-                {/*</ul>*/}
-                {/*<form id="messageForm" name="messageForm" onSubmit={inputSubmit}>*/}
-                {/*    <div className="form-group">*/}
-                {/*        <div className="input-group clearfix">*/}
-                {/*            <input*/}
-                {/*                id="message"*/}
-                {/*                placeholder="채팅 입력..."*/}
-                {/*                autoComplete="off"*/}
-                {/*                className="form-control"*/}
-                {/*                value={input}*/}
-                {/*                onChange={(e) => setInput(e.target.value)}*/}
-                {/*            />*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</form>*/}
+                <div className={'btn-wrapper'}>
+                    <button
+                        className={'modal-open-btn'}
+                        onClick={() => setModalOpen(true)}
+                        style={{display: userBool !== false ? 'block' : 'none'}}
+                    >
+                        모달 열기
+                    </button>
+                </div>
+                {
+                    modalOpen &&
+                    <div className={'modal-container'} ref={modalBackground} onClick={e => {
+                        if (e.target === modalBackground.current) {
+                            setModalOpen(true);
+                        }
+                    }}>
+                        <div className='modal-content'>
+                            {/* 이미지를 매핑하여 화면에 표시 */}
+                            <div className="loading_circle" style={{display: showSpinner ? 'block' : 'none'}}></div>
+                            <div className='imgs'>
+                                {img.map((image, index) => (
+                                    <img key={index}
+                                         src={image}
+                                         alt={`Image ${index}`}
+                                         className={`img ${selectedImage === image ? 'selected' : ''}`}
+                                         onClick={imageHandler}/>
+                                ))}
+                            </div>
+                            <div className='items'>
+                                <input
+                                    placeholder="제시어를 입력해주세요!"
+                                    type='text'
+                                    className='input'
+                                    value={inputText}
+                                    onChange={handleInputChange}
+                                    onKeyPress={(event) => {
+                                        if (event.key === 'Enter') {
+                                            handleInputKey(event);
+                                            setShowSpinner(true); // 인풋에서 엔터 키가 눌렸을 때 스피너를 표시합니다.
+                                        }
+                                    }}
+                                />
+                                <button className='create' onClick={() => {
+                                    createImage();
+                                    setShowSpinner(true); // 사진 만들기 버튼이 클릭되었을 때 스피너를 표시합니다.
+                                }}>
+                                    사진만들기
+                                </button>
+                                <button
+                                    className={'modal-close-btn'}
+                                    onClick={() => {
+                                        sendImageHandler();
+                                        timeHandler();
+                                    }}
+                                    disabled={selectedImage === null} // selectedImage가 null이 아닌 경우에만 활성화됩니다.
+                                >
+                                    모달 닫기 및 이미지 전송
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
                 <div className='chat'>
                     <ul className='chat-log' id="messageArea" ref={messageAreaRef}>
-                        {/* 채팅 메시지를 화면에 표시 */}
-                        {chatData.map((item, index) => (
-                            roomId === item.gno && (
+                        {/* 채팅 메시지를 화면에 역순으로 표시 */}
+                        {chatData
+                            .filter(item => roomId === item.gno)
+                            .reverse()
+                            .map((item, index) => (
                                 <li key={index}>
                                     <span>{item.userId}: {item.content}</span>
                                 </li>
-                            )
-                        ))}
-
+                            ))
+                        }
                     </ul>
                     <form className='chat-input' name="messageForm" onSubmit={inputSubmit}>
-                        <div className="form-group">
-                            <div className="input-group clearfix">
-                                <input
-                                    id="message"
-                                    placeholder="채팅 입력..."
-                                    autoComplete="off"
-                                    className="form-control"
-                                    value={input}
-                                    onChange={(e) => setInput(e.target.value)}
-                                />
-                            </div>
+                        <div className="input-group clearfix">
+                            <input
+                                id="messagee"
+                                placeholder="채팅 입력..."
+                                autoComplete="off"
+                                className="form-control"
+                                value={input}
+                                disabled={userBool !== false}
+                                onChange={(e) => setInput(e.target.value)}
+                            />
                         </div>
                     </form>
                 </div>
             </div>
-        );
-
-
+        )
+            ;
     }
 ;
 

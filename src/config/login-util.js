@@ -7,6 +7,8 @@ export const USERNAME = 'USER_NAME';
 export const isLogin = () => !!sessionStorage.getItem(TOKEN);
 export const isAutoLogin = () => !!localStorage.getItem(TOKEN);
 
+export const isAutoLogin = () => !!sessionStorage.getItem(TOKEN);
+
 // 로그인한 사용자의 데이터를 반환하는 함수
 export const getCurrentLoginUser = () => {
     return {
@@ -15,7 +17,6 @@ export const getCurrentLoginUser = () => {
         username: sessionStorage.getItem(USERNAME),
     };
 };
-
 
 // 로그인한 사용자의 데이터를 반환하는 함수(자동로그인용)
 export const getAutoCurrentLoginUser = () => {

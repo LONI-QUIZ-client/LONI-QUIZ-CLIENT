@@ -65,6 +65,9 @@ const LoginRight = () => {
 
         if(res.status===200){
             const {token, userNickname, id} = await res.json();
+            localStorage.setItem(TOKEN, token);
+            localStorage.setItem(USERNAME, userNickname);
+            localStorage.setItem(ID, id);
 
             if(autoLogin===true){
                 sessionStorage.clear();
