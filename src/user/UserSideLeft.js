@@ -33,6 +33,7 @@ const UserSideLeft = () => {
 
     useEffect(() => {
         fetchSideMenuImage();
+
     }, []);
 
     return (

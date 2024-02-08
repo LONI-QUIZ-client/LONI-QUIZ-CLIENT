@@ -7,8 +7,8 @@ import {useNavigate} from "react-router-dom";
 import {KAKAO_AUTH_URL, LOGIN_URL} from "../config/host-config";
 import {TOKEN, ID, USERNAME} from "../config/login-util";
 import KakaoImgBtn from "../assets/img/kakaoLoginBtn.png"
-import {LOGIN_URL} from "../config/host-config";
-import {ID, TOKEN, USERNAME} from "../config/login-util";
+// import {LOGIN_URL} from "../config/host-config";
+// import {ID, TOKEN, USERNAME} from "../config/login-util";
 
 import "../user/scss/LoginRight.scss"
 import cn from "classnames";
