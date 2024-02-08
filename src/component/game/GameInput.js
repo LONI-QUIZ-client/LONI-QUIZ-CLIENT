@@ -22,6 +22,8 @@ const GameInput = ({data}) => {
     // data.dto가 없거나 undefined인 경우 빈 배열로 초기화
     const dtoArray = data && data.dto ? data.dto : [];
 
+    const [inputText, setInputText] = useState('');
+
     // 현재 페이지에 해당하는 리스트 가져오기
     const getCurrentPageItems = () => {
         const startIndex = (currentPage - 1) * itemsPerPage;
@@ -74,21 +76,20 @@ const GameInput = ({data}) => {
             }));
         });
         redirect('/gameRoom', {state: {roomId}});
-
-
     }
 
     return (
         <>
             <div className='lobby_search_room_box'>
                 <Paper
+                    className = 'room_search_form'
                     component="form"
                     sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
                 >
                     <InputBase
                         sx={{ ml: 1, flex: 1 }}
-                        placeholder="Search User"
-                        inputprops={{ 'aria-label': 'search user' }}
+                        placeholder="Search Room"
+                        inputprops={{ 'aria-label': 'search room' }}
                     />
                     <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
                         <SearchIcon />
@@ -103,7 +104,7 @@ const GameInput = ({data}) => {
                         <div className="list">
                             <p>No. {index + 1 + (currentPage - 1) * itemsPerPage}</p>
                             <h2>{item.title}</h2>
-                            <p>{item.userCount} / {item.lobbyMaxCount}</p>
+                            <p>{item.userCount} / {item.maxCount}</p>
                             <p className='list_name_right'>{item.userNickname}</p>
                         </div>
                     </div>
