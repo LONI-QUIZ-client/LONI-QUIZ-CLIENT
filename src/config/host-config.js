@@ -18,7 +18,8 @@ const ROOM = '/game/Gameroom';
 
 // 카카오 로그인
 const REACT_APP_REST_API_KEY = "b11f2fab760f545cb7340313e13ec03b"
-export const REACT_APP_REDIRECT_URL = "http://localhost:3000/oauth"
+export const REACT_APP_REDIRECT_URL = "http://localhost:3000/user/oauth"
+export const REACT_API_REQUEST_URL = "http://localhost:8888/user/oauth"
 
 export const LOGIN_URL = API_BASE_URL + LOGIN;
 export const JOIN_URL = API_BASE_URL + JOIN;

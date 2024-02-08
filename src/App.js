@@ -25,7 +25,7 @@ function App() {
               <Route path={'/lobby'} element={<GameLobby />} />
               <Route path={'/gameRoom'} element={<GamePage />} />
               <Route path={'/mypage'} element={<UserInfo />} />
-              <Route path={'/oauth'} element={<KakaoLoading />} />
+              <Route path={'/user/oauth'} element={<KakaoLoading />} />
           </Routes>
       </>
   );
