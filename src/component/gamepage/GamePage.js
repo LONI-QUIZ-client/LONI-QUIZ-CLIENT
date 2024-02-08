@@ -317,6 +317,7 @@ const GamePage = () => {
                 stompClient.subscribe('/topic/game/getSuperUser', superUsers => {
                     const receivedSuperUsers = JSON.parse(superUsers.body);
                     console.log("방장!!!", receivedSuperUsers)
+                    console.log()
                     setThisRoomsSU(receivedSuperUsers);
                 });
             });
@@ -487,7 +488,6 @@ const GamePage = () => {
                         {time}
                     </div>
                     <div className='user-list'>
-
                         <div className='user'>
                             {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
                             {(userData.length > 0 || roomMembers.length > 0) && (
