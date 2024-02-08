@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
+import {getCurrentLoginUser} from "../../config/login-util";
 
 const FriendListSection = () => {
-    const [followingStatus, setFollowingStatus] = useState({
-        friend1: false,
-        friend2: false,
-        friend3: false,
-    });
+    const [followingStatus, setFollowingStatus] = useState([]);
+
+    const token = getCurrentLoginUser().token;
 
     const handleFollowToggle = (friend) => {
         setFollowingStatus(prevStatus => ({
@@ -13,6 +12,20 @@ const FriendListSection = () => {
             [friend]: !prevStatus[friend],
         }));
     };
+
+    useEffect(()=>{
+        fetch("http://localhost:8888/follower",{
+            method: 'get',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'content-type' : 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(json => {
+                console.log(json);
+            })
+    },[])
 
     return (
         <div className='list_friend_menu'>

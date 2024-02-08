@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { IconButton, InputBase, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { USER_SEARCH } from "../../config/host-config";
+import {getCurrentLoginUser} from "../../config/login-util";
 
 const AddFriendSection = () => {
     const [searchKeyword, setSearchKeyword] = useState('');
     const [filteredFriends, setFilteredFriends] = useState([]);
+    const logindId = getCurrentLoginUser().id;
 
     const handleSearchChange = (e) => {
         const keyword = e.target.value;
@@ -30,8 +32,6 @@ const AddFriendSection = () => {
                     }
                 })
                 .then(json => {
-                    console.log(json);
-
                     // 서버 응답 데이터를 활용하여 친구 목록 업데이트
                     const serverFriends = json.map(user => ({
                         name: user.nickname,
@@ -44,6 +44,24 @@ const AddFriendSection = () => {
                 });
         }
     };
+
+
+    const followerHandler = e => {
+        fetch("http://localhost:8888/follower", {
+            method: "post",
+            headers: {
+                'content-type' : 'application/json'
+            },
+            body: JSON.stringify({
+                fid : logindId,
+                userId : filteredFriends[0].id
+            })
+        })
+            .then(res => res.json())
+            .then(json => {
+                console.log(json);
+            })
+    }
 
     return (
         <div className='add_friend_menu'>
@@ -72,7 +90,7 @@ const AddFriendSection = () => {
                         {filteredFriends.map(user => (
                             <li key={user.id}>
                                 <p>{user.name}</p>
-                                <button className='follow_btn'>팔로우</button>
+                                <button className='follow_btn' onClick={followerHandler}>팔로우</button>
                             </li>
                         ))}
                     </ul>
