@@ -140,7 +140,7 @@ const Main = () => {
             <div className='inner section'>
                 <div className='bottom-box'>
                     <div className='info'>
-                        <div>
+                        <div className='info-text'>
                         </div>
                         <img src={process.env.PUBLIC_URL + "/img/pen.jpg"} alt=""/>
                     </div>
