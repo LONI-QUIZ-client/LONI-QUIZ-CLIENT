@@ -87,8 +87,7 @@ const Main = () => {
         <div ref={outerDivRef} className='outer'>
             <div className='inner section'>
                 <div className='container'>
-                    <Dots currentPage={currentPage}/>
-                    <Header/>
+
                     <div className='main-box'>
                         <div className='l-g'>
                             <h1 className='logo'>LONI<br/>QUIZ</h1>
@@ -148,6 +147,10 @@ const Main = () => {
                         <Slider/>
                     </footer>
                 </div>
+            </div>
+            <div className="dots-header-wrapper">
+                <Dots currentPage={currentPage}/>
+                <Header/>
             </div>
         </div>
     );

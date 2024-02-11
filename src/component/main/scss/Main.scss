@@ -183,6 +183,14 @@ body{
   padding-bottom: 30px;
 }
 
+.dots-header-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+
 // bottom-box
 .bottom-box{
   background: #282c34;
@@ -201,28 +209,28 @@ footer{
 
 
 .info {
-  width: 100%; /* 원하는 div 너비 */
-  height: 100%; /* 원하는 div 높이 */
+  width: 100%;
+  height: 100%;
   background-color: blue; /* 왼쪽 div 배경색 */
   position: relative; /* 자식 요소의 위치를 설정하기 위해 부모 요소를 relative로 설정 */
   overflow: hidden; /* 자식 요소가 부모 요소를 넘어가면 잘라냅니다. */
 }
 
 .info > div {
-  width: 62%; /* 자식 요소의 너비를 100%로 설정 */
+  width: 58%; /* 자식 요소의 너비를 100%로 설정 */
   height: 70%; /* 자식 요소의 높이를 100%로 설정 */
   position: absolute; /* 자식 요소를 절대 위치로 설정 */
-  top: 10%; /* 상단에 배치 */
-  left: -70px; /* 왼쪽에 배치하고 평행사변형 모양을 만듭니다. */
+  top: 15%; /* 상단에 배치 */
+  left: -60px; /* 왼쪽에 배치하고 평행사변형 모양을 만듭니다. */
   background-color: red; /* 배경색을 설정합니다. */
-  transform: skewX(-13deg); /* X축 방향으로 -20도만큼 기울입니다. */
+  transform: skewX(-7deg);
   z-index: 1; /* 다른 요소 위에 배치 */
 }
 
 .info > img {
-  width: 50%; /* 자식 요소의 너비를 100%로 설정 */
+  width: 57%; /* 자식 요소의 너비를 100%로 설정 */
   height: 70%; /* 자식 요소의 높이를 100%로 설정 */
   position: absolute; /* 자식 요소를 절대 위치로 설정 */
-  top: 10%; /* 상단에 배치 */
+  top: 15%; /* 상단에 배치 */
   z-index: 0; /* .info > div 위에 배치 */
 }
