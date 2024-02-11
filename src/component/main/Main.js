@@ -143,7 +143,10 @@ const Main = () => {
                                 활용하여 만들어진 퀴즈 게임입니다.
                                 <br/>
                                 LONI QUIZ는 AI 기술과 게임의 재미를 결합한 독특한 프로젝트로,<br/>
-                                사용자들에게 새로운 시각과 경험을 제공할 것입니다!</p>
+                                사용자들에게 새로운 경험과 흥미를 제공하기 위해 노력합니다</p>
+                            <button>
+                                소개 보러가기
+                            </button>
 
                         </div>
                         <img src={process.env.PUBLIC_URL + "/img/pen.jpg"} alt=""/>
