@@ -464,7 +464,6 @@ const GamePage = () => {
         return (
             <div className='box'>
                 <button onClick={timeHandler} className='p'>시작</button>
-                <button onClick={startHandler} className='o'>게임시작</button>
                 <button onClick={nextTurnHandler} className='i'>턴넘기기</button>
                 <button onClick={exitHandler} className='u'>나가기</button>
 
@@ -483,6 +482,7 @@ const GamePage = () => {
                     }}>
                         <img className='showImg' src={image.image}/>
                     </div>
+                    <button onClick={startHandler} className='o'>게임시작</button>
 
                     <div className='time'>
                         {time}
