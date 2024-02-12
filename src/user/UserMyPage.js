@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {BsFillDoorOpenFill, BsFillPersonFill} from "react-icons/bs";
+import { BsFillPersonFill} from "react-icons/bs";
 import Logout from "./Logout";
 import {useNavigate, useParams} from "react-router-dom";
 import {FOLLOW_URL, JOIN_URL} from "../config/host-config";
@@ -21,21 +21,22 @@ const UserMyPage = () => {
     // 파라미터 가져오기
     const {userId} = useParams();
 
-    // 유저 정보 가져오기
-    const [userPageInfo, setUserPageInfo] = useState({
-        id: ''
-        , nickname: ''
-        , createDate: ''
-        , score: ''
-    });
-
-    // ====== user state ======
     // 유저 로그인 상태
     const [isUserLoginState, setIsUserLoginState] = useState(false);
 
     // 유저 자기 자신인지 타인인지, 유저 아이디을 받아서 확인할것
     const [userPageMaster, setUserPageMaster] = useState(false);
 
+    // 유저 정보 가져오기
+    const [userPageInfo, setUserPageInfo] = useState({
+        id: ''
+        , nickname: ''
+        , createDate: ''
+        , score: ''
+        , loginState: false
+    });
+
+    // ====== user state ======
     const fetchUserInfo = async () => {
         const res = await fetch(JOIN_URL + '/' + userId);
         if(res.status===200){
@@ -45,7 +46,9 @@ const UserMyPage = () => {
                 , nickname: json.nickname
                 , createDate: json.createDate
                 , score: json.score
+                , loginState: json.loginState
             });
+            setIsUserLoginState(json.loginState)
         } else {
             alert('유저 정보를 불러올 수 없습니다');
             redirect('/lobby');
@@ -66,15 +69,17 @@ const UserMyPage = () => {
         }
         setArrColor(sendColor);
 
-    }, []);
+    }, [userId]);
 
     const backgroundHandler = {
-        background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
+        // background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
+        backgroundImage: `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)`
     }
 
     const iconHandler = {
-        background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
-        , boxShadow: `-5px -5px 10px 5px ${arrColor[0]+50}, 5px 5px 10px 5px ${arrColor[1]+50}`
+        // background: isUserLoginState ? arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
+        backgroundImage: isUserLoginState ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
+        , boxShadow: isUserLoginState ? `-5px -5px 10px 5px ${arrColor[0]+50}, 5px 5px 10px 5px ${arrColor[1]+50}` : ''
     }
     // ======= end background =======
 
@@ -85,7 +90,7 @@ const UserMyPage = () => {
     const [profilePath, setProfilePath] = useState('');
 
     const fetchProfile = async () => {
-        const res = await fetch(JOIN_URL+'/profile-image/'+userId, {
+        const res = await fetch(JOIN_URL+`/profile-image/${userId}`, {
             method: 'GET'
         });
 
@@ -93,16 +98,19 @@ const UserMyPage = () => {
             const json = await res.blob();
             const imageUrl = window.URL.createObjectURL(json);
             setProfilePath(imageUrl);
+
+            if(json.type===''){
+                setProfilePath('');
+            }
+
         } else {
-            const json = await res.text();
-            alert(json)
             setProfilePath('');
         }
 
     }
 
     const profileImage = {
-        backgroundImage: `url(${profilePath})`
+        backgroundImage: profilePath ? `url(${profilePath})` : 'linear-gradient(180deg, rgba(21, 20, 34, 1) 0%, rgba(51, 48, 80, 1) 100%)'
         , backgroundRepeat: 'no-repeat'
         , backgroundSize: 'contain'
         , backgroundPosition: 'center'
@@ -111,15 +119,15 @@ const UserMyPage = () => {
 
 
     // ======== follow ========
-
     // 팔로우 여부
     const [starFollow, setStarFollow] = useState(false);
 
-    const payload = {
-        fid: userId
-        , userId: getLoginUserCheck().id
-    }
     const starFollowHandler = async (e) => {
+
+        const payload = {
+            fid: userId
+            , userId: getLoginUserCheck().id
+        }
 
         const res = await fetch( FOLLOW_URL, {
             method: 'POST'
@@ -138,40 +146,44 @@ const UserMyPage = () => {
             console.log('팔로우를 할 수 엄슴');
         }
 
-    }
+    } // ======== end follow ========
 
     // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
     useEffect(() => {
-        fetchUserInfo();
-        fetchProfile();
-
         if(!isLogin() && !isAutoLogin()){
             alert('로그인 하세요');
             redirect('/login');
-        } else {
-            setIsUserLoginState(true);
-
-            if(getLoginUserCheck().id !== userId){
-                setUserPageMaster(false);
-
-            } else { // if(getLoginUserCheck().id === userPageInfo.id)
-                setUserPageMaster(true);
-            }
         }
 
-    }, [userId]);
+        fetchUserInfo();
+        fetchProfile();
+
+        setIsUserLoginState(userPageInfo.loginState);
+        console.log(userPageInfo.loginState);
+
+        if(getLoginUserCheck().id !== userId){
+            setUserPageMaster(false);
+
+        } else { // if(getLoginUserCheck().id === userPageInfo.id)
+            setUserPageMaster(true);
+        }
+
+    }, [
+        userId,
+        userPageInfo.loginState
+    ]);
 
     return (
         <div className={"user-info"}>
             <div className={"user-setting-buttons"}>
                 <LobbyButton />
-                { userPageMaster ? <Logout /> : <MyPageButton /> }
+                { userPageMaster ? <Logout isUserId={userPageInfo.id}/> : <MyPageButton /> }
             </div>
 
             <div className={"user-page-background"} style={backgroundHandler}>
                 <div className={"user-info-item-content"}>
                     <div className={"user-page-profile"} style={profileImage}>
-                        {profilePath ? '' : <BsFillPersonFill/>}
+                        { profilePath ? '' : <BsFillPersonFill/> }
                     </div>
                     <div className={"user-info-contain"}>
                         <div className={"user-name-item"}>{userPageInfo.nickname}</div>
