@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ChatSection = () => {
+const ChatSection = ({ onLeaveChat }) => {
     const [inputMessage, setInputMessage] = useState('');
     const [chatMessages, setChatMessages] = useState([]);
 
@@ -23,14 +23,19 @@ const ChatSection = () => {
         setInputMessage('');
     };
 
+    const handleLeaveChat = () => {
+        // GameFriends 컴포넌트로 이동
+        onLeaveChat();
+    };
+
     return (
         <div className='chat_friend_menu_ch'>
             <div className='chat_friend_menu_ch_header'>
                 <h2>친구 1</h2>
-                <button className='chat_out'>나가기</button>
+                <button className='chat_out' onClick={handleLeaveChat}>나가기</button>
             </div>
             <div className='chat_texts'>
-                <div className='my_text_balloon'>
+            <div className='my_text_balloon'>
                     <p>안녕하세요~ 혹시 OO님 맞으신가요? 한 수 가르침을 받으려 이렇게 얘기를 드리러 오게 되었습니다!</p>
                 </div>
                 <div className='your_text_balloon'>
@@ -43,6 +48,7 @@ const ChatSection = () => {
                 ))}
             </div>
             <div className='my_input_text'>
+                {/*현재 버튼 눌러야지만 메시지가 전송 되는 상태*/}
                 <input
                     type="text"
                     placeholder="Type your message"

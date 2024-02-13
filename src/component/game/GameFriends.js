@@ -24,6 +24,10 @@ const GameFriends = () => {
         setOpen(false);
     };
 
+    const handleLeaveChat = () => {
+        setActiveSection('chat');
+    };
+
     const ChatListSection = () => {
         return (
             <div className='chat_friend_menu'>
@@ -42,7 +46,7 @@ const GameFriends = () => {
                 </div>
             </div>
         );
-    }
+    };
 
     const renderActiveSection = () => {
         switch (activeSection) {
@@ -53,7 +57,7 @@ const GameFriends = () => {
             case 'chat':
                 return <ChatListSection />;
             case 'chatFriend':
-                return <ChatSection />;
+                return <ChatSection onLeaveChat={handleLeaveChat} />;
             default:
                 return null;
         }
@@ -95,3 +99,4 @@ const GameFriends = () => {
 };
 
 export default GameFriends;
+
