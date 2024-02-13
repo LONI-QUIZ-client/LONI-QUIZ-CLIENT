@@ -142,7 +142,6 @@ const GamePage = () => {
             }
         }
 
-
         // 멤버리스트에서 비교해서 방이 다 찼는지 비교후 방이 다 찼으면 내보내고 아니면 리스트에 담아줌
         useEffect(() => {
             // Connect to WebSocket server
@@ -153,7 +152,6 @@ const GamePage = () => {
                     const receivedUsers = JSON.parse(memberList.body);
                     console.log("만들어진 방들과 그 방에 유저들", receivedUsers)
                     const filteredUser = receivedUsers.filter(user => user.gno === roomId);
-                    console.log(filteredUser)
                     const userExists = receivedUsers.some(user => user.userId === userID && user.gno === roomId);
                     if (!userExists) {
                         alert("방이 다 찼습니다.")
@@ -170,7 +168,6 @@ const GamePage = () => {
                 messageAreaRef.current.scrollTop = messageAreaRef.current.scrollHeight;
             }
         }, [chatData]);
-
 
         // 채팅을 서버에 보내줌
 
@@ -192,6 +189,7 @@ const GamePage = () => {
                     }));
                 });
             }
+
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
             stompClient.connect({}, () => {
@@ -205,7 +203,19 @@ const GamePage = () => {
             setInput('');
         }
 
-        const [time, setTime] = useState();
+        const nullAnswer = () => {
+            console.log(answerKey)
+            alert(`정답은 ${answerKey} 입니다.`);
+            const socket = new SockJS('http://localhost:8888/ws');
+            const stompClient = Stomp.over(socket);
+            stompClient.connect({}, () => {
+                stompClient.send("/app/game/answerKey", {}, JSON.stringify({
+                    gno: roomId,
+                    answerKey: ''
+                }));
+            });
+        }
+        const [time, setTime] = useState(10);
 
         const [g, setG] = useState();
 
@@ -470,7 +480,11 @@ const GamePage = () => {
                 {
                     g === roomId && (
                         <div className='time'>
-                            {time}
+                            {time === 1 ? nullAnswer (
+                                <p>정답은! : {answerKey}</p>
+                            ) : (
+                                <p>{time}</p>
+                            )}
                         </div>
                     )
                 }
@@ -483,10 +497,6 @@ const GamePage = () => {
                         <img className='showImg' src={image.image}/>
                     </div>
                     <button onClick={startHandler} className='o'>게임시작</button>
-
-                    <div className='time'>
-                        {time}
-                    </div>
                     <div className='user-list'>
                         <div className='user'>
                             {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
