@@ -30,6 +30,12 @@ const ChatSection = () => {
                 <button className='chat_out'>나가기</button>
             </div>
             <div className='chat_texts'>
+                <div className='my_text_balloon'>
+                    <p>안녕하세요~ 혹시 OO님 맞으신가요? 한 수 가르침을 받으려 이렇게 얘기를 드리러 오게 되었습니다!</p>
+                </div>
+                <div className='your_text_balloon'>
+                    <p>네~ 어서오세요</p>
+                </div>
                 {chatMessages.map((message, index) => (
                     <div key={index} className={message.sender === 'me' ? 'my_text_balloon' : 'your_text_balloon'}>
                         <p>{message.text}</p>

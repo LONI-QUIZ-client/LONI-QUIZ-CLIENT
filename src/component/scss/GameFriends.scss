@@ -89,16 +89,38 @@
   }
 
   .chat_texts {
+    display: flex; // 수평으로 쌓이도록 수정
+    flex-direction: column; // 세로 방향으로 아이템 쌓이도록 유지
+
+    // 왼쪽에 위치하는 상대방 말풍선 스타일
     .your_text_balloon {
       background-color: #1ddc8c;
+      align-self: flex-start; // 왼쪽에 위치
+      border-radius: 15px 15px 15px 0; // 좌측 상단만 둥글게
+      margin-bottom: 10px; // 말풍선 간격 조절
+      min-width: 50px; // 최소 너비 설정
+      max-width: 70%; // 최대 너비 설정
+      word-wrap: break-word; // 긴 단어를 자동으로 줄 바꿈
+      padding: 10px;
     }
+
+    // 오른쪽에 위치하는 내 말풍선 스타일
     .my_text_balloon {
       background-color: #78c7d2;
+      align-self: flex-end; // 오른쪽에 위치
+      border-radius: 15px 15px 0 15px; // 우측 상단만 둥글게
+      margin-bottom: 10px; // 말풍선 간격 조절
+      min-width: 50px; // 최소 너비 설정
+      max-width: 70%; // 최대 너비 설정
+      word-wrap: break-word; // 긴 단어를 자동으로 줄 바꿈
+      padding: 10px;
     }
   }
 
   .my_input_text {
+    input {
 
+    }
   }
 }
 
