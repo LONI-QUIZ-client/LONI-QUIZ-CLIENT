@@ -215,7 +215,7 @@ const GamePage = () => {
             });
             nextTurnHandler();
         }
-        const [time, setTime] = useState(10);
+        const [time, setTime] = useState();
 
         const [g, setG] = useState();
 
@@ -317,9 +317,9 @@ const GamePage = () => {
                 }));
             });
         }, []);
-    useEffect(() => {
-        console.log(thisRoomsSU)
-    },[thisRoomsSU])
+        useEffect(() => {
+            console.log(thisRoomsSU)
+        }, [thisRoomsSU])
 
         // 방장이 누군지 확인
         useEffect(() => {
@@ -483,7 +483,7 @@ const GamePage = () => {
                 {
                     g === roomId && (
                         <div className='time'>
-                            { alertCheck === false && time === 1 ? nullAnswer (
+                            {alertCheck === false && time === 1 ? nullAnswer(
                                 <p>정답은! : {answerKey}</p>
                             ) : (
                                 <p>{time}</p>
@@ -491,13 +491,16 @@ const GamePage = () => {
                         </div>
                     )
                 }
-
                 <div className='a'>
-                    <div className='show-img' style={{
-                        // 백그라운드 바꿀꺼임
-                        backgroundImage: `url(${process.env.PUBLIC_URL + '/a0.png'})`
-                    }}>
+                    <div className='show-img'>
                         <img className='showImg' src={image.image}/>
+                        <div className='w'>
+                            <button className="btn1 btn-jittery"
+                                    onClick={() => setModalOpen(true)}
+                                    style={{display: userBool !== false ? 'block' : 'none'}}>
+                                Click Me
+                            </button>
+                        </div>
                     </div>
                     {
                         thisRoomsSU.length > 0 && thisRoomsSU[0].userId === userID && (
@@ -521,15 +524,6 @@ const GamePage = () => {
                             )}
                         </div>
                     </div>
-                </div>
-                <div className={'btn-wrapper'}>
-                    <button
-                        className={'modal-open-btn'}
-                        onClick={() => setModalOpen(true)}
-                        style={{display: userBool !== false ? 'block' : 'none'}}
-                    >
-                        모달 열기
-                    </button>
                 </div>
                 {
                     modalOpen &&

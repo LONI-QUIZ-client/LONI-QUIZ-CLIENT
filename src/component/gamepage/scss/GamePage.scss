@@ -20,9 +20,14 @@
   flex: 8;
   width: 100%;
   position: relative;
+  flex-direction: column;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: end;
+  background: #78c7d2;
+}
+.w{
+  height: 20%;
 }
 .user-list{
   flex: 2;
@@ -177,8 +182,6 @@
   right: 30px;
   top: 0;
 }
-.o{
-}
 .i{
   position: absolute;
   right: 30px;
@@ -222,4 +225,21 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+// 버튼
+@keyframes jittery {
+  5%,
+  50% {transform: scale(1);}
+  10% {transform: scale(0.9);}
+  15% {transform: scale(1.15);}
+  20% {transform: scale(1.15) rotate(-5deg);}
+  25% {transform: scale(1.15) rotate(5deg);}
+  30% {transform: scale(1.15) rotate(-3deg);}
+  35% {transform: scale(1.15) rotate(2deg);}
+  40% {transform: scale(1.15) rotate(0);}
+}
+.btn-jittery {
+  bottom: -30px;
+    animation: jittery 4s infinite;
 }
