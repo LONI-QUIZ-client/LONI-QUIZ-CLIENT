@@ -201,9 +201,11 @@ const GamePage = () => {
             });
             setInput('');
         }
+    const [time, setTime] = useState();
 
         const nullAnswer = () => {
             console.log(answerKey)
+            setAlertCheck(true);
             alert(`정답은 ${answerKey} 입니다.`);
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
@@ -213,10 +215,12 @@ const GamePage = () => {
                     answerKey: ''
                 }));
             });
-            nextTurnHandler();
+            if (thisRoomsSU[0].userId === userID){
+                nextTurnHandler();
+            }
+            setAlertCheck(false);
+            setTime(10);
         }
-        const [time, setTime] = useState();
-
         const [g, setG] = useState();
 
 
@@ -476,8 +480,6 @@ const GamePage = () => {
 
         return (
             <div className='box'>
-                <button onClick={timeHandler} className='p'>시작</button>
-                <button onClick={nextTurnHandler} className='i'>턴넘기기</button>
                 <button onClick={exitHandler} className='u'>나가기</button>
 
                 {
