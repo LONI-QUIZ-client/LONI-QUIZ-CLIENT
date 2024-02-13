@@ -26,7 +26,7 @@ const Logout = ({isUserId}) => {
     const logoutHandler = e => {
 
         if(isLogin()){
-            sessionStorage.clear();
+            localStorage.clear();
 
         } else if(isAutoLogin()){
             localStorage.clear();

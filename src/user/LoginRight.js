@@ -72,7 +72,7 @@ const LoginRight = () => {
             localStorage.setItem(USERNAME, userNickname);
             localStorage.setItem(ID, id);
 
-            if(autoLogin===true){
+            /*if(autoLogin===true){
                 sessionStorage.clear();
                 localStorage.setItem(TOKEN, token);
                 localStorage.setItem(USERNAME, userNickname);
@@ -83,7 +83,7 @@ const LoginRight = () => {
                 sessionStorage.setItem(TOKEN, token);
                 sessionStorage.setItem(USERNAME, userNickname);
                 sessionStorage.setItem(ID, id);
-            }
+            }*/
 
             setLoginMessageError('');
           
