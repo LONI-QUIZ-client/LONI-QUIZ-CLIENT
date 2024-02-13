@@ -56,7 +56,7 @@ const UserMyPage = () => {
     }
     // ====== end user state ======
 
-    // ======= background =======
+    // ======= random background =======
     const [arrColor, setArrColor] = useState([]);
 
     const colorArray = ['#FF7759', '#FFE77C', '#AAFF59', '#59FFA5', '#59F5FF', '#59C8FF', '#5975FF', '#9459FF','#FF5986'];
@@ -82,8 +82,6 @@ const UserMyPage = () => {
         , boxShadow: isUserLoginState ? `-5px -5px 10px 5px ${arrColor[0]+50}, 5px 5px 10px 5px ${arrColor[1]+50}` : ''
     }
     // ======= end background =======
-
-
 
 
     // ======= profile =======
@@ -125,8 +123,10 @@ const UserMyPage = () => {
     const starFollowHandler = async (e) => {
 
         const payload = {
-            fid: userId
-            , userId: getLoginUserCheck().id
+            fid: getLoginUserCheck().id
+            , userId: userId
+            /*fid: userId
+            , userId: getLoginUserCheck().id*/
         }
 
         const res = await fetch( FOLLOW_URL, {
@@ -146,7 +146,55 @@ const UserMyPage = () => {
             console.log('팔로우를 할 수 엄슴');
         }
 
-    } // ======== end follow ========
+    }
+    // ======== end follow ========
+
+
+
+    // ======== follow List ========
+    const fetchFollowList= async (e) =>{
+        const res = await fetch(FOLLOW_URL
+        , {
+            method: 'GET'
+            , headers: {'Authorization': 'Bearer ' + getLoginUserCheck().token}
+
+        });
+
+        if(res.status===200){
+            const json = await res.json();
+            console.log(json.length)
+        } else {
+            console.log('팔로우 리스트를 볼 수 엄슴');
+        }
+    }
+    // ======== end follow List ========
+
+
+
+    // ======== change profile image ========
+    const profileHandler = e => {
+        document.getElementById('profile-img').click();
+    }
+
+    const isProfile = async () => {
+        const formData = new FormData;
+        formData.append('userId', userId);
+        formData.append('profileImagePath', document.getElementById('profile-img').files[0]);
+
+        const res = await fetch(JOIN_URL+"/change/profile", {
+            method: 'POST'
+            , body: formData
+        });
+
+        if(res.status === 200){
+            const json = await res.text();
+            alert(json);
+
+        }
+
+    }
+
+
 
     // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
     useEffect(() => {
@@ -170,8 +218,9 @@ const UserMyPage = () => {
 
     }, [
         userId,
-        userPageInfo.loginState
+        userPageInfo.loginState,
     ]);
+
 
     return (
         <div className={"user-info"}>
@@ -182,8 +231,16 @@ const UserMyPage = () => {
 
             <div className={"user-page-background"} style={backgroundHandler}>
                 <div className={"user-info-item-content"}>
-                    <div className={"user-page-profile"} style={profileImage}>
+                    <div className={"user-page-profile"} style={profileImage}
+                        onClick={userPageMaster ? profileHandler : null}>
                         { profilePath ? '' : <BsFillPersonFill/> }
+                        <input
+                            onChange={isProfile}
+                            type="file"
+                            id="profile-img"
+                            accept="image/*"
+                            style={{display: 'none'}}
+                            name="profileImage" />
                     </div>
                     <div className={"user-info-contain"}>
                         <div className={"user-name-item"}>{userPageInfo.nickname}</div>
@@ -203,8 +260,11 @@ const UserMyPage = () => {
             <div className={"user-game-info-contain"}>
                 <div className={"user-follow-item"}>
                     <div className={"follow-star-icon"}><FaStar /></div>
-                    <p>100,000</p>
-                    { userPageMaster ? 'Followers' : <button onClick={starFollowHandler}> { starFollow ? 'Following' : 'Follow' } </button> }
+                    <p>팔로워 수</p>
+                    { userPageMaster ?
+                        <button onClick={fetchFollowList}>Followers</button>
+                        :
+                        <button onClick={starFollowHandler}> { starFollow ? 'Following' : 'Follow' } </button> }
                 </div>
                 <div className={"game-score-item"}>
                     <div className={"game-score-icon"}><BsFillXDiamondFill /></div>
