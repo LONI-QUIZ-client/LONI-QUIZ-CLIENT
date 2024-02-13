@@ -18,6 +18,7 @@ const GamePage = () => {
         const messageAreaRef = useRef(null);
 
         const [chatData, setChatData] = useState([]);
+        const [alertCheck, setAlertCheck] = useState(false);
 
         const [input, setInput] = useState('');
 
@@ -176,6 +177,7 @@ const GamePage = () => {
 
             if (input === answerKey) {
                 console.log("정답!!!!")
+                setAlertCheck(true);
                 const socket = new SockJS('http://localhost:8888/ws');
                 const stompClient = Stomp.over(socket);
                 stompClient.connect({}, () => {
@@ -183,11 +185,8 @@ const GamePage = () => {
                         gno: roomId,
                         userId: userID
                     }));
-                    stompClient.send("/app/game/answerKey", {}, JSON.stringify({
-                        gno: roomId,
-                        answerKey: ''
-                    }));
                 });
+                nullAnswer();
             }
 
             const socket = new SockJS('http://localhost:8888/ws');
@@ -214,6 +213,7 @@ const GamePage = () => {
                     answerKey: ''
                 }));
             });
+            nextTurnHandler();
         }
         const [time, setTime] = useState(10);
 
@@ -317,6 +317,9 @@ const GamePage = () => {
                 }));
             });
         }, []);
+    useEffect(() => {
+        console.log(thisRoomsSU)
+    },[thisRoomsSU])
 
         // 방장이 누군지 확인
         useEffect(() => {
@@ -326,9 +329,9 @@ const GamePage = () => {
             stompClient.connect({}, () => {
                 stompClient.subscribe('/topic/game/getSuperUser', superUsers => {
                     const receivedSuperUsers = JSON.parse(superUsers.body);
-                    console.log("방장!!!", receivedSuperUsers)
-                    console.log()
-                    setThisRoomsSU(receivedSuperUsers);
+                    const filteredUsers = receivedSuperUsers.filter(user => user.gno === roomId);
+                    console.log("방장!!!", filteredUsers)
+                    setThisRoomsSU(filteredUsers);
                 });
             });
         }, []);
@@ -480,7 +483,7 @@ const GamePage = () => {
                 {
                     g === roomId && (
                         <div className='time'>
-                            {time === 1 ? nullAnswer (
+                            { alertCheck === false && time === 1 ? nullAnswer (
                                 <p>정답은! : {answerKey}</p>
                             ) : (
                                 <p>{time}</p>
@@ -496,7 +499,11 @@ const GamePage = () => {
                     }}>
                         <img className='showImg' src={image.image}/>
                     </div>
-                    <button onClick={startHandler} className='o'>게임시작</button>
+                    {
+                        thisRoomsSU.length > 0 && thisRoomsSU[0].userId === userID && (
+                            <button onClick={startHandler} className='o'>게임시작</button>
+                        )
+                    }
                     <div className='user-list'>
                         <div className='user'>
                             {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
