@@ -39,6 +39,8 @@ const GamePage = () => {
         // 모달
         const [modalOpen, setModalOpen] = useState(false);
         const modalBackground = useRef();
+        // 버튼 활성화 여부
+    const [hidden, setHidden] = useState(false);
 
         //이미지를 생성하는 API를 호출하고 그 결과를 처리
         const createImage = async () => {
@@ -89,19 +91,6 @@ const GamePage = () => {
             setNewMessage('');
         };
 
-        // 채팅 input 엔터키 이벤트 처리
-        const handleInputKeyPress = (e) => {
-            // 엔터 키를 눌렀을 때 sendMessage 함수 호출
-            if (e.key === 'Enter') {
-                sendMessage();
-                if (newMessage === item) {
-                    console.log('정답')
-                } else {
-                    console.log('땡')
-                }
-            }
-        };
-
         // 이미지 생성 input 엔터키 이벤트 처리
         const handleInputKey = (e) => {
             if (e.key === 'Enter') {
@@ -114,7 +103,6 @@ const GamePage = () => {
         useEffect(() => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
-
             stompClient.connect({}, () => {
                 stompClient.send("/app/game/memberList", {}, JSON.stringify({
                     gno: roomId
@@ -174,7 +162,6 @@ const GamePage = () => {
 
         const inputSubmit = (e) => {
             e.preventDefault();
-
             if (input === answerKey) {
                 console.log("정답!!!!")
                 setAlertCheck(true);
@@ -197,7 +184,6 @@ const GamePage = () => {
                     userId: username,
                     content: input
                 }));
-
             });
             setInput('');
         }
@@ -228,16 +214,11 @@ const GamePage = () => {
         useEffect(() => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
-
-
             stompClient.connect({}, (frame) => {
                 stompClient.subscribe('/topic/game/timer/' + roomId, function (response) {
                     let countdownValue = JSON.parse(response.body);
-
                     setG(countdownValue.gno);
-
                     setTime(countdownValue.time);
-
                 });
             });
         }, [roomId]);
@@ -247,7 +228,6 @@ const GamePage = () => {
         const timeHandler = e => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
-
             stompClient.connect({}, (frame) => {
                 stompClient.send("/app/game/timer/" + roomId, {}, JSON.stringify({
                     gno: roomId
@@ -261,7 +241,6 @@ const GamePage = () => {
         };
 
         const [thisRoomsUsers, setthisRoomsUsers] = useState([]);
-
         const [roomMembers, setRoomMembers] = useState([]);
 
         useEffect(() => {
@@ -299,7 +278,6 @@ const GamePage = () => {
         useEffect(() => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
-
             stompClient.connect({}, () => {
                 stompClient.subscribe('/topic/game/start', message => {
                     const roomsUser = JSON.parse(message.body);
@@ -378,6 +356,7 @@ const GamePage = () => {
 
         // 현재 있는 유저들로 방의 인원을 구성
         const startHandler = () => {
+            setHidden(true);
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
             stompClient.connect({}, (frame) => {
@@ -398,9 +377,7 @@ const GamePage = () => {
             });
         }
 
-
         const [image, setImage] = useState([]);
-
         useEffect(() => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
@@ -442,7 +419,6 @@ const GamePage = () => {
             removeUserList()
             nav('/lobby')
         }
-
 
         const removeUserList = () => {
             const socket = new SockJS('http://localhost:8888/ws');
@@ -500,13 +476,13 @@ const GamePage = () => {
                             <button className="btn1 btn-jittery"
                                     onClick={() => setModalOpen(true)}
                                     style={{display: userBool !== false ? 'block' : 'none'}}>
-                                Click Me
+                                문제 내기!
                             </button>
                         </div>
                     </div>
                     {
                         thisRoomsSU.length > 0 && thisRoomsSU[0].userId === userID && (
-                            <button onClick={startHandler} className='o'>게임시작</button>
+                            <button onClick={startHandler} className={hidden ? 'o hidden' : 'o'}>게임시작</button>
                         )
                     }
                     <div className='user-list'>
@@ -527,8 +503,7 @@ const GamePage = () => {
                         </div>
                     </div>
                 </div>
-                {
-                    modalOpen &&
+                {modalOpen &&
                     <div className={'modal-container'} ref={modalBackground} onClick={e => {
                         if (e.target === modalBackground.current) {
                             setModalOpen(true);
@@ -609,8 +584,7 @@ const GamePage = () => {
                     </form>
                 </div>
             </div>
-        )
-            ;
+        );
     }
 ;
 

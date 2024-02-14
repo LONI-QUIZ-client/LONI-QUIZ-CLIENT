@@ -30,6 +30,16 @@
 .w{
   height: 20%;
 }
+.o{
+  position: absolute;
+  left: 35%;
+  top: 35%;
+  width: 100px;
+  height: 70px;
+}
+.hidden {
+  display: none;
+}
 .user-list{
   flex: 2;
   width: 100%;
