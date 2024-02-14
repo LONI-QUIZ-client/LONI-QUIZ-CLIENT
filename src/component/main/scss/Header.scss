@@ -3,6 +3,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  .header-login-btn {
+    border: none;
+    cursor: pointer;
+  }
 }
 
 .header-table li{
@@ -14,11 +18,12 @@
   display: flex;
   justify-content: space-between;
   position: fixed;
+  background-color: #6D5D99;
 }
 
 .h-box img{
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
 }
 
 li{

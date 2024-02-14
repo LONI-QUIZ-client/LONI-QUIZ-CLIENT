@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import { IconButton, InputBase, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { USER_SEARCH } from "../../config/host-config";
+import {FOLLOW_URL, USER_SEARCH} from "../../config/host-config";
 import {useNavigate} from "react-router-dom";
 import {red} from "@mui/material/colors";
+import {getCurrentLoginUser} from "../../config/login-util";
 
 const AddFriendSection = () => {
     const [searchKeyword, setSearchKeyword] = useState('');
     const [filteredFriends, setFilteredFriends] = useState([]);
-
+    const [fid, setFid] = useState();
     const redirection = useNavigate();
+    const userId = getCurrentLoginUser().id;
 
     // 유저 마이페이지로 이동
     const userMypageHandler = e => {
         const followFriend = e.target.textContent;
+
+        setFid(followFriend);
 
         filteredFriends.map(user=>{
             console.log(user.name);
@@ -64,6 +68,24 @@ const AddFriendSection = () => {
                 });
         }
     };
+    
+    const followerHandler = e => {
+
+        fetch(FOLLOW_URL + "/aa", {
+            method:"POST",
+            headers: {
+                'content-type' : 'application/json'
+            },
+            body: {
+                fid: fid,
+                userId: userId
+            }
+        })
+            .then(res => res.json())
+            .then(json => {
+                console.log(json);
+            })
+    }
 
     return (
         <div className='add_friend_menu'>
@@ -92,7 +114,7 @@ const AddFriendSection = () => {
                         {filteredFriends.map(user => (
                             <li key={user.id} onClick={userMypageHandler}>
                                 <p>{user.name}</p>
-                                <button className='follow_btn'>팔로우</button>
+                                <button className='follow_btn' onClick={followerHandler}>팔로우</button>
                             </li>
                         ))}
                     </ul>
