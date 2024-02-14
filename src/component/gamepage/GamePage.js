@@ -456,8 +456,9 @@ const GamePage = () => {
 
         return (
             <div className='box'>
-                <button onClick={exitHandler} className='u'>나가기</button>
-
+                <button onClick={exitHandler} className="btn1 btn-open">
+                    exit
+                </button>
                 {
                     g === roomId && (
                         <div className='time'>

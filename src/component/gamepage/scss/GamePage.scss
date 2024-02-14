@@ -1,22 +1,25 @@
 
-.box{
+.box {
   width: 100%;
   height: 101vh;
   background: #61dafb;
   display: flex;
   flex-direction: row;
 }
-.a{
+
+.a {
   background: white;
   flex: 7.5;
   display: flex;
   flex-direction: column;
 }
-.chat{
+
+.chat {
   flex: 2.5;
   background: #fff9f9;
 }
-.show-img{
+
+.show-img {
   flex: 7.5;
   width: 100%;
   position: relative;
@@ -27,27 +30,32 @@
   background: #78c7d2;
   padding-bottom: 40px;
 }
-.w{
+
+.w {
   height: 20%;
 }
-.o{
+
+.o {
   position: absolute;
   left: 35%;
   top: 35%;
   width: 100px;
   height: 70px;
 }
+
 .hidden {
   display: none;
 }
-.user-list{
+
+.user-list {
   flex: 2;
   width: 100%;
   background: blue;
   display: flex;
   flex-direction: row;
 }
-.user{
+
+.user {
   width: 100%;
   height: 100%;
   background: #61dafb;
@@ -55,45 +63,54 @@
   display: flex;
 
 }
-.create{
+
+.create {
   border-radius: 50%;
   width: 100px;
   height: 100px;
 }
-.input{
+
+.input {
   border: 1px solid black;
   width: 50%;
   height: 20%;
   font-size: 15pt;
 }
-.img{
+
+.img {
   width: 20%;
   border: 1px solid black;
 }
+
 .img.selected {
   border: 2px solid blue; /* 선택된 이미지에 대한 테두리 스타일 */
 }
-.chat-log{
-  overflow-y:scroll;
+
+.chat-log {
+  overflow-y: scroll;
   width: 100%;
   height: 90%;
   background: pink;
   display: flex;
   flex-direction: column-reverse;
 }
-.chat-input{
+
+.chat-input {
   width: 100%;
   height: 10%;
   background: darkgray;
   display: flex;
 }
-#messagee{
+
+#messagee {
   height: 100%;
 }
-.input-group{
+
+.input-group {
   width: 100%;
 }
-.l-a{
+
+.l-a {
   width: 16.8%;
   height: 100%;
   background: #FDD9DD;
@@ -103,22 +120,26 @@
   justify-content: space-around;
   border: 1px solid black;
 }
-.p-img{
+
+.p-img {
   width: 80%;
   height: 60%;
   background: #fff9f9;
   border-radius: 100px;
 }
-.p-img img{
+
+.p-img img {
   width: 100%;
   height: 100%;
   border-radius: 100px;
 }
+
 // 닉네임 스타일 추가 예정
-.p-img nick-name{
+.p-img nick-name {
 
 }
-.score{
+
+.score {
   width: 35%;
   height: 100%;
   font-size: 40px;
@@ -159,42 +180,47 @@
   background-color: #66FFCC;
   border-radius: 24px;
   width: 70%;
-  height: 60%;
+  height: 70%;
   padding: 15px;
 }
 
-.imgs{
+.imgs {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 50%;
+  height: 48%;
 }
-.items{
+
+.items {
   width: 100%;
   height: 50%;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
   display: flex;
   flex-direction: column;
 }
-.buttons{
+
+.buttons {
   width: 30%;
   height: 50%;
   display: flex;
   align-items: center;
 }
-.showImg{
-  width: 45%;
-  height: 55%;
+
+.showImg {
+  width: 38%;
+  height: 60%;
 }
+
 // ---------------------------------
-.u{
+.u {
   position: absolute;
   right: 30px;
   top: 90px;
 }
+
 //-----------------------------------
-.modal-open-btn{
+.modal-open-btn {
   position: absolute;
   top: 120px;
   right: 30px;
@@ -210,15 +236,14 @@
 // 스피너
 .loading_circle {
   width: 50px;
-  height: 50px;
+  height: 53px;
   margin: 10px auto;
-
   border: 10px solid #e3e3e3;
   border-bottom: 10px solid #000000;
   border-radius: 50%;
-
   animation: load 1.5s linear infinite;
 }
+
 
 @keyframes load {
   0% {
@@ -232,19 +257,37 @@
 // 버튼
 @keyframes jittery {
   5%,
-  50% {transform: scale(1);}
-  10% {transform: scale(0.9);}
-  15% {transform: scale(1.15);}
-  20% {transform: scale(1.15) rotate(-5deg);}
-  25% {transform: scale(1.15) rotate(5deg);}
-  30% {transform: scale(1.15) rotate(-3deg);}
-  35% {transform: scale(1.15) rotate(2deg);}
-  40% {transform: scale(1.15) rotate(0);}
+  50% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(0.9);
+  }
+  15% {
+    transform: scale(1.15);
+  }
+  20% {
+    transform: scale(1.15) rotate(-5deg);
+  }
+  25% {
+    transform: scale(1.15) rotate(5deg);
+  }
+  30% {
+    transform: scale(1.15) rotate(-3deg);
+  }
+  35% {
+    transform: scale(1.15) rotate(2deg);
+  }
+  40% {
+    transform: scale(1.15) rotate(0);
+  }
 }
+
 .btn-jittery {
   bottom: -30px;
-    animation: jittery 4s infinite;
+  animation: jittery 4s infinite;
 }
+
 .btn1 {
   border: none;
   display: block;
@@ -256,9 +299,35 @@
   position: relative;
   color: #000000;
   font-weight: 700;
-  font-size: 40px;
+  font-size: 30px;
   background-color: #ffffff;
   padding: 17px 60px;
   margin: 0 auto;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.20);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.20);
+}
+
+.btn-open {
+  position: absolute;
+  width: 10%;
+  top: 20px;
+  right: 20px;
+  transition: 0.3s;
+  &::before {
+    content: "";
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background: var(--btn-bg);
+    transform: scaleX(0);
+    transition: 0.3s;
+  }
+  &:hover {
+    background: #000000;
+    color: #ffffff;
+    &::before {
+      transform: scaleX(1);
+    }
+  }
 }
