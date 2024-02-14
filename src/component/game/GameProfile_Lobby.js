@@ -6,7 +6,7 @@ import '../css/GameLobby.css';
 import starImage from "../../assets/img/star.png";
 import GameChat from './GameChat';
 import { getAutoCurrentLoginUser, getCurrentLoginUser, isLogin } from "../../config/login-util";
-import { JOIN_URL } from "../../config/host-config";
+import {PROFILE_URL} from "../../config/host-config";
 import { useNavigate } from "react-router-dom";
 
 const GameProfileLobby = () => {
@@ -17,8 +17,7 @@ const GameProfileLobby = () => {
     const navigate = useNavigate();
 
     const fetchProfileImage = async () => {
-        const url = JOIN_URL + "/profile-image";
-        const res = await fetch(url, {
+        const res = await fetch(PROFILE_URL, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + currentUser.token
