@@ -5,10 +5,14 @@
   align-items: center;
   .header-table li{
     margin-right: 30px;
-    .header-login-btn {
-      border: none;
-      cursor: pointer;
-    }
+  }
+  .header-login-btn {
+    cursor: pointer;
+    border: none;
+    background-color: #E3D9FF;
+    border-radius: 30px;
+    padding: 10px;
+    font-weight: 700;
   }
   .header_profile_image {
     width: 45px;
@@ -24,8 +28,9 @@
   position: fixed;
   background-color: #6D5D99;
   .header_logo{
-    width: 75px;
-    height: 75px;
+    width: 70px;
+    height: 70px;
+    margin-left: 10px;
   }
 }
 
