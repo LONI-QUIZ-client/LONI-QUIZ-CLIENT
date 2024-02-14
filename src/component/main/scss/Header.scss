@@ -3,14 +3,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  .header-login-btn {
-    border: none;
-    cursor: pointer;
+  .header-table li{
+    margin-right: 30px;
+    .header-login-btn {
+      border: none;
+      cursor: pointer;
+    }
   }
-}
-
-.header-table li{
-  margin-right: 30px;
+  .header_profile_image {
+    width: 45px;
+    height: 45px;
+    border-radius: 100px;
+  }
 }
 
 .h-box{
@@ -19,11 +23,10 @@
   justify-content: space-between;
   position: fixed;
   background-color: #6D5D99;
-}
-
-.h-box img{
-  width: 75px;
-  height: 75px;
+  .header_logo{
+    width: 75px;
+    height: 75px;
+  }
 }
 
 li{

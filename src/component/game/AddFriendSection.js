@@ -19,7 +19,7 @@ const AddFriendSection = () => {
 
         setFid(followFriend);
 
-        filteredFriends.map(user=>{
+        filteredFriends.map(user => {
             console.log(user.name);
             if(user.name===followFriend){
                 console.log(user.id)
@@ -71,7 +71,7 @@ const AddFriendSection = () => {
     
     const followerHandler = e => {
 
-        fetch(FOLLOW_URL + "/aa", {
+        fetch(FOLLOW_URL, {
             method:"POST",
             headers: {
                 'content-type' : 'application/json'
