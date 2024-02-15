@@ -29,10 +29,11 @@
   justify-content: end;
   background: #78c7d2;
   padding-bottom: 40px;
+  background-size: 100% 100%;
 }
 
 .w {
-  height: 20%;
+  height: 22%;
 }
 
 .o {
@@ -171,6 +172,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2;
   background: rgba(0, 0, 0, 0.5);
 }
 
@@ -208,8 +210,8 @@
 }
 
 .showImg {
-  width: 38%;
-  height: 60%;
+  width: 42%;
+  height: 50%;
 }
 
 // ---------------------------------
@@ -314,7 +316,7 @@
   top: 20px;
   left: 20px;
   transition: 0.3s;
-  z-index: 300;
+  z-index: 1;
   & ::before {
     content: "";
     top: 0;

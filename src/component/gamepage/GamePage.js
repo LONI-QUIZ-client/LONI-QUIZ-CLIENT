@@ -40,7 +40,7 @@ const GamePage = () => {
         const [modalOpen, setModalOpen] = useState(false);
         const modalBackground = useRef();
         // 버튼 활성화 여부
-    const [hidden, setHidden] = useState(false);
+        const [hidden, setHidden] = useState(false);
 
         //이미지를 생성하는 API를 호출하고 그 결과를 처리
         const createImage = async () => {
@@ -187,7 +187,7 @@ const GamePage = () => {
             });
             setInput('');
         }
-    const [time, setTime] = useState();
+        const [time, setTime] = useState();
 
         const nullAnswer = () => {
             console.log(answerKey)
@@ -201,7 +201,7 @@ const GamePage = () => {
                     answerKey: ''
                 }));
             });
-            if (thisRoomsSU[0].userId === userID){
+            if (thisRoomsSU[0].userId === userID) {
                 nextTurnHandler();
             }
             setAlertCheck(false);
@@ -471,7 +471,7 @@ const GamePage = () => {
                     )
                 }
                 <div className='a'>
-                    <div className='show-img'>
+                    <div className='show-img' style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/canvas.png"}` }}>
                         <img className='showImg' src={image.image}/>
                         <div className='w'>
                             <button className="btn1 btn-jittery"
@@ -492,8 +492,13 @@ const GamePage = () => {
                             {(userData.length > 0 || roomMembers.length > 0) && (
                                 (roomMembers.length > 0 ? roomMembers : userData).map((user) => (
                                     <div className='l-a'>
-                                        <div className='nick-name'>
-                                            {roomMembers.length > 0 ? user.name : user.username}
+                                        <div className='user-table'>
+                                            <div className='nick-name'>
+                                                {roomMembers.length > 0 ? user.name : user.username}
+                                            </div>
+                                            <div className='profile'>
+                                                {roomMembers.length > 0 ? user.profile : user.profile}
+                                            </div>
                                         </div>
                                         <div className='score'>
                                             <div>{roomMembers.length > 0 ? user.point : 0}점</div>
