@@ -4,7 +4,7 @@ import {getAutoCurrentLoginUser, getCurrentLoginUser, isLogin} from "../../confi
 import {useNavigate} from "react-router-dom";
 import starImage from "../../assets/img/star.png";
 import logoImage from "../../user/scss/img/project-logo.png";
-import {PROFILE_URL} from "../../config/host-config";
+import {JOIN_URL, PROFILE_URL} from "../../config/host-config";
 
 const Header = () => {
     const [HimageFile, setHImageFile] = useState(null);
@@ -19,24 +19,25 @@ const Header = () => {
         // redirection('/login');
     };
 
-    const fetchProfileImageHeader = async () => {
-        const res = await fetch(PROFILE_URL, {
-            method: 'GET',
+    const fetchProfileImage = () => {
+        const url = JOIN_URL + "/profile-image";
+        fetch(url, {
+            method: 'Post',
             headers: {
-                'Authorization': 'Bearer ' + currentUser.token
-            }
-        });
-
-        if (res.status === 200) {
-            const profileData = await res.blob();
-            const HimageFile = window.URL.createObjectURL(profileData);
-            setHImageFile(HimageFile);
-        } else {
-            setHImageFile(null);
-        }
+                'content-type' : 'application/json'
+            },
+            body: JSON.stringify({
+                userid : getCurrentLoginUser().id
+            })
+        })
+            .then(res => res.text())
+            .then(json => {
+                    setHImageFile(json)
+                }
+            )
     };
     useEffect(() => {
-        currentUserNickname && fetchProfileImageHeader();
+        currentUserNickname && fetchProfileImage();
     }, [currentUserNickname]);
     return (
         <div className="h-box">

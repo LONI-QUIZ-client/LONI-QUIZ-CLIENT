@@ -90,9 +90,8 @@ const UserMyPage = () => {
         });
 
         if(res.status===200){
-            const json = await res.blob();
-            const imageUrl = window.URL.createObjectURL(json);
-            setProfilePath(imageUrl);
+            const json = await res.text();
+            setProfilePath(json);
         } else {
             const json = await res.text();
             alert(json)
