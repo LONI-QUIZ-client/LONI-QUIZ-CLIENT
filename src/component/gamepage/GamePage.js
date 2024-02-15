@@ -54,14 +54,35 @@ const GamePage = () => {
     const dialogRef = useRef<HTMLDialogElement | null>(null);
 
     const [isOpen, setIsOpen] = useState(false);
-    const [hidden, setHidden] = useState(false);
+    // 게임 끝났을 때 뜨는 모달
+    const [endGame, setEndGame] = useState(false);
+
+    // 정답 모달
     const openModal = (e) => {
         setIsOpen(true);
         setModalContent(e)
     };
-
     const closeModal = () => {
         setIsOpen(false);
+    };
+    const handleBackgroundClick = (event) => {
+        if (event.target === event.currentTarget) {
+            closeModal();
+        }
+    };
+
+    // end 모달
+    const openModalz = (e) => {
+        setEndGame(true);
+        setModalContent(e)
+    };
+    const closeModalz = () => {
+        setEndGame(false);
+    };
+    const handleBackgroundClickz = (event) => {
+        if (event.target === event.currentTarget) {
+            closeModalz();
+        }
     };
 
     //이미지를 생성하는 API를 호출하고 그 결과를 처리
@@ -292,8 +313,8 @@ const GamePage = () => {
             const targetRoomIndex = thisRoomsUsers.findIndex(room => room.gno === roomId);
             const targetRoomMembers = targetRoomIndex >= 0 ? thisRoomsUsers[targetRoomIndex].members : [];
             setRoomMembers(targetRoomMembers)
-            if (thisRoomsUsers[targetRoomIndex].count/targetRoomMembers.length === thisRoomsSU[0].lobbyMaxCount){
-                alert("게임 끝!")
+            if (thisRoomsUsers[targetRoomIndex].count / targetRoomMembers.length === thisRoomsSU[0].lobbyMaxCount) {
+                setEndGame(true)
             }
             const targetUserIndex = targetRoomMembers.findIndex(user => user.userId === userID);
             const targetUser = targetRoomMembers[targetUserIndex].turn;
@@ -465,205 +486,166 @@ const GamePage = () => {
     }
 
 
-        // 이미지가 로딩되었을 때 스피너를 숨깁니다.
-        useEffect(() => {
-            if (img.length > 0) {
-                setShowSpinner(false);
-            }
-        }, [img]);
+    // 이미지가 로딩되었을 때 스피너를 숨깁니다.
+    useEffect(() => {
+        if (img.length > 0) {
+            setShowSpinner(false);
+        }
+    }, [img]);
 
-        const [selectedImage, setSelectedImage] = useState(null);
-
-        return (
-            <div className='box'>
-                <button onClick={exitHandler} className="btn1 btn-exit">
-                    exit
-                </button>
-                {isOpen && (
-            <div className="modal">
-                <div className="modal-content">
-                    <span className="close" onClick={closeModal}>&times;</span>
-                    <p>정답은 {modalContent}입니다.</p>
-                </div>
-            </div>
-        )}
-                <div className='a'>
-                    <div className='show-img' style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/canvas.png"}` }}>
-                        <img className='showImg' src={image.image}/>
-                        <div className='w'>
-                            <button className="btn1 btn-jittery"
-                                    onClick={() => setModalOpen(true)}
-                                    style={{display: userBool !== false ? 'block' : 'none'}}>
-                                문제 내기!
-                            </button>
+    return (
+        <div className='box'>
+            <button onClick={exitHandler} className="btn1 btn-exit">
+                exit
+            </button>
+            {isOpen && (
+                <div className="modal-background" onClick={handleBackgroundClick}>
+                    <div className="answer-modal">
+                        <div className="modal-content">
+                            <span className="close" onClick={closeModal}>&times;</span>
+                            <p>정답은 {modalContent}입니다.</p>
                         </div>
                     </div>
-                    {
-                        thisRoomsSU.length > 0 && thisRoomsSU[0].userId === userID && (
-                            <button onClick={startHandler} className={hidden ? 'o hidden' : 'o'}>게임시작</button>
-                        )
-                    }
-                    <div className='user-list'>
-                        <div className='user'>
-                            {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
-                            {(userData.length > 0 || roomMembers.length > 0) && (
-                                (roomMembers.length > 0 ? roomMembers : userData).map((user) => (
-                                    <div className='l-a'>
-                                        <div className='user-table'>
-                                            <div className='profile'>
-                                                {/*{roomMembers.length > 0 ? user.profile : user.profile}*/}
-                                                {roomMembers.length > 0 ? user.name : user.username}
-                                            </div>
-                                            <div className='nick-name'>
-                                                {roomMembers.length > 0 ? user.name : user.username}
-                                            </div>
+                </div>
+            )}
+            {(!isOpen && endGame) &&(
+            <div className="modal-background" onClick={handleBackgroundClickz}>
+                <div className="end-modal">
+                    <div className="modal-content">
+                        <span className="close" onClick={closeModalz}>&times;</span>
+                        <p>모달 내용이 여기에 들어갑니다.</p>
+                    </div>
+                </div>
+            </div>
+            )}
+            <div className='a'>
+                <div className='show-img'
+                     style={{backgroundImage: `url(${process.env.PUBLIC_URL + "/img/canvas.png"}`}}>
+                    <img className='showImg' src={image.image}/>
+                    <div className='w'>
+                        <button className="btn1 btn-jittery"
+                                onClick={() => setModalOpen(true)}
+                                style={{display: userBool !== false ? 'block' : 'none'}}>
+                            문제 내기!
+                        </button>
+                        <button className="btn2"
+                                onClick={hasntAnswer}
+                                style={{display: userBool !== false && nextTurn === true ? 'block' : 'none'}}>
+                            턴 넘기기
+                        </button>
+                    </div>
+                </div>
+                {
+                    thisRoomsSU.length > 0 && thisRoomsSU[0].userId === userID && (
+                        <button onClick={startHandler} className={hidden ? 'o hidden' : 'o'}>게임시작</button>
+                    )
+                }
+                <div className='user-list'>
+                    <div className='user'>
+                        {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
+                        {(userData.length > 0 || roomMembers.length > 0) && (
+                            (roomMembers.length > 0 ? roomMembers : userData).map((user) => (
+                                <div className='l-a'>
+                                    <div className='user-table'>
+                                        <div className='profile'>
+                                            {/*{roomMembers.length > 0 ? user.profile : user.profile}*/}
+                                            {roomMembers.length > 0 ? user.name : user.username}
                                         </div>
-                                        <div className='score'>
-                                            <div>{roomMembers.length > 0 ? user.point : 0}점</div>
+                                        <div className='nick-name'>
+                                            {roomMembers.length > 0 ? user.name : user.username}
                                         </div>
                                     </div>
-                                ))
-                            )}
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        )}
-        <div className='a'>
-            <div className='show-img'>
-                <img className='showImg' src={image.image}/>
-                <div className='w'>
-                    <button className="btn1 btn-jittery"
-                            onClick={() => setModalOpen(true)}
-                            style={{display: userBool !== false ? 'block' : 'none'}}>
-                        문제 내기!
-                    </button>
-                    <button className="btn2"
-                            onClick={hasntAnswer}
-                            style={{display: userBool !== false && nextTurn === true ? 'block' : 'none'}}>
-                        턴 넘기기
-                    </button>
-                </div>
-            </div>
-            {thisRoomsSU.length > 0 && thisRoomsSU[0].userId === userID && (
-                <button onClick={startHandler} className={hidden ? 'o hidden' : 'o'}>게임시작</button>)}
-            <div className='user-list'>
-                <div className='user'>
-                    {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
-                    {(userData.length > 0 || roomMembers.length > 0) && ((roomMembers.length > 0 ? roomMembers : userData).map((user) => (
-                        <div className='l-a'>
-                            <div className='nick-name'>
-                                {roomMembers.length > 0 ? user.name : user.username}
-                            </div>
-                            <div className='score'>
-                                <div>{roomMembers.length > 0 ? user.point : 0}점</div>
-                            </div>
-                        </div>)))}
-                </div>
-            </div>
-        </div>
-        {modalOpen && <div className={'modal-container'} ref={modalBackground} onClick={e => {
-            if (e.target === modalBackground.current) {
-                setModalOpen(true);
-            }
-        }}>
-            <div className='modal-content'>
-                {/* 이미지를 매핑하여 화면에 표시 */}
-                <div className="loading_circle" style={{display: showSpinner ? 'block' : 'none'}}></div>
-                <div className='imgs'>
-                    {img.map((image, index) => (<img key={index}
-                                                     src={image}
-                                                     alt={`Image ${index}`}
-                                                     className={`img ${selectedImage === image ? 'selected' : ''}`}
-                                                     onClick={imageHandler}/>))}
-                </div>
-                <div className='items'>
-                    <input
-                        placeholder="제시어를 입력해주세요!"
-                        type='text'
-                        className='input'
-                        value={inputText}
-                        onChange={handleInputChange}
-                        onKeyPress={(event) => {
-                            if (event.key === 'Enter') {
-                                handleInputKey(event);
-                                setShowSpinner(true); // 인풋에서 엔터 키가 눌렸을 때 스피너를 표시합니다.
-                            }
-                        }}
-                    />
-                    <div className='buttons'>
-                        <button className='create' onClick={() => {
-                            createImage();
-                            setShowSpinner(true); // 사진 만들기 버튼이 클릭되었을 때 스피너를 표시합니다.
-                        }}>
-                            사진만들기
-                        </button>
-                        <button
-                            className={'modal-close-btn'}
-                            onClick={() => {
-                                sendImageHandler();
-                            }}
-                            disabled={selectedImage === null} // selectedImage가 null이 아닌 경우에만 활성화
-                        >
-                            모달 닫기 및 이미지 전송
-                        </button>
-                    </div>
-
-                }
-                <div className='chat'>
-                    <ul className='chat-log' id="messageArea" ref={messageAreaRef}>
-                        {chatData
-                            .filter(item => roomId === item.gno)
-                            .reverse()
-                            .map((item, index) => (
-                                <li key={index}>
-                                    <span style={{ color: item.userId === username ? 'green' : 'black' }}>{item.userId}: {item.content}</span>
-                                </li>
+                                    <div className='score'>
+                                        <div>{roomMembers.length > 0 ? user.point : 0}점</div>
+                                    </div>
+                                </div>
                             ))
-                        }
-                    </ul>
-                    <form className='chat-input' name="messageForm" onSubmit={inputSubmit}>
-                        <div className="input-group clearfix">
-                            <input
-                                id="messagee"
-                                placeholder="채팅 입력..."
-                                autoComplete="off"
-                                className="form-control"
-                                value={input}
-                                disabled={userBool !== false}
-                                onChange={(e) => setInput(e.target.value)}
-                            />
-                        </div>
-                    </form>
-
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>}
-        <div className='chat'>
-            <ul className='chat-log' id="messageArea" ref={messageAreaRef}>
-                {chatData
-                    .filter(item => roomId === item.gno)
-                    .reverse()
-                    .map((item, index) => (<li key={index}>
-                        <span>{item.userId}: {item.content}</span>
-                    </li>))}
-            </ul>
-            <form className='chat-input' name="messageForm" onSubmit={inputSubmit}>
-                <div className="input-group clearfix">
-                    <input
-                        id="messagee"
-                        placeholder="채팅 입력..."
-                        autoComplete="off"
-                        className="form-control"
-                        value={input}
-                        disabled={userBool !== false}
-                        onChange={(e) => setInput(e.target.value)}
-                    />
-                </div>
-            </form>
-        </div>
-    </div>);
-};
 
+            {
+                modalOpen && <div className={'modal-container'} ref={modalBackground} onClick={e => {
+                    if (e.target === modalBackground.current) {
+                        setModalOpen(true);
+                    }
+                }}>
+                    <div className='modal-content'>
+                        {/* 이미지를 매핑하여 화면에 표시 */}
+                        <div className="loading_circle" style={{display: showSpinner ? 'block' : 'none'}}></div>
+                        <div className='imgs'>
+                            {img.map((image, index) => (<img key={index}
+                                                             src={image}
+                                                             alt={`Image ${index}`}
+                                                             className={`img ${selectedImage === image ? 'selected' : ''}`}
+                                                             onClick={imageHandler}/>))}
+                        </div>
+                        <div className='items'>
+                            <input
+                                placeholder="제시어를 입력해주세요!"
+                                type='text'
+                                className='input'
+                                value={inputText}
+                                onChange={handleInputChange}
+                                onKeyPress={(event) => {
+                                    if (event.key === 'Enter') {
+                                        handleInputKey(event);
+                                        setShowSpinner(true); // 인풋에서 엔터 키가 눌렸을 때 스피너를 표시합니다.
+                                    }
+                                }}
+                            />
+                            <div className='buttons'>
+                                <button className='create' onClick={() => {
+                                    createImage();
+                                    setShowSpinner(true); // 사진 만들기 버튼이 클릭되었을 때 스피너를 표시합니다.
+                                }}>
+                                    사진만들기
+                                </button>
+                                <button
+                                    className={'modal-close-btn'}
+                                    onClick={() => {
+                                        sendImageHandler();
+                                    }}
+                                    disabled={selectedImage === null} // selectedImage가 null이 아닌 경우에만 활성화
+                                >
+                                    모달 닫기 및 이미지 전송
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+            <div className='chat'>
+                <ul className='chat-log' id="messageArea" ref={messageAreaRef}>
+                    {chatData
+                        .filter(item => roomId === item.gno)
+                        .reverse()
+                        .map((item, index) => (
+                            <li key={index}>
+                                    <span
+                                        style={{color: item.userId === username ? 'green' : 'black'}}>{item.userId}: {item.content}</span>
+                            </li>
+                        ))
+                    }
+                </ul>
+                <form className='chat-input' name="messageForm" onSubmit={inputSubmit}>
+                    <div className="input-group clearfix">
+                        <input
+                            id="messagee"
+                            placeholder="채팅 입력..."
+                            autoComplete="off"
+                            className="form-control"
+                            value={input}
+                            disabled={userBool !== false}
+                            onChange={(e) => setInput(e.target.value)}
+                        />
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    );
+};
 export default GamePage;
