@@ -18,22 +18,20 @@ const GameProfileLobby = () => {
 
     const fetchProfileImage = async () => {
         const url = JOIN_URL + "/profile-image";
-        const res = await fetch(url, {
-            method: 'GET',
+        fetch(url, {
+            method: 'Post',
             headers: {
-                'Authorization': 'Bearer ' + currentUser.token
-            }
-        });
-
-        if (res.status === 200) {
-            const profileData = await res.blob();
-            const imageFile = window.URL.createObjectURL(profileData);
-            setImageFile(imageFile);
-        } else {
-            const errMsg = await res.text();
-            alert(errMsg);
-            setImageFile(null);
-        }
+                'content-type' : 'application/json'
+            },
+            body: JSON.stringify({
+                userid : getCurrentLoginUser().id
+            })
+        })
+            .then(res => res.text())
+            .then(json => {
+                    setImageFile(json)
+                }
+            )
     };
 
     const moveDetailHandler = () => {
