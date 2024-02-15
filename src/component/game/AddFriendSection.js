@@ -101,6 +101,11 @@ const AddFriendSection = () => {
         })
             .then(res => res.json())
             .then(json => {
+                if (flag){
+                    alert("팔로우 취소되었습니다")
+                }else{
+                    alert("팔로우 되어습니다")
+                }
                 setFollower(json);
             })
     }
@@ -134,7 +139,7 @@ const AddFriendSection = () => {
                                 <p id="nickname">{user.name}</p>
 
                                 <button className='follow_btn' onClick={() => followerHandler(user.id)}>{
-                                    flag ? <div> 팔로우 </div> : <div> 언팔로우 </div> }</button>
+                                    flag ? <div> 언팔로우 </div> : <div> 팔로우 </div> }</button>
                             </li>
                         ))}
                     </ul>
