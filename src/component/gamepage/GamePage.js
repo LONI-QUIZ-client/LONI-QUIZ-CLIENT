@@ -533,16 +533,20 @@ const GamePage = () => {
                 </div>
             )}
             <div className='a'>
-                <div className='show-img'
-                     style={{backgroundImage: `url(${process.env.PUBLIC_URL + "/img/canvas.png"}`}}>
+                <div className='show-img'>
                     <img className='showImg' src={image.image}/>
                     <div className='w'>
                         <button className="btn1 btn-jittery"
-                                onClick={() => setModalOpen(true)}
+                                onClick={() => {
+                                    setModalOpen(true);
+                                    // btn-jittery 클릭 시 btn2를 보이도록 설정하고 btn-jittery를 숨김
+                                    document.querySelector('.btn2').style.display = 'block';
+                                    document.querySelector('.btn-jittery').style.display = 'none';
+                                }}
                                 style={{display: userBool !== false ? 'block' : 'none'}}>
                             문제 내기!
                         </button>
-                        <button className="btn2"
+                        <button className="btn2 btn-style"
                                 onClick={hasntAnswer}
                                 style={{display: userBool !== false && nextTurn === true ? 'block' : 'none'}}>
                             턴 넘기기
@@ -551,7 +555,7 @@ const GamePage = () => {
                 </div>
                 {
                     thisRoomsSU.length > 0 && thisRoomsSU[0].userId === userID && (
-                        <button onClick={startHandler} className={hidden ? 'o hidden' : 'o'}>게임시작</button>
+                        <button onClick={startHandler} className={hidden ? 'o hidden' : 'o btn-style btn3'}>게임시작</button>
                     )
                 }
                 <div className='user-list'>
@@ -604,20 +608,20 @@ const GamePage = () => {
                                 }}
                             />
                             <div className='buttons'>
-                                <button className='create' onClick={() => {
+                                <button className='create btn1 btn-style' onClick={() => {
                                     createImage();
                                     setShowSpinner(true);
                                 }}>
                                     사진만들기
                                 </button>
                                 <button
-                                    className={'modal-close-btn'}
+                                    className={'modal-close-btn btn1 btn-style'}
                                     onClick={() => {
                                         sendImageHandler();
                                     }}
                                     disabled={selectedImage === null}
                                 >
-                                    모달 닫기 및 이미지 전송
+                                    선택하기
                                 </button>
                             </div>
                         </div>
