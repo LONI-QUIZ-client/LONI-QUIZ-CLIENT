@@ -338,6 +338,24 @@
   margin: 0 auto;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.20);
 }
+.btn2 {
+  border: none;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  outline: none;
+  overflow: hidden;
+  position: absolute;
+  color: #000000;
+  font-weight: 700;
+  font-size: 30px;
+  background-color: #ffffff;
+  padding: 15px 50px;
+  margin-top: 5%;
+  margin-left: 40%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.20);
+}
 
 .btn-exit {
   border-radius: 5%;
@@ -365,4 +383,14 @@
       transform: scaleX(1);
     }
   }
+}
+
+.dialog::backdrop {
+  background-color: rgba(0, 255, 0, 0.4);
+}
+
+.dialog {
+  width: 50vw;
+  background-color: green;
+  border: 3px solid blue;
 }
