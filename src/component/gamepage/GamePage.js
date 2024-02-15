@@ -78,6 +78,7 @@ const GamePage = () => {
     };
     const closeModalz = () => {
         setEndGame(false);
+        window.location.href = '/lobby'
     };
     const handleBackgroundClickz = (event) => {
         if (event.target === event.currentTarget) {
@@ -292,21 +293,17 @@ const GamePage = () => {
     //         }));
     //     });
     // }
-    window.onpopstate = function (event) {
-        removeUserList()
-        alert("방탈출");
-    };
 
-    useEffect(() => {
+    const gameEnd = () => {
+        setEndGame(true)
         const socket = new SockJS('http://localhost:8888/ws');
         const stompClient = Stomp.over(socket);
-        stompClient.connect({}, (frame) => {
-            stompClient.subscribe('/topic/game/exitRoom', function (response) {
-                const exitAfter = JSON.parse(response.body);
-                getList();
-            });
+        stompClient.connect({}, () => {
+            stompClient.send("/app/game/gameEnd", {}, JSON.stringify({
+                gno: roomId
+            }));
         });
-    }, []);
+    }
 
     useEffect(() => {
         if (thisRoomsUsers.length > 0) {
@@ -314,7 +311,7 @@ const GamePage = () => {
             const targetRoomMembers = targetRoomIndex >= 0 ? thisRoomsUsers[targetRoomIndex].members : [];
             setRoomMembers(targetRoomMembers)
             if (thisRoomsUsers[targetRoomIndex].count / targetRoomMembers.length === thisRoomsSU[0].lobbyMaxCount) {
-                setEndGame(true)
+                gameEnd();
             }
             const targetUserIndex = targetRoomMembers.findIndex(user => user.userId === userID);
             const targetUser = targetRoomMembers[targetUserIndex].turn;
@@ -462,10 +459,6 @@ const GamePage = () => {
         });
     }
     // 나가기
-    const exitHandler = () => {
-        removeUserList()
-        window.location.href = 'http://localhost:3000/lobby';
-    }
     const removeUserList = () => {
         const socket = new SockJS('http://localhost:8888/ws');
         const stompClient = Stomp.over(socket);
@@ -474,7 +467,28 @@ const GamePage = () => {
                 gno: roomId, userId: userID
             }));
         });
+        setTimeout(() => {
+            alert("방탈출")
+            window.location.href = '/lobby'
+        }, 500)
     }
+    const exitHandler = () => {
+        removeUserList()
+    }
+    window.onpopstate = function (event) {
+        removeUserList()
+    };
+
+    useEffect(() => {
+        const socket = new SockJS('http://localhost:8888/ws');
+        const stompClient = Stomp.over(socket);
+        stompClient.connect({}, (frame) => {
+            stompClient.subscribe('/topic/game/exitRoom', function (response) {
+                const exitAfter = JSON.parse(response.body);
+                getList();
+            });
+        });
+    }, []);
     const getList = () => {
         const socket = new SockJS('http://localhost:8888/ws');
         const stompClient = Stomp.over(socket);
@@ -506,7 +520,7 @@ const GamePage = () => {
                     </div>
                 </div>
             )}
-            {(!isOpen && endGame) &&(
+            {(!isOpen && endGame) && (
                 <div className="modal-background" onClick={handleBackgroundClickz}>
                     <div className="end-modal">
                         <div className="modal-content">
@@ -527,7 +541,8 @@ const GamePage = () => {
                                     ))
                                 )}
                             </div>
-                            <button className="btn-style btn1 end-close" onClick={closeModalz}>나가기</button>
+                            <button className="btn-style btn1 end-close" onClick={closeModalz}>나가기
+                            </button>
                         </div>
                     </div>
                 </div>
