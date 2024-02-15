@@ -6,6 +6,7 @@
   height: 100vh;
   background: #151422;
   padding-bottom: 5rem;
+  position: relative;
 
   .user-setting-buttons {
     display: flex;
@@ -184,6 +185,7 @@
     .user-follow-item
     , .game-score-item
     , .game-playing-record{
+      width: 25rem;
       display: flex;
       align-items: center;
       flex-direction: column;
@@ -217,7 +219,32 @@
         font-weight: bold;
       }
 
+      .user-follow-list-item{
+        background: #FFFFFF;
+        width: 20rem;
+        margin: 1rem;
+        border-radius: 10px;
+
+
+        li{
+          color: #333333;
+        }
+
+      }
+
     }
+
+    /*.user-follow-list-item{
+      background: #FFFFFF;
+      width: 20rem;
+      margin: 1rem;
+      border-radius: 10px;
+
+
+      li{
+        color: #333333;
+      }
+    }*/
 
     /*.score-item{
       display: flex;

@@ -137,9 +137,9 @@ const LoginRight = () => {
                     <input type={"password"} className={"login-password-input"} placeholder="비밀번호"
                            onChange={userPasswordHandler}/>
                 </div>
-                <div className={cn("auto-login-check", {autoLogin})} onClick={authLoginHandler}>
+                {/*<div className={cn("auto-login-check", {autoLogin})} onClick={authLoginHandler}>
                     <FaRegCheckCircle />자동 로그인
-                </div>
+                </div>*/}
                 <div className={"user-join-move-link"} onClick={moveJoinHandler}>회원가입</div>
                 <div className={"login-state-item"}>
                     <div className={"login-error-message"}>{loginMessageError}</div>

@@ -27,6 +27,9 @@ const UserMyPage = () => {
     // 유저 자기 자신인지 타인인지, 유저 아이디을 받아서 확인할것
     const [userPageMaster, setUserPageMaster] = useState(false);
 
+    // 팔로우 창 여부
+    const [followListModal, setFollowListModal] = useState(false);
+
     // 유저 정보 가져오기
     const [userPageInfo, setUserPageInfo] = useState({
         id: ''
@@ -46,9 +49,9 @@ const UserMyPage = () => {
                 , nickname: json.nickname
                 , createDate: json.createDate
                 , score: json.score
-                , loginState: json.loginState
+                // , loginState: json.loginState
             });
-            setIsUserLoginState(json.loginState)
+            setIsUserLoginState(json.loginState);
         } else {
             alert('유저 정보를 불러올 수 없습니다');
             redirect('/lobby');
@@ -117,17 +120,17 @@ const UserMyPage = () => {
 
 
     // ======== follow ========
+    const followListHandler = e => {
+        setFollowListModal(!followListModal);
+    }
+
     // 팔로우 여부
     const [starFollow, setStarFollow] = useState(false);
-
+    const payload = {
+        fid: getLoginUserCheck().id
+        , userId: userId
+    }
     const starFollowHandler = async (e) => {
-
-        const payload = {
-            fid: getLoginUserCheck().id
-            , userId: userId
-            /*fid: userId
-            , userId: getLoginUserCheck().id*/
-        }
 
         const res = await fetch( FOLLOW_URL, {
             method: 'POST'
@@ -152,22 +155,50 @@ const UserMyPage = () => {
 
 
     // ======== follow List ========
-    const fetchFollowList= async (e) =>{
-        const res = await fetch(FOLLOW_URL
-        , {
-            method: 'GET'
-            , headers: {'Authorization': 'Bearer ' + getLoginUserCheck().token}
+    const [starFollowCount, setStarFollowCount] = useState(0);
+    const [userFollowList, setUserFollowList] = useState([]);
 
+    const fetchFollowList= async (e) =>{
+        const res = await fetch(FOLLOW_URL+`/${userId}`, {
+            method: 'GET'
         });
 
         if(res.status===200){
             const json = await res.json();
-            console.log(json.length)
+            setUserFollowList(json)
+
+            for (const follow of json) {
+                console.log('follow user:'+follow.fi);
+
+                if(follow.fi === getLoginUserCheck().id){
+                    setStarFollow(true)
+                }
+            }
+
+            console.log(json)
+
+            setStarFollowCount(json.length);
         } else {
             console.log('팔로우 리스트를 볼 수 엄슴');
         }
     }
     // ======== end follow List ========
+
+    // ======== follow state ========
+    const fetchFollowState = async () => {
+
+        const res = await fetch(FOLLOW_URL+"/check", {
+            method: "POST"
+            , headers: {'content-type':'application/json'}
+            , body: JSON.stringify(payload)
+        });
+
+        if(res.status===200){
+            const json = await res.json();
+            console.log(`follow state: ${json}`);
+        }
+    }
+    // ======== end follow state ========
 
 
 
@@ -195,7 +226,6 @@ const UserMyPage = () => {
     }
 
 
-
     // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
     useEffect(() => {
         if(!isLogin() && !isAutoLogin()){
@@ -205,9 +235,13 @@ const UserMyPage = () => {
 
         fetchUserInfo();
         fetchProfile();
+        fetchFollowList();
+        fetchFollowState();
 
-        setIsUserLoginState(userPageInfo.loginState);
-        console.log(userPageInfo.loginState);
+        // setIsUserLoginState(userPageInfo.loginState);
+        // console.log(userPageInfo.loginState);
+        console.log(isUserLoginState);
+
 
         if(getLoginUserCheck().id !== userId){
             setUserPageMaster(false);
@@ -217,8 +251,10 @@ const UserMyPage = () => {
         }
 
     }, [
-        userId,
-        userPageInfo.loginState,
+        userId
+        , isUserLoginState
+        // , userPageInfo.loginState
+        , starFollow
     ]);
 
 
@@ -260,22 +296,26 @@ const UserMyPage = () => {
             <div className={"user-game-info-contain"}>
                 <div className={"user-follow-item"}>
                     <div className={"follow-star-icon"}><FaStar /></div>
-                    <p>팔로워 수</p>
-                    { userPageMaster ?
-                        <button onClick={fetchFollowList}>Followers</button>
-                        :
-                        <button onClick={starFollowHandler}> { starFollow ? 'Following' : 'Follow' } </button> }
+                    <p onClick={followListHandler}>{starFollowCount}</p>
+                    { userPageMaster ? 'Followers' : <button onClick={starFollowHandler}> { starFollow ? 'Following' : 'Follow' } </button> }
+                    { followListModal ?
+                        <ul className={"user-follow-list-item"}>
+                            {userFollowList.map(user => (
+                                <li key={user.fi}>{user.fi}</li>
+                            ))}
+                        </ul> : ''
+                    }
                 </div>
                 <div className={"game-score-item"}>
                     <div className={"game-score-icon"}><BsFillXDiamondFill /></div>
                     <p>{userPageInfo.score}</p>
                     Point
                 </div>
-                <div className={"game-playing-record"}>
+                {/*<div className={"game-playing-record"}>
                     <div className={"game-playing-icon"}><FaRankingStar /></div>
                     <p>record</p>
                     Games
-                </div>
+                </div>*/}
             </div>
             { userPageMaster ? <MemberDelete /> : ''}
         </div>
