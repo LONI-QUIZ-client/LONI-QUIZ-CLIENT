@@ -493,11 +493,12 @@ const GamePage = () => {
                                 (roomMembers.length > 0 ? roomMembers : userData).map((user) => (
                                     <div className='l-a'>
                                         <div className='user-table'>
-                                            <div className='nick-name'>
+                                            <div className='profile'>
+                                                {/*{roomMembers.length > 0 ? user.profile : user.profile}*/}
                                                 {roomMembers.length > 0 ? user.name : user.username}
                                             </div>
-                                            <div className='profile'>
-                                                {roomMembers.length > 0 ? user.profile : user.profile}
+                                            <div className='nick-name'>
+                                                {roomMembers.length > 0 ? user.name : user.username}
                                             </div>
                                         </div>
                                         <div className='score'>
