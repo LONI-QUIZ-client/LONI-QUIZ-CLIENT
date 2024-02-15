@@ -571,7 +571,7 @@ const GamePage = () => {
                             .reverse()
                             .map((item, index) => (
                                 <li key={index}>
-                                    <span>{item.userId}: {item.content}</span>
+                                    <span style={{ color: item.userId === username ? 'green' : 'black' }}>{item.userId}: {item.content}</span>
                                 </li>
                             ))
                         }
