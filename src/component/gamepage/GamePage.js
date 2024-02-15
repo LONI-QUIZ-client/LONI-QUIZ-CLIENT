@@ -456,7 +456,7 @@ const GamePage = () => {
 
         return (
             <div className='box'>
-                <button onClick={exitHandler} className="btn1 btn-open">
+                <button onClick={exitHandler} className="btn1 btn-exit">
                     exit
                 </button>
                 {

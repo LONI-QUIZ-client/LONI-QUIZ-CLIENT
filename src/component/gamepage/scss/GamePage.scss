@@ -284,6 +284,7 @@
 }
 
 .btn-jittery {
+  border-radius: 5%;
   bottom: -30px;
   animation: jittery 4s infinite;
 }
@@ -299,20 +300,22 @@
   position: relative;
   color: #000000;
   font-weight: 700;
-  font-size: 30px;
+  font-size: 20px;
   background-color: #ffffff;
-  padding: 17px 60px;
+  padding: 15px 40px;
   margin: 0 auto;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.20);
 }
 
-.btn-open {
+.btn-exit {
+  border-radius: 5%;
   position: absolute;
-  width: 10%;
+  width: 130px;
   top: 20px;
-  right: 20px;
+  left: 20px;
   transition: 0.3s;
-  &::before {
+  z-index: 300;
+  & ::before {
     content: "";
     top: 0;
     left: 0;
