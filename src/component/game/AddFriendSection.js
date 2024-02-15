@@ -102,9 +102,9 @@ const AddFriendSection = () => {
             .then(res => res.json())
             .then(json => {
                 if (flag){
-                    alert("팔로우 취소되었습니다")
+                    alert("팔로우 취소되었습니다.")
                 }else{
-                    alert("팔로우 되어습니다")
+                    alert("팔로우 되었습니다.")
                 }
                 setFollower(json);
             })

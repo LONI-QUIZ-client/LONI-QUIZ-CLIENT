@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './scss/Header.scss';
-import {getAutoCurrentLoginUser, getCurrentLoginUser, isLogin} from "../../config/login-util";
+import {getAutoCurrentLoginUser, getCurrentLoginUser, isAutoLogin, isLogin} from "../../config/login-util";
 import {useNavigate} from "react-router-dom";
 import starImage from "../../assets/img/star.png";
 import logoImage from "../../user/scss/img/project-logo.png";
@@ -12,12 +12,20 @@ const Header = () => {
     const currentUserNickname = currentUser?.username || '';
     const userId = currentUser?.id || '';
     const nav = useNavigate();
+    const redirection = useNavigate();
     const logoutHandler = e => {
-        localStorage.clear();
-        nav('/')
-        // setImgUrl(null);
-        // redirection('/login');
-    };
+
+        if(isLogin()){
+            sessionStorage.clear();
+
+        } else if(isAutoLogin()){
+            localStorage.clear();
+
+        }
+
+        redirection('/');
+
+    }
 
     const fetchProfileImage = () => {
         const url = JOIN_URL + "/profile-image";

@@ -3,35 +3,59 @@ import { getCurrentLoginUser } from "../../config/login-util";
 
 const FriendListSection = () => {
     const [followingStatus, setFollowingStatus] = useState([]);
+    const [userId, setUserId] = useState(getCurrentLoginUser().id);
+    const [isUpdating, setIsUpdating] = useState(false);
 
-    const userId = getCurrentLoginUser().id;
-
-    const handleFollowToggle = (fi) => {
-        setFollowingStatus(prevStatus => {
-            const updatedStatus = prevStatus.map(item => {
-                if (item.fi === fi) {
-                    return { ...item, isFollowing: !item.isFollowing };
-                }
-                return item;
-            });
-            return updatedStatus;
-        });
-    };
-
-    useEffect(() => {
-        fetch("http://localhost:8888/follower/" + userId)
+    const fetchFriendList = () => {
+        fetch(`http://localhost:8888/follower/${userId}`)
             .then(res => res.json())
             .then(json => {
-                // 서버 응답 데이터를 활용하여 친구 목록 업데이트
                 const serverFriends = json.map(item => ({
                     fi: item.fi,
-                    isFollowing: false, // 기본적으로 모든 친구를 언팔로우 상태로 초기화
+                    isFollowing: true,
                 }));
                 setFollowingStatus(serverFriends);
             })
             .catch(error => {
-                console.error('Error fetching data:', error);
+                console.error('Error fetching friend list:', error);
             });
+    };
+
+    const handleFollowToggle = async (fi) => {
+        if (isUpdating) {
+            // 이미 업데이트 중인 경우 중복 요청 방지
+            return;
+        }
+
+        setIsUpdating(true);
+
+        try {
+            const res = await fetch("http://localhost:8888/follower/", {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fi: fi,
+                    userId: userId
+                })
+            });
+
+            const json = await res.json();
+
+            if (json.updatedFollowingStatus) {
+                setFollowingStatus(json.updatedFollowingStatus);
+            }
+        } catch (error) {
+            console.error('Error following/unfollowing:', error);
+        } finally {
+            // 업데이트 완료 후 상태 변경
+            setIsUpdating(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchFriendList();
     }, [userId]);
 
     return (

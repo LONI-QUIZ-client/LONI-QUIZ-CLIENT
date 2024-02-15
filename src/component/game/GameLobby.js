@@ -37,7 +37,7 @@ const GameLobby = () => {
                     <div className='lobby_container'>
                         <div className='lobby_box1'>
                             <div className='lobby_bbox1'>
-                                <GameProfileLobby/>
+                                <GameProfileLobby />
                                 <GameRanking/>
                             </div>
                         </div>
