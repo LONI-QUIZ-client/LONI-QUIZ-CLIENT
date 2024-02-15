@@ -579,6 +579,10 @@ const GamePage = () => {
                             (roomMembers.length > 0 ? roomMembers : userData).map((user) => (
                                 <div className='l-a'>
                                     <div className='user-table'>
+                                        <div className='profile'>
+                                            <img src={roomMembers.length > 0 ? user.profileImage : user.profileImage}
+                                                 alt="프로필 이미지"/>
+                                        </div>
                                         <div className='nick-name'>
                                             {roomMembers.length > 0 ? user.name : user.username}
                                         </div>
