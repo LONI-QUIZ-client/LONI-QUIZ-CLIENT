@@ -29,8 +29,6 @@ const GameProfileLobby = () => {
             const imageFile = window.URL.createObjectURL(profileData);
             setImageFile(imageFile);
         } else {
-            const errMsg = await res.text();
-            alert(errMsg);
             setImageFile(null);
         }
     };
@@ -49,7 +47,7 @@ const GameProfileLobby = () => {
                 <img src={imageFile || starImage} alt='프로필 사진' />
             </div>
             <p onClick={moveDetailHandler}>{currentUserNickname}</p>
-            <p>total</p>
+            <p>Score: </p>
         </div>
     );
 };

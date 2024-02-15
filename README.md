@@ -20,70 +20,51 @@
       <td>Github</td>
       <td>이름</td>
       <td>담당</td>
-      <td>구현한 것</td>
     </tr>
     <tr>
       <td>
         <a href="https://github.com/bumjun2" target="_blank">
-          <img src="https://github.com/bumjun2.png?size=150" alt="bumjun2's GitHub" />
+          <img src="https://github.com/bumjun2.png?size=50" alt="bumjun2's GitHub" />
         </a>
       </td>
       <td>정범준</td>
-      <td>Project Manager & Backend</td>
-      <td>
-        <li>DB 생성</li>
-      </td>
+      <td>Project Manager & BackEnd & FrontEnd</td>
     </tr>
     <tr>
       <td>
         <a href="https://github.com/smg0218" target="_blank">
-          <img src="https://avatars.githubusercontent.com/u/97341527?v=4" width="150" height="150" alt="Ajeabal's GitHub" />
+          <img src="https://avatars.githubusercontent.com/u/97341527?v=4" width="50" height="50" alt="Ajeabal's GitHub" />
         </a>
       </td>
       <td>이승한</td>
       <td>Backend</td>
-      <td>
-        <li>채팅 웹소켓 구현</li>
-      </td>
     </tr>
     <tr>
       <td>
         <a href="https://github.com/oyg9731" target="_blank">
-          <img src="https://github.com/oyg9731.png?size=150" alt="oyg9731's GitHub" />
+          <img src="https://github.com/oyg9731.png?size=50" alt="oyg9731's GitHub" />
         </a>
       </td>
       <td>오영석</td>
       <td>FrontEnd</td>
-      <td>
-        <li>Main(메인화면)</li>
-        <li>GamePage(게임방)</li>
-      </td>
     </tr>
     <tr>
       <td>
         <a href="https://github.com/YoungHeeSo" target="_blank">
-          <img src="https://github.com/YoungHeeSo.png?size=150" alt="YoungHeeSo's GitHub" />
+          <img src="https://github.com/YoungHeeSo.png?size=50" alt="YoungHeeSo's GitHub" />
         </a>
       </td>
       <td>박소영</td>
-      <td>FrontEnd</td>
-      <td>
-        <li>login(로그인)</li>
-        <li>Join(회원가입)</li>
-        <li>MyPage(사용자 프로필)</li>
-      </td>
+      <td>FrontEnd & BackEnd</td>
     </tr>
     <tr>
       <td>
         <a href="https://github.com/sarimiro56" target="_blank">
-          <img src="https://github.com/sarimiro56.png?size=150" alt="sarimiro56's GitHub" />
+          <img src="https://github.com/sarimiro56.png?size=50" alt="sarimiro56's GitHub" />
         </a>
       </td>
       <td>태은선</td>
       <td>FrontEnd</td>
-      <td>
-        <li>Lobby(로비)</li>
-      </td>
     </tr>
   </Table>
 </details>
@@ -113,7 +94,10 @@
   <h3 align="center"> Backend </h3>
   <p align="center">
     <img alt="NodeJS" src="https://img.shields.io/badge/-NodeJS-43853d?style=flat-square&logo=nodedotjs&logoColor=white" />
-    <img alt="Java" src="https://img.shields.io/badge/Java-007396?style=flat&logo=Conda-Forge&logoColor=white" />
+    <img alt="Java" src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white" />
+    <img alt="JSON" src="https://img.shields.io/badge/JSON-000000?style=flat-square&logo=json&logoColor=white"/>
+    <img alt="Spring" src="https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white"/>
+
   </p>
 
   <h3 align="center"> DB </h3>
@@ -127,14 +111,13 @@
     <img alt="GIT" src="https://img.shields.io/badge/-Git-F05032?style=flat-square&logo=git&logoColor=white" />
     <img alt="GitHub" src="https://img.shields.io/badge/-GitHub-181717?style=flat-square&logo=github&logoColor=white" />
     <img alt="Postman" src="https://img.shields.io/badge/-Postman-FF6C37?style=flat-square&logo=postman&logoColor=white" />
+    <img alt="IntelliJ IDEA" src="https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white" />
   </p>
 
-  <h3 align="center"> Another </h3>
+  <h3 align="center"> Another Tools</h3>
   <p align="center">
     <img alt="Canva" src="https://img.shields.io/badge/Canva-%2300C4CC.svg?style=for-the-badge&logo=Canva&logoColor=white" />
     <img alt="Figma" src="https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white" />
-    <img alt="KakaoTalk" src="https://img.shields.io/badge/kakaotalk-ffcd00.svg?style=for-the-badge&logo=kakaotalk&logoColor=000000" />
-    <img alt="Discord" src="https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white" />
   </p>
 </details>
 

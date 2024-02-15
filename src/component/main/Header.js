@@ -32,8 +32,6 @@ const Header = () => {
             const HimageFile = window.URL.createObjectURL(profileData);
             setHImageFile(HimageFile);
         } else {
-            const errMsg = await res.text();
-            alert(errMsg);
             setHImageFile(null);
         }
     };

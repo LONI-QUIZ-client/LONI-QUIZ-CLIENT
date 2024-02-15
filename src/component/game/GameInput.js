@@ -15,6 +15,7 @@ const GameInput = ({data}) => {
     const itemsPerPage = 6; // 한 페이지당 보여질 아이템 개수
     const [currentPage, setCurrentPage] = useState(1);
     const [fullMember, setFullMember] = useState(false);
+    const [searchText, setSearchText] = useState('');
     const userId = localStorage.getItem(ID);
     const username = localStorage.getItem(USERNAME);
 
@@ -28,8 +29,15 @@ const GameInput = ({data}) => {
     const getCurrentPageItems = () => {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
-        return dtoArray.slice(startIndex, endIndex);
+
+        // 검색 텍스트를 기반으로 데이터 필터링
+        const filteredData = dtoArray.filter(item =>
+            item.title.toLowerCase().includes(searchText.toLowerCase())
+        );
+
+        return filteredData.slice(startIndex, endIndex);
     };
+
 
     // 전체 페이지 개수 계산
     const totalPageCount = Math.ceil(dtoArray.length / itemsPerPage);
@@ -88,8 +96,10 @@ const GameInput = ({data}) => {
                 >
                     <InputBase
                         sx={{ ml: 1, flex: 1 }}
-                        placeholder="Search Room"
-                        inputprops={{ 'aria-label': 'search room' }}
+                        placeholder="방 검색"
+                        inputProps={{ 'aria-label': 'search room' }}
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
                     />
                     <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
                         <SearchIcon />
@@ -99,7 +109,7 @@ const GameInput = ({data}) => {
             <div className='room_list'>
                 {getCurrentPageItems().map((item, index) => (
                     <div className="room_container" key={index} onClick={() => {
-                        StartGameRoom(item.gno, item.maxCount)
+                        StartGameRoom(item.gno, item.maxCount);
                     }}>
                         <div className="list">
                             <p>No. {index + 1 + (currentPage - 1) * itemsPerPage}</p>
