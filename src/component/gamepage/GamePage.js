@@ -54,7 +54,7 @@ const GamePage = () => {
     const dialogRef = useRef<HTMLDialogElement | null>(null);
 
     const [isOpen, setIsOpen] = useState(false);
-
+    const [hidden, setHidden] = useState(false);
     const openModal = (e) => {
         setIsOpen(true);
         setModalContent(e)
@@ -181,6 +181,7 @@ const GamePage = () => {
         });
         setInput('');
     }
+
 
     // 정답자 확인
     useEffect(() => {
@@ -462,22 +463,70 @@ const GamePage = () => {
             }));
         });
     }
-    // 스피너 표시 여부를 관리합니다.
-    // 이미지가 로딩되었을 때 스피너를 숨깁니다.
-    useEffect(() => {
-        if (img.length > 0) {
-            setShowSpinner(false);
-        }
-    }, [img]);
-    return (<div className='box'>
-        <button onClick={exitHandler} className="btn1 btn-open">
-            exit
-        </button>
-        {isOpen && (
+
+
+        // 이미지가 로딩되었을 때 스피너를 숨깁니다.
+        useEffect(() => {
+            if (img.length > 0) {
+                setShowSpinner(false);
+            }
+        }, [img]);
+
+        const [selectedImage, setSelectedImage] = useState(null);
+
+        return (
+            <div className='box'>
+                <button onClick={exitHandler} className="btn1 btn-exit">
+                    exit
+                </button>
+                {isOpen && (
             <div className="modal">
                 <div className="modal-content">
                     <span className="close" onClick={closeModal}>&times;</span>
                     <p>정답은 {modalContent}입니다.</p>
+                </div>
+            </div>
+        )}
+                <div className='a'>
+                    <div className='show-img' style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/canvas.png"}` }}>
+                        <img className='showImg' src={image.image}/>
+                        <div className='w'>
+                            <button className="btn1 btn-jittery"
+                                    onClick={() => setModalOpen(true)}
+                                    style={{display: userBool !== false ? 'block' : 'none'}}>
+                                문제 내기!
+                            </button>
+                        </div>
+                    </div>
+                    {
+                        thisRoomsSU.length > 0 && thisRoomsSU[0].userId === userID && (
+                            <button onClick={startHandler} className={hidden ? 'o hidden' : 'o'}>게임시작</button>
+                        )
+                    }
+                    <div className='user-list'>
+                        <div className='user'>
+                            {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
+                            {(userData.length > 0 || roomMembers.length > 0) && (
+                                (roomMembers.length > 0 ? roomMembers : userData).map((user) => (
+                                    <div className='l-a'>
+                                        <div className='user-table'>
+                                            <div className='profile'>
+                                                {/*{roomMembers.length > 0 ? user.profile : user.profile}*/}
+                                                {roomMembers.length > 0 ? user.name : user.username}
+                                            </div>
+                                            <div className='nick-name'>
+                                                {roomMembers.length > 0 ? user.name : user.username}
+                                            </div>
+                                        </div>
+                                        <div className='score'>
+                                            <div>{roomMembers.length > 0 ? user.point : 0}점</div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+
                 </div>
             </div>
         )}
@@ -560,6 +609,34 @@ const GamePage = () => {
                             모달 닫기 및 이미지 전송
                         </button>
                     </div>
+
+                }
+                <div className='chat'>
+                    <ul className='chat-log' id="messageArea" ref={messageAreaRef}>
+                        {chatData
+                            .filter(item => roomId === item.gno)
+                            .reverse()
+                            .map((item, index) => (
+                                <li key={index}>
+                                    <span style={{ color: item.userId === username ? 'green' : 'black' }}>{item.userId}: {item.content}</span>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                    <form className='chat-input' name="messageForm" onSubmit={inputSubmit}>
+                        <div className="input-group clearfix">
+                            <input
+                                id="messagee"
+                                placeholder="채팅 입력..."
+                                autoComplete="off"
+                                className="form-control"
+                                value={input}
+                                disabled={userBool !== false}
+                                onChange={(e) => setInput(e.target.value)}
+                            />
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>}
