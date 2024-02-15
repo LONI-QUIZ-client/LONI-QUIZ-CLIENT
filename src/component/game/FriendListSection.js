@@ -10,11 +10,15 @@ const FriendListSection = () => {
         setFollowingStatus(prevStatus => {
             const updatedStatus = prevStatus.map(item => {
                 if (item.fi === fi) {
+                    if (!item.isFollowing) {
+                        return null;
+                    }
                     return { ...item, isFollowing: !item.isFollowing };
                 }
                 return item;
             });
-            return updatedStatus;
+            // null이 아닌 항목만 남기고 업데이트
+            return updatedStatus.filter(item => item !== null);
         });
     };
 
@@ -25,7 +29,7 @@ const FriendListSection = () => {
                 // 서버 응답 데이터를 활용하여 친구 목록 업데이트
                 const serverFriends = json.map(item => ({
                     fi: item.fi,
-                    isFollowing: false, // 기본적으로 모든 친구를 언팔로우 상태로 초기화
+                    isFollowing: true,
                 }));
                 setFollowingStatus(serverFriends);
             })
