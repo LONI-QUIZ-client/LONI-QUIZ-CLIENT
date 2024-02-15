@@ -39,6 +39,8 @@ const GamePage = () => {
         const [modalOpen, setModalOpen] = useState(false);
         const modalBackground = useRef();
 
+        const [falg, setFlag] = useState(false);
+
         //이미지를 생성하는 API를 호출하고 그 결과를 처리
         const createImage = async () => {
             const socket = new SockJS('http://localhost:8888/ws');
@@ -186,10 +188,14 @@ const GamePage = () => {
                         gno: roomId,
                         userId: userID
                     }));
+
                     stompClient.send("/app/game/answerKey", {}, JSON.stringify({
                         gno: roomId,
                         answerKey: ''
                     }));
+
+
+                    timeHandler(true);
                 });
             }
             const socket = new SockJS('http://localhost:8888/ws');
@@ -230,15 +236,18 @@ const GamePage = () => {
 
 
         // 서버에 시간을 받아오는 요청을 보냄
-        const timeHandler = e => {
+        const timeHandler = flag => {
             const socket = new SockJS('http://localhost:8888/ws');
             const stompClient = Stomp.over(socket);
 
-            stompClient.connect({}, (frame) => {
-                stompClient.send("/app/game/timer/" + roomId, {}, JSON.stringify({
-                    gno: roomId
-                }));
-            });
+
+                stompClient.connect({}, (frame) => {
+                    stompClient.send("/app/game/timer/" + roomId, {}, JSON.stringify({
+                        gno: roomId,
+                        check: flag
+                    }));
+                });
+
         }
 
         window.onpopstate = function (event) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { IconButton, InputBase, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import {FOLLOW_URL, USER_SEARCH} from "../../config/host-config";
@@ -11,6 +11,8 @@ const AddFriendSection = () => {
     const [filteredFriends, setFilteredFriends] = useState([]);
     const redirection = useNavigate();
     const userId = getCurrentLoginUser().id;
+    const [flag, setFlag] = useState(false);
+    const [follower, setFollower] = useState([]);
 
     // 유저 마이페이지로 이동
     const userMypageHandler = e => {
@@ -50,7 +52,6 @@ const AddFriendSection = () => {
                     }
                 })
                 .then(json => {
-
                     // 서버 응답 데이터를 활용하여 친구 목록 업데이트
                     const serverFriends = json.map(user => ({
                         name: user.nickname,
@@ -63,6 +64,26 @@ const AddFriendSection = () => {
                 });
         }
     };
+
+    useEffect(()=>{
+        filteredFriends.map(user=> {
+            fetch(FOLLOW_URL + "/check", {
+                method: 'post',
+                headers: {
+                    'content-type' : 'application/json'
+                },
+                body: JSON.stringify({
+                    fid : user.id,
+                    userId : userId
+                })
+            })
+                .then(res => res.json())
+                .then(json => {
+                    setFlag(json);
+                })
+        })
+    },[follower])
+
 
     const followerHandler = fid => {
 
@@ -80,7 +101,7 @@ const AddFriendSection = () => {
         })
             .then(res => res.json())
             .then(json => {
-                console.log(json);
+                setFollower(json);
             })
     }
 
@@ -111,8 +132,9 @@ const AddFriendSection = () => {
                         {filteredFriends.map(user => (
                             <li key={user.id} onClick={userMypageHandler}>
                                 <p id="nickname">{user.name}</p>
-                                <button className='follow_btn' onClick={() => followerHandler(user.id)}>팔로우</button>
 
+                                <button className='follow_btn' onClick={() => followerHandler(user.id)}>{
+                                    flag ? <div> 팔로우 </div> : <div> 언팔로우 </div> }</button>
                             </li>
                         ))}
                     </ul>
