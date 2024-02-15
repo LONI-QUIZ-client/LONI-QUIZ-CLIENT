@@ -484,8 +484,6 @@ const GamePage = () => {
             }));
         });
     }
-
-
     // 이미지가 로딩되었을 때 스피너를 숨깁니다.
     useEffect(() => {
         if (img.length > 0) {
@@ -495,28 +493,44 @@ const GamePage = () => {
 
     return (
         <div className='box'>
-            <button onClick={exitHandler} className="btn1 btn-exit">
+            <button onClick={exitHandler} className="btn-style btn1 btn-exit">
                 exit
             </button>
             {isOpen && (
                 <div className="modal-background" onClick={handleBackgroundClick}>
                     <div className="answer-modal">
                         <div className="modal-content">
-                            <span className="close" onClick={closeModal}>&times;</span>
-                            <p>정답은 {modalContent}입니다.</p>
+                            <p className='answer-text'>정답은 {modalContent}입니다.</p>
+                            <button className="btn-style btn1 close" onClick={closeModal}>닫기</button>
                         </div>
                     </div>
                 </div>
             )}
             {(!isOpen && endGame) &&(
-            <div className="modal-background" onClick={handleBackgroundClickz}>
-                <div className="end-modal">
-                    <div className="modal-content">
-                        <span className="close" onClick={closeModalz}>&times;</span>
-                        <p>모달 내용이 여기에 들어갑니다.</p>
+                <div className="modal-background" onClick={handleBackgroundClickz}>
+                    <div className="end-modal">
+                        <div className="modal-content">
+                            <p className='end-text'>게임 결과</p>
+                            <div className='user-score'>
+                                {(userData.length > 0 || roomMembers.length > 0) && (
+                                    (roomMembers.length > 0 ? roomMembers : userData).map((user, index) => (
+                                        <div className='end-user-score' key={index}>
+                                            <div className='end-user-table'>
+                                                <div className='end-nick-name'>
+                                                    {roomMembers.length > 0 ? user.name : user.username}
+                                                </div>
+                                            </div>
+                                            <div className='end-score'>
+                                                <div> : {roomMembers.length > 0 ? user.point : 0}점</div>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                            <button className="btn-style btn1 end-close" onClick={closeModalz}>나가기</button>
+                        </div>
                     </div>
                 </div>
-            </div>
             )}
             <div className='a'>
                 <div className='show-img'
@@ -542,15 +556,10 @@ const GamePage = () => {
                 }
                 <div className='user-list'>
                     <div className='user'>
-                        {/* 받아온 유저 정보를 활용하여 화면에 표시 */}
                         {(userData.length > 0 || roomMembers.length > 0) && (
                             (roomMembers.length > 0 ? roomMembers : userData).map((user) => (
                                 <div className='l-a'>
                                     <div className='user-table'>
-                                        <div className='profile'>
-                                            {/*{roomMembers.length > 0 ? user.profile : user.profile}*/}
-                                            {roomMembers.length > 0 ? user.name : user.username}
-                                        </div>
                                         <div className='nick-name'>
                                             {roomMembers.length > 0 ? user.name : user.username}
                                         </div>
@@ -572,7 +581,6 @@ const GamePage = () => {
                     }
                 }}>
                     <div className='modal-content'>
-                        {/* 이미지를 매핑하여 화면에 표시 */}
                         <div className="loading_circle" style={{display: showSpinner ? 'block' : 'none'}}></div>
                         <div className='imgs'>
                             {img.map((image, index) => (<img key={index}
@@ -591,14 +599,14 @@ const GamePage = () => {
                                 onKeyPress={(event) => {
                                     if (event.key === 'Enter') {
                                         handleInputKey(event);
-                                        setShowSpinner(true); // 인풋에서 엔터 키가 눌렸을 때 스피너를 표시합니다.
+                                        setShowSpinner(true);
                                     }
                                 }}
                             />
                             <div className='buttons'>
                                 <button className='create' onClick={() => {
                                     createImage();
-                                    setShowSpinner(true); // 사진 만들기 버튼이 클릭되었을 때 스피너를 표시합니다.
+                                    setShowSpinner(true);
                                 }}>
                                     사진만들기
                                 </button>
@@ -607,7 +615,7 @@ const GamePage = () => {
                                     onClick={() => {
                                         sendImageHandler();
                                     }}
-                                    disabled={selectedImage === null} // selectedImage가 null이 아닌 경우에만 활성화
+                                    disabled={selectedImage === null}
                                 >
                                     모달 닫기 및 이미지 전송
                                 </button>
@@ -624,8 +632,8 @@ const GamePage = () => {
                         .reverse()
                         .map((item, index) => (
                             <li key={index}>
-                                    <span
-                                        style={{color: item.userId === username ? 'green' : 'black'}}>{item.userId}: {item.content}</span>
+                            <span
+                                style={{color: item.userId === username ? 'green' : 'black'}}>{item.userId}: {item.content}</span>
                             </li>
                         ))
                     }
@@ -643,7 +651,6 @@ const GamePage = () => {
                         />
                     </div>
                 </form>
-
             </div>
         </div>
     );
