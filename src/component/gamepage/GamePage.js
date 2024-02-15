@@ -507,9 +507,7 @@ const GamePage = () => {
 
     return (
         <div className='box'>
-            <button onClick={exitHandler} className="btn-style btn1 btn-exit">
-                exit
-            </button>
+            <button onClick={exitHandler} className="btn-style btn1 btn-exit">exit</button>
             {isOpen && (
                 <div className="modal-background" onClick={handleBackgroundClick}>
                     <div className="answer-modal">
@@ -577,7 +575,7 @@ const GamePage = () => {
                     <div className='user'>
                         {(userData.length > 0 || roomMembers.length > 0) && (
                             (roomMembers.length > 0 ? roomMembers : userData).map((user) => (
-                                <div className='l-a'>
+                                <div className='l-a animated-slide-in'>
                                     <div className='user-table'>
                                         <div className='profile'>
                                             <img src={roomMembers.length > 0 ? user.profileImage : user.profileImage}
@@ -596,7 +594,6 @@ const GamePage = () => {
                     </div>
                 </div>
             </div>
-
             {
                 modalOpen && <div className={'modal-container'} ref={modalBackground} onClick={e => {
                     if (e.target === modalBackground.current) {
@@ -646,7 +643,6 @@ const GamePage = () => {
                         </div>
                     </div>
                 </div>
-
             }
             <div className='chat'>
                 <ul className='chat-log' id="messageArea" ref={messageAreaRef}>
