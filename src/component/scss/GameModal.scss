@@ -1,14 +1,20 @@
 // 전체적인 모달 Mui 수정용 SCSS + 모달 버튼 디자인 수정
 .create_room_btn{
   border: none;
-  margin-left: 5px;
+  margin-left: 20px;
   cursor: pointer;
+  background-color: #D7C4E0;
+  border-radius: 30px;
+  padding: 10px;
 }
 
 .create_room_btn_friend{
   cursor: pointer;
   margin-left: 10px;
   border: none;
+  background-color: #D7C4E0;
+  border-radius: 30px;
+  padding: 10px;
 }
 
 .create_box{

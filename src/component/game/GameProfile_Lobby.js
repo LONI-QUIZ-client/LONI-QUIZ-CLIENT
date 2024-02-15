@@ -6,7 +6,7 @@ import '../css/GameLobby.css';
 import starImage from "../../assets/img/star.png";
 import GameChat from './GameChat';
 import { getAutoCurrentLoginUser, getCurrentLoginUser, isLogin } from "../../config/login-util";
-import { JOIN_URL } from "../../config/host-config";
+import {PROFILE_URL} from "../../config/host-config";
 import { useNavigate } from "react-router-dom";
 
 const GameProfileLobby = () => {
@@ -17,8 +17,7 @@ const GameProfileLobby = () => {
     const navigate = useNavigate();
 
     const fetchProfileImage = async () => {
-        const url = JOIN_URL + "/profile-image";
-        const res = await fetch(url, {
+        const res = await fetch(PROFILE_URL, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + currentUser.token
@@ -30,8 +29,6 @@ const GameProfileLobby = () => {
             const imageFile = window.URL.createObjectURL(profileData);
             setImageFile(imageFile);
         } else {
-            const errMsg = await res.text();
-            alert(errMsg);
             setImageFile(null);
         }
     };
@@ -50,7 +47,7 @@ const GameProfileLobby = () => {
                 <img src={imageFile || starImage} alt='프로필 사진' />
             </div>
             <p onClick={moveDetailHandler}>{currentUserNickname}</p>
-            <p>total</p>
+            <p>Score: </p>
         </div>
     );
 };
