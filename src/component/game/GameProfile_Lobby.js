@@ -31,7 +31,6 @@ const GameProfileLobby = () => {
             setImageFile(imageFile);
         } else {
             const errMsg = await res.text();
-            alert(errMsg);
             setImageFile(null);
         }
     };
