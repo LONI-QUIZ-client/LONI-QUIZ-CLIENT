@@ -25,6 +25,23 @@ const GameProfileLobby = () => {
     }, []);
 
     const fetchProfileImage = async () => {
+<<<<<<< HEAD
+        const url = JOIN_URL + "/profile-image";
+        fetch(url, {
+            method: 'Post',
+            headers: {
+                'content-type' : 'application/json'
+            },
+            body: JSON.stringify({
+                userid : getCurrentLoginUser().id
+            })
+        })
+            .then(res => res.text())
+            .then(json => {
+                    setImageFile(json)
+                }
+            )
+=======
         const res = await fetch(PROFILE_URL, {
             method: 'GET',
             headers: {
@@ -39,6 +56,7 @@ const GameProfileLobby = () => {
         } else {
             setImageFile(null);
         }
+>>>>>>> 86b5ce3f9db4fd9350f6fde99c740b4ad172536e
     };
 
     const moveDetailHandler = () => {
