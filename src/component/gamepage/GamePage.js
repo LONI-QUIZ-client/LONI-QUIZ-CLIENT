@@ -568,7 +568,11 @@ const GamePage = () => {
                 </div>
                 {
                     thisRoomsSU.length > 0 && thisRoomsSU[0].userId === userID && (
-                        <button onClick={startHandler} className={hidden ? 'o hidden' : 'o btn-style btn3'}>게임시작</button>
+                        userData.length > 1 ? (
+                            <button onClick={startHandler} className={hidden ? 'o hidden' : 'o btn-style btn3'}>게임시작</button>
+                        ) : (
+                            <button disabled className={'o btn-style btn3'}>게임시작</button>
+                        )
                     )
                 }
                 <div className='user-list'>
