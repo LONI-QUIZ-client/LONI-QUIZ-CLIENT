@@ -19,6 +19,7 @@ const LOBBY = '/game/lobby';
 
 const ROOM = '/game/Gameroom';
 
+const PROFILE = '/user/profile-image';
 
 // 카카오 로그인
 const REACT_APP_REST_API_KEY = "b11f2fab760f545cb7340313e13ec03b"
@@ -31,7 +32,7 @@ const USEARCH = '/user/nickname';
 //  팔로우
 const FOLLOW = '/follower';
 
-    export const FOLLOW_URL = API_BASE_URL + FOLLOW;
+export const FOLLOW_URL = API_BASE_URL + FOLLOW;
 
 
 export const LOGIN_URL = API_BASE_URL + LOGIN;
@@ -45,6 +46,7 @@ export const LOBBY_RANK = API_BASE_URL + RANK;
 export const USER_SEARCH = API_BASE_URL + USEARCH;
 
 export const GAME_ROOM = API_BASE_URL + ROOM;
+export const PROFILE_URL = API_BASE_URL + PROFILE;
 
 export const IMG_URL = API_BASE_URL + imageCreate;
 export const SCORE_URL = API_BASE_URL + upScore;

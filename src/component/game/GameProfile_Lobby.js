@@ -6,7 +6,7 @@ import '../css/GameLobby.css';
 import starImage from "../../assets/img/star.png";
 import GameChat from './GameChat';
 import { getAutoCurrentLoginUser, getCurrentLoginUser, isLogin } from "../../config/login-util";
-import { JOIN_URL } from "../../config/host-config";
+import {PROFILE_URL} from "../../config/host-config";
 import { useNavigate } from "react-router-dom";
 
 const GameProfileLobby = () => {
@@ -17,6 +17,7 @@ const GameProfileLobby = () => {
     const navigate = useNavigate();
 
     const fetchProfileImage = async () => {
+<<<<<<< HEAD
         const url = JOIN_URL + "/profile-image";
         fetch(url, {
             method: 'Post',
@@ -32,6 +33,22 @@ const GameProfileLobby = () => {
                     setImageFile(json)
                 }
             )
+=======
+        const res = await fetch(PROFILE_URL, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + currentUser.token
+            }
+        });
+
+        if (res.status === 200) {
+            const profileData = await res.blob();
+            const imageFile = window.URL.createObjectURL(profileData);
+            setImageFile(imageFile);
+        } else {
+            setImageFile(null);
+        }
+>>>>>>> 86b5ce3f9db4fd9350f6fde99c740b4ad172536e
     };
 
     const moveDetailHandler = () => {
@@ -48,7 +65,7 @@ const GameProfileLobby = () => {
                 <img src={imageFile || starImage} alt='프로필 사진' />
             </div>
             <p onClick={moveDetailHandler}>{currentUserNickname}</p>
-            <p>total</p>
+            <p>Score: </p>
         </div>
     );
 };
