@@ -52,13 +52,17 @@
       margin: 5px;
       li {
         position: relative;
+
         .User_Ranking_box {
+          overflow: hidden;
+
           p {
             color: #000;
             margin-right: 10px;
             margin-bottom: 10px;
             float: left;
           }
+
           .rank_score {
             margin-right: 0;
             float: right;
