@@ -3,10 +3,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.header-table li{
-  margin-right: 30px;
+  .header-table li{
+    margin-right: 30px;
+  }
+  .header-login-btn {
+    cursor: pointer;
+    border: none;
+    background-color: #E3D9FF;
+    border-radius: 30px;
+    padding: 10px;
+    font-weight: 700;
+  }
+  .header_profile_image {
+    width: 45px;
+    height: 45px;
+    border-radius: 100px;
+  }
 }
 
 .h-box{
@@ -14,11 +26,12 @@
   display: flex;
   justify-content: space-between;
   position: fixed;
-}
-
-.h-box img{
-  width: 100px;
-  height: 100px;
+  background-color: #6D5D99;
+  .header_logo{
+    width: 70px;
+    height: 70px;
+    margin-left: 10px;
+  }
 }
 
 li{

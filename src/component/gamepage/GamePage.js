@@ -203,8 +203,6 @@ const GamePage = () => {
         });
         setInput('');
     }
-
-
     // 정답자 확인
     useEffect(() => {
         const socket = new SockJS('http://localhost:8888/ws');
@@ -229,6 +227,7 @@ const GamePage = () => {
             if (thisRoomsSU[0].userId === userID) {
                 nextTurnHandler();
             }
+
         }
     }, [answerUserId]);
 

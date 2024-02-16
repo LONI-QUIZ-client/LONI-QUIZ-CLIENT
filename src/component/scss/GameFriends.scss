@@ -72,6 +72,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
 
     h2 {
       font-size: 20px;
@@ -89,16 +90,44 @@
   }
 
   .chat_texts {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 300px;
+
+    // 왼쪽에 위치하는 상대방 말풍선 스타일
     .your_text_balloon {
       background-color: #1ddc8c;
+      align-self: flex-start;
+      border-radius: 15px 15px 15px 0;
+      margin-bottom: 10px;
+      min-width: 50px;
+      max-width: 70%;
+      word-wrap: break-word;
+      padding: 10px;
     }
+
+    // 오른쪽에 위치하는 내 말풍선 스타일
     .my_text_balloon {
       background-color: #78c7d2;
+      align-self: flex-end;
+      border-radius: 15px 15px 0 15px;
+      margin-bottom: 10px;
+      min-width: 50px;
+      max-width: 70%;
+      word-wrap: break-word;
+      padding: 10px;
     }
   }
 
   .my_input_text {
-
+    input {
+      width: 200px;
+      height: 40px;
+    }
+    .send_text_to {
+      cursor: pointer;
+    }
   }
 }
 
