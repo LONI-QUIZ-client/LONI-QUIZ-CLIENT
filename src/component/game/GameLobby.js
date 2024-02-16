@@ -9,6 +9,7 @@ import GameModal from "./GameModal";
 import {json, Link} from "react-router-dom";
 import GameFooter from "./GameFooter";
 import GameRanking from "./GameRanking";
+import Header from "../main/Header";
 
 
 
@@ -30,12 +31,13 @@ const GameLobby = () => {
 
     return (
         <>
+            <Header />
             <div className='aa'>
                 <div className='z'>
                     <div className='lobby_container'>
                         <div className='lobby_box1'>
                             <div className='lobby_bbox1'>
-                                <GameProfileLobby/>
+                                <GameProfileLobby />
                                 <GameRanking/>
                             </div>
                         </div>

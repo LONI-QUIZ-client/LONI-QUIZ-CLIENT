@@ -72,31 +72,20 @@ const LoginRight = () => {
             localStorage.setItem(USERNAME, userNickname);
             localStorage.setItem(ID, id);
 
-            /*if(autoLogin===true){
-                sessionStorage.clear();
-                localStorage.setItem(TOKEN, token);
-                localStorage.setItem(USERNAME, userNickname);
-                localStorage.setItem(ID, id);
 
-            } else {
-                localStorage.clear();
-                sessionStorage.setItem(TOKEN, token);
-                sessionStorage.setItem(USERNAME, userNickname);
-                sessionStorage.setItem(ID, id);
-            }*/
-
-            setLoginMessageError('');
-          
-            alert('로그인 되었습니다')
-
-            redirect('/lobby'); // 로그인 후 이동
+            if(autoLogin===true){
+              setLoginMessageError('');
+              alert('로그인 되었습니다')
+              redirect('/lobby'); // 로그인 후 이동
+          }
 
         } else { // 회원가입이 안된 아이디 이거나 비밀번호가 틀림
             const json = await res.text();
             setLoginMessageError(json);
             alert(json);
         }
-
+          
+    
     }
 
     // 로그인 버튼

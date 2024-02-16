@@ -3,9 +3,11 @@ import { LOBBY_RANK } from '../../config/host-config';
 import '../scss/GameBbox1.scss';
 import '../scss/GameLobby.scss';
 import '../css/GameLobby.css';
+import { useNavigate } from 'react-router-dom';
 
 const GameRanking = () => {
     const [scores, setScores] = useState([]);
+    const redirection = useNavigate();
 
     useEffect(() => {
         fetch(LOBBY_RANK)
@@ -15,11 +17,18 @@ const GameRanking = () => {
             });
     }, []);
 
+    // 유저 마이페이지로 이동
+    const userMypageHandler = (userId) => {
+        console.log(userId);
+        redirection(`/mypage/${userId}`);
+    };
+
     // 렌더링에 사용할 scores 배열 형식 변경
     const formattedScores = scores.map((user, index) => ({
         rank: index + 1,
         name: user.nickname,
         score: user.score,
+        id: user.id, // 추가: 사용자 ID도 저장
     }));
 
     return (
@@ -28,7 +37,7 @@ const GameRanking = () => {
             <ul className="Rank_list">
                 {formattedScores.map((user, index) => (
                     <li key={index}>
-                        <div className="User_Ranking_box">
+                        <div className="User_Ranking_box" onClick={() => userMypageHandler(user.id)}>
                             <p>{`${user.rank}등 ${user.name}`}</p>
                             <p className="rank_score">{user.score}</p>
                         </div>

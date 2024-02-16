@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { IconButton, InputBase, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { USER_SEARCH } from "../../config/host-config";
+import {FOLLOW_URL, USER_SEARCH} from "../../config/host-config";
 import {useNavigate} from "react-router-dom";
 import {red} from "@mui/material/colors";
+import {getCurrentLoginUser} from "../../config/login-util";
 
 const AddFriendSection = () => {
     const [searchKeyword, setSearchKeyword] = useState('');
     const [filteredFriends, setFilteredFriends] = useState([]);
-
     const redirection = useNavigate();
+    const userId = getCurrentLoginUser().id;
+    const [flag, setFlag] = useState(false);
+    const [follower, setFollower] = useState([]);
 
     // 유저 마이페이지로 이동
     const userMypageHandler = e => {
         const followFriend = e.target.textContent;
 
         filteredFriends.map(user=>{
-            console.log(user.name);
             if(user.name===followFriend){
                 console.log(user.id)
                 redirection(`/mypage/${user.id}`);
@@ -50,8 +52,6 @@ const AddFriendSection = () => {
                     }
                 })
                 .then(json => {
-                    console.log(json);
-
                     // 서버 응답 데이터를 활용하여 친구 목록 업데이트
                     const serverFriends = json.map(user => ({
                         name: user.nickname,
@@ -64,6 +64,51 @@ const AddFriendSection = () => {
                 });
         }
     };
+
+    useEffect(()=>{
+        filteredFriends.map(user=> {
+            fetch(FOLLOW_URL + "/check", {
+                method: 'post',
+                headers: {
+                    'content-type' : 'application/json'
+                },
+                body: JSON.stringify({
+                    fid : user.id,
+                    userId : userId
+                })
+            })
+                .then(res => res.json())
+                .then(json => {
+                    setFlag(json);
+                })
+        })
+    },[follower])
+
+
+    const followerHandler = fid => {
+
+        fetch(FOLLOW_URL, {
+            method:"POST",
+            headers: {
+                'content-type' : 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    fid: fid,
+                    userId: userId
+                }
+            )
+        })
+            .then(res => res.json())
+            .then(json => {
+                if (flag){
+                    alert("팔로우 취소되었습니다.")
+                }else{
+                    alert("팔로우 되었습니다.")
+                }
+                setFollower(json);
+            })
+    }
 
     return (
         <div className='add_friend_menu'>
@@ -91,8 +136,10 @@ const AddFriendSection = () => {
                     <ul>
                         {filteredFriends.map(user => (
                             <li key={user.id} onClick={userMypageHandler}>
-                                <p>{user.name}</p>
-                                <button className='follow_btn'>팔로우</button>
+                                <p id="nickname">{user.name}</p>
+
+                                <button className='follow_btn' onClick={() => followerHandler(user.id)}>{
+                                    flag ? <div> 언팔로우 </div> : <div> 팔로우 </div> }</button>
                             </li>
                         ))}
                     </ul>
