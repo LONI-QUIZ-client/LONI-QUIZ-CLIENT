@@ -90,27 +90,12 @@ const UserMyPage = () => {
     // ======= profile =======
     const [profilePath, setProfilePath] = useState('');
 
-    const fetchProfile = async () => {
-        const res = await fetch(JOIN_URL+`/profile-image/${userId}`, {
-            method: 'GET'
-        });
-
-        if(res.status===200){
-            // const json = await res.text();
-            // setProfilePath(json);
-          
-            const json = await res.blob();
-            const imageUrl = window.URL.createObjectURL(json);
-            setProfilePath(imageUrl);
-
-            if(json.type===''){
-                setProfilePath('');
-            }
-          
-        } else {
-            setProfilePath('');
-        }
-
+    const fetchProfile = () => {
+        fetch(JOIN_URL+`/profile-image/${userId}`)
+            .then(res=>res.text())
+            .then(json => {
+                setProfilePath(json)
+            })
     }
 
     const profileImage = {

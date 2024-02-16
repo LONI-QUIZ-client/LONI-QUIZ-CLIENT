@@ -18,6 +18,7 @@ const GameInput = ({data}) => {
     const [searchText, setSearchText] = useState('');
     const userId = localStorage.getItem(ID);
     const username = localStorage.getItem(USERNAME);
+    const BACK_URL = 'http:///3.37.194.146/ws';
 
 
     // data.dto가 없거나 undefined인 경우 빈 배열로 초기화
@@ -51,7 +52,7 @@ const GameInput = ({data}) => {
 
     useEffect(() => {
         // Connect to WebSocket server
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/game/members', memberList => {
@@ -71,7 +72,7 @@ const GameInput = ({data}) => {
     }, [fullMember]);
 
     const StartGameRoom = (roomId, maxCount, lobbyMaxCount) => {
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
 
         console.log("전송!!!!!!!!!")
@@ -112,7 +113,7 @@ const GameInput = ({data}) => {
                     <div className="room_container" key={index} onClick={() => {
                         // console.log(item)
                         // StartGameRoom(item.gno, item.maxCount, item.lobbyMaxCount)
-                        StartGameRoom(item.gno, item.maxCount);
+                        StartGameRoom(item.gno, item.maxCount, item.lobbyMaxCount);
                     }}>
                         <div className="list">
                             <p>No. {index + 1 + (currentPage - 1) * itemsPerPage}</p>
