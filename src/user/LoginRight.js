@@ -61,33 +61,22 @@ const LoginRight = () => {
         }
 
         const res = await fetch(LOGIN_URL,{
-            method: "POST",
+            method: 'POST',
             headers: {'content-type':'application/json'},
             body: JSON.stringify(payload)
         });
 
         if(res.status===200){
+
             const {token, userNickname, id} = await res.json();
+
             localStorage.setItem(TOKEN, token);
             localStorage.setItem(USERNAME, userNickname);
             localStorage.setItem(ID, id);
 
-            /*if(autoLogin===true){
-                localStorage.setItem(TOKEN, token);
-                localStorage.setItem(USERNAME, userNickname);
-                localStorage.setItem(ID, id);
-
-            } else {
-                localStorage.setItem(TOKEN, token);
-                localStorage.setItem(USERNAME, userNickname);
-                localStorage.setItem(ID, id);
-            }*/
-
-            if(autoLogin===true){
-              setLoginMessageError('');
-              alert('로그인 되었습니다')
-              redirect('/lobby'); // 로그인 후 이동
-          }
+            setLoginMessageError('');
+            alert('로그인 되었습니다')
+            redirect('/lobby'); // 로그인 후 이동
 
         } else { // 회원가입이 안된 아이디 이거나 비밀번호가 틀림
             const json = await res.text();

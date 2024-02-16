@@ -39,6 +39,16 @@ const UserMyPage = () => {
         , loginState: false
     });
 
+    useEffect(() => {
+        if(!getLoginUserCheck()){
+            redirect('/login')
+
+        } else {
+            return;
+
+        }
+    }, []);
+
     // ====== user state ======
     const fetchUserInfo = async () => {
         const res = await fetch(JOIN_URL + '/' + userId);
@@ -75,12 +85,10 @@ const UserMyPage = () => {
     }, [userId]);
 
     const backgroundHandler = {
-        // background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
         backgroundImage: `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)`
     }
 
     const iconHandler = {
-        // background: isUserLoginState ? arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
         backgroundImage: isUserLoginState ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
         , boxShadow: isUserLoginState ? `-5px -5px 10px 5px ${arrColor[0]+50}, 5px 5px 10px 5px ${arrColor[1]+50}` : ''
     }
@@ -96,17 +104,17 @@ const UserMyPage = () => {
         });
 
         if(res.status===200){
-            // const json = await res.text();
-            // setProfilePath(json);
-          
             const json = await res.blob();
             const imageUrl = window.URL.createObjectURL(json);
-            setProfilePath(imageUrl);
+            console.log(imageUrl)
 
             if(json.type===''){
                 setProfilePath('');
+                return;
             }
-          
+
+            setProfilePath(imageUrl);
+
         } else {
             setProfilePath('');
         }
@@ -114,7 +122,7 @@ const UserMyPage = () => {
     }
 
     const profileImage = {
-        backgroundImage: profilePath ? `url(${profilePath})` : 'linear-gradient(180deg, rgba(21, 20, 34, 1) 0%, rgba(51, 48, 80, 1) 100%)'
+        backgroundImage: (!!profilePath) ? `url(${profilePath})` : 'linear-gradient(180deg, rgba(21, 20, 34, 1) 0%, rgba(51, 48, 80, 1) 100%)'
         , backgroundRepeat: 'no-repeat'
         , backgroundSize: 'contain'
         , backgroundPosition: 'center'
@@ -129,11 +137,13 @@ const UserMyPage = () => {
 
     // 팔로우 여부
     const [starFollow, setStarFollow] = useState(false);
-    const payload = {
-        fid: getLoginUserCheck().id
-        , userId: userId
-    }
+
     const starFollowHandler = async (e) => {
+
+        const payload = {
+            fid: getLoginUserCheck().id
+            , userId: userId
+        }
 
         const res = await fetch( FOLLOW_URL, {
             method: 'POST'
@@ -162,6 +172,7 @@ const UserMyPage = () => {
     const [userFollowList, setUserFollowList] = useState([]);
 
     const fetchFollowList= async (e) =>{
+
         const res = await fetch(FOLLOW_URL+`/${userId}`, {
             method: 'GET'
         });
@@ -171,7 +182,7 @@ const UserMyPage = () => {
             setUserFollowList(json)
 
             for (const follow of json) {
-                console.log('follow user:'+follow.fi);
+                console.log('follow user:' + follow.fi);
 
                 if(follow.fi === getLoginUserCheck().id){
                     setStarFollow(true)
@@ -189,6 +200,11 @@ const UserMyPage = () => {
 
     // ======== follow state ========
     const fetchFollowState = async () => {
+
+        const payload = {
+            fid: getLoginUserCheck().id
+            , userId: userId
+        }
 
         const res = await fetch(FOLLOW_URL+"/check", {
             method: "POST"
@@ -231,10 +247,6 @@ const UserMyPage = () => {
 
     // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
     useEffect(() => {
-        if(!isLogin() && !isAutoLogin()){
-            alert('로그인 하세요');
-            redirect('/login');
-        }
 
         fetchUserInfo();
         fetchProfile();
@@ -244,7 +256,6 @@ const UserMyPage = () => {
         // setIsUserLoginState(userPageInfo.loginState);
         // console.log(userPageInfo.loginState);
         console.log(isUserLoginState);
-
 
         if(getLoginUserCheck().id !== userId){
             setUserPageMaster(false);
