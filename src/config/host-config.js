@@ -1,5 +1,9 @@
-const LOCAL_PORT = '8888';
-const API_BASE_URL = 'http://localhost:' + LOCAL_PORT;
+
+const S3URL = 'http://loni-react.s3-website.ap-northeast-2.amazonaws.com/';
+const API_BASE_URL = 'http://3.37.194.146';
+
+const LOCAL_PORT = '80';
+// const API_BASE_URL = 'http://localhost:' + LOCAL_PORT;
 
 // 로그인, 회원가입
 const LOGIN = '/user/login';
