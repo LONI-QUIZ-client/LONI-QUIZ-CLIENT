@@ -83,16 +83,14 @@ const Main = () => {
             outerDivRefCurrent.removeEventListener("wheel", wheelHandler);
         };
     }, []);
+
     return (
         <div ref={outerDivRef} className='outer'>
             <div className='inner section'>
-                <div className='container'>
-                    <Dots currentPage={currentPage}/>
-                    <Header/>
+                <div className='container' style={{backgroundImage: 'url("process.env.PUBLIC_URL + "/img/minn.jpg"")'}}>
                     <div className='main-box'>
                         <div className='l-g'>
-                            <h1 className='logo'>LONI<br/>QUIZ</h1>
-                            <p>AI가 만든 이미지로 퀴즈 게임을 즐겨보세요</p>
+                            <h1 className='logo'>AI-powered creativity<br/> shaping innovative brands.</h1>
                             <Button/>
                         </div>
                     </div>
@@ -107,7 +105,6 @@ const Main = () => {
                         <div className='img-1'>
                             <div className="t-box">
                                 <img src={process.env.PUBLIC_URL + "/img/ASD.jpeg"} alt="Hover Effect"/>
-
                                 <div className="info">
                                     <h3>Design</h3>
                                     <p>일러스트를 이용한 디자인입니다.</p>
@@ -117,7 +114,6 @@ const Main = () => {
                         <div className='img-2'>
                             <div className="t-box">
                                 <img src={process.env.PUBLIC_URL + "/img/Main.png"} alt="Hover Effect"/>
-
                                 <div className="info">
                                     <h3>Design</h3>
                                     <p>일러스트를 이용한 디자인입니다.</p>
@@ -139,10 +135,24 @@ const Main = () => {
             <div className="divider"></div>
             <div className='inner section'>
                 <div className='bottom-box'>
+                    <div className='info'>
+                        <div className='info-text'>
+                            <h2>프로젝트 소개</h2><br/>
+                            <p>저희 LONI QUIZ는 카카오에서 제공하는 Karlo라는 AI 이미지 생성 API를
+                                활용하여 만들어진 퀴즈 게임입니다.
+                                <br/>
+                                LONI QUIZ는 AI 기술과 게임의 재미를 결합한 독특한 프로젝트로,<br/>
+                                사용자들에게 새로운 경험과 흥미를 제공하기 위해 노력합니다</p>
+                        </div>
+                        <img src={process.env.PUBLIC_URL + "/img/pen.jpg"} alt=""/>
+                    </div>
                     <footer>
                         <Slider/>
                     </footer>
                 </div>
+            </div>
+            <div className="dots-header-wrapper">
+                <Dots currentPage={currentPage}/>
             </div>
         </div>
     );

@@ -72,6 +72,16 @@ const LoginRight = () => {
             localStorage.setItem(USERNAME, userNickname);
             localStorage.setItem(ID, id);
 
+            /*if(autoLogin===true){
+                localStorage.setItem(TOKEN, token);
+                localStorage.setItem(USERNAME, userNickname);
+                localStorage.setItem(ID, id);
+
+            } else {
+                localStorage.setItem(TOKEN, token);
+                localStorage.setItem(USERNAME, userNickname);
+                localStorage.setItem(ID, id);
+            }*/
 
             if(autoLogin===true){
               setLoginMessageError('');

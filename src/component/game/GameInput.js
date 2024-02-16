@@ -70,7 +70,7 @@ const GameInput = ({data}) => {
         console.log(fullMember);
     }, [fullMember]);
 
-    const StartGameRoom = (roomId, maxCount) => {
+    const StartGameRoom = (roomId, maxCount, lobbyMaxCount) => {
         const socket = new SockJS('http://localhost:8888/ws');
         const stompClient = Stomp.over(socket);
 
@@ -80,7 +80,8 @@ const GameInput = ({data}) => {
                 userId: userId,
                 gno: roomId,
                 username: username,
-                maxUser: maxCount
+                maxUser: maxCount,
+                lobbyMaxCount: lobbyMaxCount
             }));
         });
         redirect('/gameRoom', {state: {roomId}});
@@ -109,6 +110,8 @@ const GameInput = ({data}) => {
             <div className='room_list'>
                 {getCurrentPageItems().map((item, index) => (
                     <div className="room_container" key={index} onClick={() => {
+                        // console.log(item)
+                        // StartGameRoom(item.gno, item.maxCount, item.lobbyMaxCount)
                         StartGameRoom(item.gno, item.maxCount);
                     }}>
                         <div className="list">

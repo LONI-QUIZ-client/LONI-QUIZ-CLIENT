@@ -21,17 +21,18 @@ const GameProfileLobby = () => {
         fetch(url, {
             method: 'Post',
             headers: {
-                'content-type' : 'application/json'
-            },
-            body: JSON.stringify({
-                userid : getCurrentLoginUser().id
-            })
-        })
-            .then(res => res.text())
-            .then(json => {
-                    setImageFile(json)
-                }
-            )
+                'Authorization': 'Bearer ' + currentUser.token
+            }
+        });
+
+        if (res.status === 200) {
+            const profileData = await res.blob();
+            const imageFile = window.URL.createObjectURL(profileData);
+            setImageFile(imageFile);
+        } else {
+            const errMsg = await res.text();
+            setImageFile(null);
+        }
     };
 
     const moveDetailHandler = () => {

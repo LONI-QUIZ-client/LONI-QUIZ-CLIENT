@@ -34,12 +34,16 @@ body{
   text-align: center;
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
 }
 .container:after{
   width: 100%;
   height: 100%;
   content: "";
-  background: url(https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f415ba1e-a5e8-49d9-b6a6-e61a7fc1c0cb/original=true/00082-1390529945-breakdomainrealistic_R2333-vae-ft-mse-840000-b3c6b014.jpeg) no-repeat;
+  background: url('../../../../public/img/minn.jpg')no-repeat ;
+  background-size: cover;
   position: absolute;
   top: 0;
   left: 0;
@@ -52,16 +56,26 @@ body{
 }
 .logo{
   color: white;
-  font-size: 120px;
+  font-size: 50px;
   font-weight: bold;
-  margin: 60px 0 100px 0;
+  display: flex;
+  align-items: center;
+  height: 30%;
+}
+.l-g{
+  margin-left: 10%;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .l-g p{
   color: white;
   font-size: 30px;
   width: 870px;
-  margin-bottom: 6em;
+  margin-bottom: 3em;
 }
 .middle{
   width: 100%;
@@ -183,8 +197,17 @@ body{
   padding-bottom: 30px;
 }
 
+.dots-header-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+
 // bottom-box
 .bottom-box{
+  background: #282c34;
   width: 100%;
   height: 100%;
   text-align: center;
@@ -198,3 +221,30 @@ footer{
   bottom: 0;
 }
 
+
+.info {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to top right, #65FC74, #93FFE5);
+  position: relative; /* 자식 요소의 위치를 설정하기 위해 부모 요소를 relative로 설정 */
+  overflow: hidden; /* 자식 요소가 부모 요소를 넘어가면 잘라냅니다. */
+}
+
+.info > div {
+  width: 58%; /* 자식 요소의 너비를 100%로 설정 */
+  height: 70%; /* 자식 요소의 높이를 100%로 설정 */
+  position: absolute; /* 자식 요소를 절대 위치로 설정 */
+  top: 15%; /* 상단에 배치 */
+  left: -60px; /* 왼쪽에 배치하고 평행사변형 모양을 만듭니다. */
+  background-color: white; /* 배경색을 설정합니다. */
+  transform: skewX(-7deg);
+  z-index: 1; /* 다른 요소 위에 배치 */
+}
+
+.info > img {
+  width: 50%; /* 자식 요소의 너비를 100%로 설정 */
+  height: 70%; /* 자식 요소의 높이를 100%로 설정 */
+  position: absolute; /* 자식 요소를 절대 위치로 설정 */
+  top: 15%; /* 상단에 배치 */
+  z-index: 0; /* .info > div 위에 배치 */
+}
