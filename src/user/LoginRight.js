@@ -72,31 +72,20 @@ const LoginRight = () => {
             localStorage.setItem(USERNAME, userNickname);
             localStorage.setItem(ID, id);
 
+
             if(autoLogin===true){
-
-                localStorage.setItem(TOKEN, token);
-                localStorage.setItem(USERNAME, userNickname);
-                localStorage.setItem(ID, id);
-
-            } else {
-
-                localStorage.setItem(TOKEN, token);
-                localStorage.setItem(USERNAME, userNickname);
-                localStorage.setItem(ID, id);
-            }
-
-            setLoginMessageError('');
-          
-            alert('로그인 되었습니다')
-
-            redirect('/lobby'); // 로그인 후 이동
+              setLoginMessageError('');
+              alert('로그인 되었습니다')
+              redirect('/lobby'); // 로그인 후 이동
+          }
 
         } else { // 회원가입이 안된 아이디 이거나 비밀번호가 틀림
             const json = await res.text();
             setLoginMessageError(json);
             alert(json);
         }
-
+          
+    
     }
 
     // 로그인 버튼
@@ -137,9 +126,9 @@ const LoginRight = () => {
                     <input type={"password"} className={"login-password-input"} placeholder="비밀번호"
                            onChange={userPasswordHandler}/>
                 </div>
-                <div className={cn("auto-login-check", {autoLogin})} onClick={authLoginHandler}>
+                {/*<div className={cn("auto-login-check", {autoLogin})} onClick={authLoginHandler}>
                     <FaRegCheckCircle />자동 로그인
-                </div>
+                </div>*/}
                 <div className={"user-join-move-link"} onClick={moveJoinHandler}>회원가입</div>
                 <div className={"login-state-item"}>
                     <div className={"login-error-message"}>{loginMessageError}</div>
