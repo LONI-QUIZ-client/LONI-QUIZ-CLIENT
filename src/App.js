@@ -8,14 +8,13 @@ import Login from "./user/Login";
 import {Routes, Route} from "react-router-dom";
 import Join from "./user/Join";
 
-import TodoTemplate from "./component/game/GameLobby";
 import GameLobby from "./component/game/GameLobby";
 import Main from "./component/main/Main";
 import GamePage from "./component/gamepage/GamePage";
-//import UserInfo from "./user/UserInfo";
 import KakaoLoading from "./user/KakaoLoading";
-// import UserInfoHeader from "./user/UserInfoHeader";
 import UserMyPage from "./user/UserMyPage";
+//import UserInfo from "./user/UserInfo";
+// import UserInfoHeader from "./user/UserInfoHeader";
 
 function App() {
 

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {BsFillDoorOpenFill, BsFillPersonFill} from "react-icons/bs";
+import { BsFillPersonFill} from "react-icons/bs";
 import Logout from "./Logout";
 import {useNavigate, useParams} from "react-router-dom";
 import {FOLLOW_URL, JOIN_URL} from "../config/host-config";
@@ -21,21 +21,25 @@ const UserMyPage = () => {
     // 파라미터 가져오기
     const {userId} = useParams();
 
-    // 유저 정보 가져오기
-    const [userPageInfo, setUserPageInfo] = useState({
-        id: ''
-        , nickname: ''
-        , createDate: ''
-        , score: ''
-    });
-
-    // ====== user state ======
     // 유저 로그인 상태
     const [isUserLoginState, setIsUserLoginState] = useState(false);
 
     // 유저 자기 자신인지 타인인지, 유저 아이디을 받아서 확인할것
     const [userPageMaster, setUserPageMaster] = useState(false);
 
+    // 팔로우 창 여부
+    const [followListModal, setFollowListModal] = useState(false);
+
+    // 유저 정보 가져오기
+    const [userPageInfo, setUserPageInfo] = useState({
+        id: ''
+        , nickname: ''
+        , createDate: ''
+        , score: ''
+        , loginState: false
+    });
+
+    // ====== user state ======
     const fetchUserInfo = async () => {
         const res = await fetch(JOIN_URL + '/' + userId);
         if(res.status===200){
@@ -45,7 +49,9 @@ const UserMyPage = () => {
                 , nickname: json.nickname
                 , createDate: json.createDate
                 , score: json.score
+                // , loginState: json.loginState
             });
+            setIsUserLoginState(json.loginState);
         } else {
             alert('유저 정보를 불러올 수 없습니다');
             redirect('/lobby');
@@ -53,7 +59,7 @@ const UserMyPage = () => {
     }
     // ====== end user state ======
 
-    // ======= background =======
+    // ======= random background =======
     const [arrColor, setArrColor] = useState([]);
 
     const colorArray = ['#FF7759', '#FFE77C', '#AAFF59', '#59FFA5', '#59F5FF', '#59C8FF', '#5975FF', '#9459FF','#FF5986'];
@@ -66,26 +72,26 @@ const UserMyPage = () => {
         }
         setArrColor(sendColor);
 
-    }, []);
+    }, [userId]);
 
     const backgroundHandler = {
-        background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
+        // background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
+        backgroundImage: `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)`
     }
 
     const iconHandler = {
-        background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
-        , boxShadow: `-5px -5px 10px 5px ${arrColor[0]+50}, 5px 5px 10px 5px ${arrColor[1]+50}`
+        // background: isUserLoginState ? arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
+        backgroundImage: isUserLoginState ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
+        , boxShadow: isUserLoginState ? `-5px -5px 10px 5px ${arrColor[0]+50}, 5px 5px 10px 5px ${arrColor[1]+50}` : ''
     }
     // ======= end background =======
-
-
 
 
     // ======= profile =======
     const [profilePath, setProfilePath] = useState('');
 
     const fetchProfile = async () => {
-        const res = await fetch(JOIN_URL+'/profile-image/'+userId, {
+        const res = await fetch(JOIN_URL+`/profile-image/${userId}`, {
             method: 'GET'
         });
 
@@ -93,16 +99,19 @@ const UserMyPage = () => {
             const json = await res.blob();
             const imageUrl = window.URL.createObjectURL(json);
             setProfilePath(imageUrl);
+
+            if(json.type===''){
+                setProfilePath('');
+            }
+
         } else {
-            const json = await res.text();
-            alert(json)
             setProfilePath('');
         }
 
     }
 
     const profileImage = {
-        backgroundImage: `url(${profilePath})`
+        backgroundImage: profilePath ? `url(${profilePath})` : 'linear-gradient(180deg, rgba(21, 20, 34, 1) 0%, rgba(51, 48, 80, 1) 100%)'
         , backgroundRepeat: 'no-repeat'
         , backgroundSize: 'contain'
         , backgroundPosition: 'center'
@@ -111,13 +120,15 @@ const UserMyPage = () => {
 
 
     // ======== follow ========
+    const followListHandler = e => {
+        setFollowListModal(!followListModal);
+    }
 
     // 팔로우 여부
     const [starFollow, setStarFollow] = useState(false);
-
     const payload = {
-        fid: userId
-        , userId: getLoginUserCheck().id
+        fid: getLoginUserCheck().id
+        , userId: userId
     }
     const starFollowHandler = async (e) => {
 
@@ -139,39 +150,133 @@ const UserMyPage = () => {
         }
 
     }
+    // ======== end follow ========
+
+
+
+    // ======== follow List ========
+    const [starFollowCount, setStarFollowCount] = useState(0);
+    const [userFollowList, setUserFollowList] = useState([]);
+
+    const fetchFollowList= async (e) =>{
+        const res = await fetch(FOLLOW_URL+`/${userId}`, {
+            method: 'GET'
+        });
+
+        if(res.status===200){
+            const json = await res.json();
+            setUserFollowList(json)
+
+            for (const follow of json) {
+                console.log('follow user:'+follow.fi);
+
+                if(follow.fi === getLoginUserCheck().id){
+                    setStarFollow(true)
+                }
+            }
+
+            console.log(json)
+
+            setStarFollowCount(json.length);
+        } else {
+            console.log('팔로우 리스트를 볼 수 엄슴');
+        }
+    }
+    // ======== end follow List ========
+
+    // ======== follow state ========
+    const fetchFollowState = async () => {
+
+        const res = await fetch(FOLLOW_URL+"/check", {
+            method: "POST"
+            , headers: {'content-type':'application/json'}
+            , body: JSON.stringify(payload)
+        });
+
+        if(res.status===200){
+            const json = await res.json();
+            console.log(`follow state: ${json}`);
+        }
+    }
+    // ======== end follow state ========
+
+
+
+    // ======== change profile image ========
+    const profileHandler = e => {
+        document.getElementById('profile-img').click();
+    }
+
+    const isProfile = async () => {
+        const formData = new FormData;
+        formData.append('userId', userId);
+        formData.append('profileImagePath', document.getElementById('profile-img').files[0]);
+
+        const res = await fetch(JOIN_URL+"/change/profile", {
+            method: 'POST'
+            , body: formData
+        });
+
+        if(res.status === 200){
+            const json = await res.text();
+            alert(json);
+
+        }
+
+    }
+
 
     // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
     useEffect(() => {
-        fetchUserInfo();
-        fetchProfile();
-
         if(!isLogin() && !isAutoLogin()){
             alert('로그인 하세요');
             redirect('/login');
-        } else {
-            setIsUserLoginState(true);
-
-            if(getLoginUserCheck().id !== userId){
-                setUserPageMaster(false);
-
-            } else { // if(getLoginUserCheck().id === userPageInfo.id)
-                setUserPageMaster(true);
-            }
         }
 
-    }, [userId]);
+        fetchUserInfo();
+        fetchProfile();
+        fetchFollowList();
+        fetchFollowState();
+
+        // setIsUserLoginState(userPageInfo.loginState);
+        // console.log(userPageInfo.loginState);
+        console.log(isUserLoginState);
+
+
+        if(getLoginUserCheck().id !== userId){
+            setUserPageMaster(false);
+
+        } else { // if(getLoginUserCheck().id === userPageInfo.id)
+            setUserPageMaster(true);
+        }
+
+    }, [
+        userId
+        , isUserLoginState
+        // , userPageInfo.loginState
+        , starFollow
+    ]);
+
 
     return (
         <div className={"user-info"}>
             <div className={"user-setting-buttons"}>
                 <LobbyButton />
-                { userPageMaster ? <Logout /> : <MyPageButton /> }
+                { userPageMaster ? <Logout isUserId={userPageInfo.id}/> : <MyPageButton /> }
             </div>
 
             <div className={"user-page-background"} style={backgroundHandler}>
                 <div className={"user-info-item-content"}>
-                    <div className={"user-page-profile"} style={profileImage}>
-                        {profilePath ? '' : <BsFillPersonFill/>}
+                    <div className={"user-page-profile"} style={profileImage}
+                        onClick={userPageMaster ? profileHandler : null}>
+                        { profilePath ? '' : <BsFillPersonFill/> }
+                        <input
+                            onChange={isProfile}
+                            type="file"
+                            id="profile-img"
+                            accept="image/*"
+                            style={{display: 'none'}}
+                            name="profileImage" />
                     </div>
                     <div className={"user-info-contain"}>
                         <div className={"user-name-item"}>{userPageInfo.nickname}</div>
@@ -191,19 +296,26 @@ const UserMyPage = () => {
             <div className={"user-game-info-contain"}>
                 <div className={"user-follow-item"}>
                     <div className={"follow-star-icon"}><FaStar /></div>
-                    <p>100,000</p>
+                    <p onClick={followListHandler}>{starFollowCount}</p>
                     { userPageMaster ? 'Followers' : <button onClick={starFollowHandler}> { starFollow ? 'Following' : 'Follow' } </button> }
+                    { followListModal ?
+                        <ul className={"user-follow-list-item"}>
+                            {userFollowList.map(user => (
+                                <li key={user.fi}>{user.fi}</li>
+                            ))}
+                        </ul> : ''
+                    }
                 </div>
                 <div className={"game-score-item"}>
                     <div className={"game-score-icon"}><BsFillXDiamondFill /></div>
                     <p>{userPageInfo.score}</p>
                     Point
                 </div>
-                <div className={"game-playing-record"}>
+                {/*<div className={"game-playing-record"}>
                     <div className={"game-playing-icon"}><FaRankingStar /></div>
                     <p>record</p>
                     Games
-                </div>
+                </div>*/}
             </div>
             { userPageMaster ? <MemberDelete /> : ''}
         </div>
