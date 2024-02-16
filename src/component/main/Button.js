@@ -21,9 +21,6 @@ const Button = () => {
         <div>
             <div className="button_container">
                 <button className="btn" onClick={entry}><span>시작하기</span></button>
-                {/*<>*/}
-                {/*    <Link to={'/lobby'}>게임시작</Link>*/}
-                {/*</>*/}
             </div>
         </div>
     );

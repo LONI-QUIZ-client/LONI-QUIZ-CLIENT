@@ -87,11 +87,10 @@ const Main = () => {
     return (
         <div ref={outerDivRef} className='outer'>
             <div className='inner section'>
-                <div className='container'>
+                <div className='container' style={{backgroundImage: 'url("process.env.PUBLIC_URL + "/img/minn.jpg"")'}}>
                     <div className='main-box'>
                         <div className='l-g'>
-                            <h1 className='logo'>LONI<br/>QUIZ</h1>
-                            <p>AI가 만든 이미지로 퀴즈 게임을 즐겨보세요</p>
+                            <h1 className='logo'>AI-powered creativity<br/> shaping innovative brands.</h1>
                             <Button/>
                         </div>
                     </div>
@@ -144,10 +143,6 @@ const Main = () => {
                                 <br/>
                                 LONI QUIZ는 AI 기술과 게임의 재미를 결합한 독특한 프로젝트로,<br/>
                                 사용자들에게 새로운 경험과 흥미를 제공하기 위해 노력합니다</p>
-                            <button>
-                                소개 보러가기
-                            </button>
-
                         </div>
                         <img src={process.env.PUBLIC_URL + "/img/pen.jpg"} alt=""/>
                     </div>
@@ -158,7 +153,6 @@ const Main = () => {
             </div>
             <div className="dots-header-wrapper">
                 <Dots currentPage={currentPage}/>
-                <Header/>
             </div>
         </div>
     );
