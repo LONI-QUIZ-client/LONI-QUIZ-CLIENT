@@ -381,7 +381,7 @@ const JoinRight = () => {
                     </button>
                 </div>
                 <div className={'if-login-can-user'}>
-                    Are you already a member?
+                    <p>Are you already a member?</p>
                     <Link href="/login" variant="body2" className={'login-link-move'}>Log In</Link>
                 </div>
             </div>

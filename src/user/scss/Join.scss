@@ -14,10 +14,11 @@
   background-position: center;*/
 
   .join-container{
-    display: flex; flex-flow: row nowrap;
+    display: flex;
+    flex-flow: row nowrap;
   }
 
-  // 950 이상
+  /*// 950 이상
   @media only screen and (min-height: 950px) {
     height: 100vh;
   }
@@ -25,7 +26,7 @@
   // 950 이하
   @media only screen and (max-height: 950px) {
     height: 60rem;
-  }
+  }*/
 
 }
 
