@@ -3,6 +3,9 @@
 
 <h2 align="center">프로젝트 개요</h2>
 
+<img alt="LONI-QUIZ_LOGO" src="https://github.com/sarimiro56/Markdown_Test/assets/128454837/08a7d58e-f8ba-436b-9db9-541f9fef4396" />
+
+
 >AI가 키워드에 따라 이미지들을 여러 장 생성하는 API를 이용하여 유저들이 AI가 생성한 사진들을 보고 어떤 키워드인지 맞추는 퀴즈 게임입니다.
 
 <!-- 간략한 개요와 함께 강조되는 이미지를 넣으시오. ex) 로고, 메인화면, 동영상(시연)  // 또는 게임 플레이 방법을 간단히 소개하는 것도 좋습니다.  -->
@@ -28,7 +31,7 @@
         </a>
       </td>
       <td>정범준</td>
-      <td>Project Manager & BackEnd & FrontEnd</td>
+      <td>BackEnd & FrontEnd</td>
     </tr>
     <tr>
       <td>
@@ -46,7 +49,7 @@
         </a>
       </td>
       <td>오영석</td>
-      <td>FrontEnd</td>
+      <td>Project Manager & FrontEnd</td>
     </tr>
     <tr>
       <td>
@@ -126,24 +129,57 @@
   <h3 align="center">주요 기능 소개</h3>
   <!-- 설명할 때 요약할 부분은 > 를 이용하여 내용을 강조할 것. -->
 
-- /login (로그인)
+i. /login (로그인)
 
-> 로그인 화면
+![image](https://github.com/sarimiro56/Markdown_Test/assets/128454837/cc015258-82d1-4174-b207-9644f84b1999)
+
+> 사이트 전용 계정, 카카오 로그인을 할 수 있습니다.
 
   <!-- 사진 첨부 -->
-- ? (메인)
+
+ii. /join (회원가입)
+
+![image](https://github.com/sarimiro56/Markdown_Test/assets/128454837/e98fdda4-6eda-42fa-bb24-a5a839f493b8)
+
+> 회원가입이 가능합니다.
+- 닉네임은 오로지 한글로만 가능하며, 2 ~ 25 의 글자 수 이내로 작성해야 합니다.
+- 아이디는 영문 + 숫자 형태로 5 ~ 25 의 글자 수 이내로 작성해야 합니다.
+- 비밀번호는 영문 + 숫자 + 특수문자 형태로 8 ~ 25 의 글자 수 이내로 작성해야 합니다.
+- 자신의 이미지 파일을 프로필로 지정할 수 있습니다.
+
+iii./ (메인)
+
+![image](https://github.com/sarimiro56/Markdown_Test/assets/128454837/bb830468-01d6-49f8-a77a-d78ad38f7888)
+
 
 > 게임 소개 화면
 
   <!-- 사진 첨부 -->
-- /lobby (게임 로비)
+iv. /lobby (게임 로비)
 
-> 게임 방 생성 및 입장 이전 화면
+![image](https://github.com/sarimiro56/Markdown_Test/assets/128454837/fa4de063-b10b-4e34-b31b-c2f341da4263)
+
+
+> 게임 로비에서는 이러한 것들을 할 수 있습니다.
+- 게임 방을 만들거나 입장 할 수 있으며, 방 이름을 검색하여 찾아낼 수도 있습니다.
+- 친구창에서는 유저를 팔로우 할 수 있습니다.
+- 다른 유저와 실시간 채팅이 가능합니다.
+- 유저들의 총 점수에 따라 랭킹이 집계됩니다.
+- 자신의 프로필 사진이나 다른 사람의 닉네임을 클릭하면 해당 계정 정보 페이지로 이동합니다.
 
   <!-- 사진 첨부 -->
-- ? (게임방)
 
-> 게임 하는 곳
+v. /mypage/${userID} (계정 정보 페이지)
+
+  ![image](https://github.com/sarimiro56/Markdown_Test/assets/128454837/31f9b3e5-724d-4541-a75a-a73bf1c7c18c)
+
+> 개인정보를 출력하는 페이지입니다.
+- 로비로 돌아가거나, 로그아웃을 진행 할 수 있습니다.
+- 자신의 현재 정보를 확인할 수 있습니다. (팔로우 수 / 총 점수)
+
+vi. /gamepage (게임방)
+
+> 게임이 진행되는 장소입니다.
 
   <!-- 사진 첨부 -->
 </details>
@@ -152,5 +188,7 @@
   <summary>V. 데이터베이스</summary>
   <h3 align="center">데이터베이스</h3>
   <!-- DB 테이블 사진 필요. -->
-  - DB
+
+![image](https://github.com/sarimiro56/Markdown_Test/assets/128454837/725722f5-1499-41fb-a0bb-92ded3664538)
+
 </details>
