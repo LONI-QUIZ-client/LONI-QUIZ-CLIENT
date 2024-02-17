@@ -18,7 +18,6 @@ const MemberDelete = () => {
     const [deleteModal, setDeleteModal] = useState(false);
 
     useEffect(() => {
-        console.log(getLoginUserCheck().id);
         setId(getLoginUserCheck().id);
 
     }, []);
@@ -35,10 +34,11 @@ const MemberDelete = () => {
 
         const res = await fetch(JOIN_URL + `/${id}`, {
             method: 'DELETE'
-            , headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ pw: inputPw })
+            , headers: {'content-type': 'application/json'}
+            , body: JSON.stringify({
+                id: id
+                ,pw: inputPw
+            })
         });
 
         const json = await res.text();
