@@ -246,6 +246,22 @@ const UserMyPage = () => {
 
     }
 
+    const [fewDay, setFewDay] = useState('');
+    const fetchDate = () => {
+        let create = new Date(userPageInfo.createDate);
+        let today = new Date();
+
+        let mil = Math.abs(today - create);
+        let number = Math.ceil(mil/(1000 * 60 * 60 * 24));
+        setFewDay(number);
+        console.log(fewDay+'일 지남');
+    }
+
+    useEffect(() => {
+        fetchDate();
+
+    }, [new Date()]);
+
     // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
     useEffect(() => {
         fetchUserInfo();
@@ -336,11 +352,6 @@ const UserMyPage = () => {
                 </div>
                 { userPageMaster ? <MemberDelete /> : ''}
             </div>
-
-            <div className="user-info">Section1</div>
-            <div className="user-info">Section2</div>
-            <div className="user-info">Section3</div>
-            <div className="user-info">Section4</div>
         </div>
     );
 };
