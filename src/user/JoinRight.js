@@ -104,7 +104,6 @@ const JoinRight = () => {
     }
 
     const nickNameHandler = e => {
-        // console.log(inputVal);
         const nickNmVal = e.target.value;
         const nameRegex = /^[가-힣]{2,25}$/;
         // 닉네임은 최소 2글자 ~ 최대 25글자, 한글로
@@ -135,7 +134,6 @@ const JoinRight = () => {
 
     const idHandler = e => {
         const idVal = e.target.value;
-        // console.log(inputVal);
 
         // 아이디는 최소 5글자 ~ 최대 15글자
         const idRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{2,25}$/;
@@ -200,30 +198,7 @@ const JoinRight = () => {
     const [pwCheckVal, setPwCheckVal] = useState('');
 
     const passwordCheckHandler = e => {
-        console.log(e.target.value);
         setPwCheckVal(e.target.value);
-
-        /*let msg, flag;
-        if(!pwCheckVal){
-            msg = '비밀번호를 입력해주세요'
-            flag = false;
-        } else if(joinInfo.pw !== pwCheckVal){
-            msg = '비밀번호와 올바르지 않습니다';
-            flag = false;
-        } else if(checkInput.pw === true && joinInfo.pw === pwCheckVal){
-            msg = '비밀번호와 일치합니다';
-            flag = true;
-        }*/
-
-        /*setInputErrorMessage({
-            ...inputErrorMessage,
-            passwordCheck: msg
-        });
-
-        setCheckInput({
-            ...checkInput,
-            passwordCheck: flag
-        });*/
     }
 
     useEffect( () => {
@@ -289,7 +264,6 @@ const JoinRight = () => {
 
         if(res.status === 200){
             const json = await res.text();
-            // alert(joinInfo.nickname);
             alert(json);
 
             redirect('/login');
@@ -310,7 +284,6 @@ const JoinRight = () => {
     const {nickName : nn, id, password : pw, passwordCheck : pwc} =  checkInput;
 
     useEffect(() => {
-
         if(inputIsValid()) setLock(false)
         else setLock(true)
 
@@ -340,7 +313,6 @@ const JoinRight = () => {
     return (
         <form noValidate>
             <div className={'join-right-item'}>
-                {/*<div className={"join-title"}>Join LONIQUIZ</div>*/}
                 <div
                     onClick={profileHandler}
                     className={'join-input-profile-item'}

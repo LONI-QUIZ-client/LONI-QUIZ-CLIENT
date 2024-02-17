@@ -1,39 +1,27 @@
 import React, {useEffect, useState} from 'react';
-import "./scss/UserSideLeft.scss"
+import "./scss/UserSideLeft.scss";
+// import backgroundImages from '../../public/img/sideLeft';
 
 // import backgroundImage from './scss/img/background-img.png';
-import {SIDE_URL} from "../config/host-config";
+// import {SIDE_URL} from "../config/host-config";
+
 
 
 const UserSideLeft = () => {
 
     // 이미지 경로
     const [imagePath, setImagePath] = useState('');
-
-    // 이미지 가져오기
-    const fetchSideMenuImage = async ()=> {
-
-        const res = await fetch( SIDE_URL, {
-            method: 'GET'
-        });
-
-        if(res.status===200){
-            const profileData = await res.blob(); // json, text 이외의 이미지, 비디오, pdf같은 것은 blob으로 받아
-
-            // blob 이미지를 url으로 변환해야 img src에 경로로 넣을 수 있음
-            const imgUrl = window.URL.createObjectURL(profileData);
-            setImagePath(imgUrl);
-
-            console.log(imagePath);
-        } else {
-            setImagePath(null);
-        }
-
-    }
+    const imageList = [
+        process.env.PUBLIC_URL + "/img/sideLeft/3f70671c29ad5a674b3b5b09dc91366b.jpg"
+        , process.env.PUBLIC_URL + "/img/sideLeft/7fe6525cb0d32c33a996d3697f0224cd.jpg"
+        , process.env.PUBLIC_URL + "/img/sideLeft/51098444f53cf1e3d53d2a70773f6c8a.jpg"
+        , process.env.PUBLIC_URL + "/img/sideLeft/bab20d8b972fb21fb2b7eb4cfc09812f.jpg"
+    ]
 
     useEffect(() => {
-        fetchSideMenuImage();
+        const ranNum = Math.floor(Math.random() * (imageList.length - 1) + 1)
 
+        setImagePath(imageList[ranNum]);
     }, []);
 
     return (

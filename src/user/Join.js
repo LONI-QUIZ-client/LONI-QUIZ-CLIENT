@@ -11,7 +11,6 @@ const Join = () => {
     return (
         <div className={'join-main-content'}>
             <div className={'join-container'}>
-                {/*<div className={'game-logo'}></div>*/}
                 <UserSideLeft />
                 <JoinRight />
             </div>

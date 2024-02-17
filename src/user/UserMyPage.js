@@ -325,11 +325,6 @@ const UserMyPage = () => {
                     <p>{userPageInfo.score}</p>
                     Point
                 </div>
-                {/*<div className={"game-playing-record"}>
-                    <div className={"game-playing-icon"}><FaRankingStar /></div>
-                    <p>record</p>
-                    Games
-                </div>*/}
             </div>
             { userPageMaster ? <MemberDelete /> : ''}
         </div>
