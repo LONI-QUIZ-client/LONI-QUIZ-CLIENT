@@ -505,8 +505,8 @@ const GamePage = () => {
     }, [img]);
 
     return (
-        <div className='box'>
-            <button onClick={exitHandler} className="btn-style btn1 btn-exit">exit</button>
+        <div className='box' style={{backgroundImage: `url("${process.env.PUBLIC_URL}/img/wallpaper.jpg")`}}>
+        <button onClick={exitHandler} className="btn-style btn1 btn-exit">exit</button>
             {isOpen && (
                 <div className="modal-background" onClick={handleBackgroundClick}>
                     <div className="answer-modal">
@@ -544,7 +544,7 @@ const GamePage = () => {
                     </div>
                 </div>
             )}
-            <div className='a'>
+            <div className='a' style={{backgroundImage: 'url("process.env.PUBLIC_URL + "/img/minn.jpg"")'}}>
                 <div className='show-img'>
                     <img className='showImg' src={image.image}/>
                     <div className='w'>
