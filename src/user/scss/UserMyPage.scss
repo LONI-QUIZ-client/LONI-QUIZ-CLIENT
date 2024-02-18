@@ -3,30 +3,14 @@
 
 @import "common";
 
-
 .user-page {
-  overflow-x: auto; /* 가로 스크롤 활성화 */
-  overflow-y: hidden; /* 세로 스크롤 숨김 */
-  white-space: nowrap; /* 섹션들이 한 줄로 표시됨 */
-  scroll-snap-type: both mandatory; /* 가로와 세로 스크롤 모두에 스냅을 적용 */
-  -webkit-overflow-scrolling: touch; /* iOS에서 부드러운 스크롤 지원 */
-  display: flex;
-  width: 100%; /* 부모 컨테이너의 가로 너비를 모두 차지 */
-  height: auto;
-
-  background: #151422;
-  //color: #FFFFFF;
 
   .user-info {
-    /*width: 100%;
-    height: 100vh;
+    background: #151422;
+    width: 100%;
+    height: 100vh; /* 부모 요소인 .user-page에 맞게 높이 조절 */
     padding-bottom: 5rem;
-    position: relative;*/
-
-    flex: 0 0 auto; /* 섹션들이 가로로 쌓이도록 설정 */
-    scroll-snap-align: start; /* 스크롤 시 섹션들이 가장 가까운 가장자리에 스냅됨 */
-    width: 100%; /* 섹션들이 부모 컨테이너에 맞게 너비를 갖음 */
-    height: 100vh; /* 섹션의 높이를 화면 높이와 동일하게 설정 */
+    position: relative;
 
     .user-setting-buttons {
       display: flex;
@@ -194,7 +178,51 @@
     }
 
     .user-game-info-contain{
-      width: 100%;
+      background-color: #6D5D99;
+      width: 80%;
+      height: 40vh;
+      margin: 1rem auto;
+      border-radius: 1rem;
+      overflow: scroll;
+
+      .user-follow-item
+        , .game-score-item
+        , .create-member-date
+      {
+        background-color: #9b9ae2;
+        color: #FFFFFF;
+        width: 80%;
+        //height: 15vh;
+        margin: 1rem auto;
+        border-radius: 1rem;
+        display: flex;
+        flex-direction: row;
+      }
+
+      .follow-star-icon
+      , .game-score-icon
+      , .game-create-start-icon{
+        border-radius: 1.5rem;
+        padding: 1rem;
+        font-size: 4.5rem;
+        color: #1ddc8c;
+        background-color: #FFFFFF;
+        margin: 1.2rem;
+      }
+
+      p{
+        margin: auto 1rem;
+        font-size: 2.5rem;
+      }
+
+      button{
+        border: 0;
+        color: #FFFFFF;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      /*width: 100%;
       height: 15vh;
       display: flex;
       justify-content: space-around;
@@ -253,51 +281,10 @@
 
         }
 
-      }
-
-      /*.user-follow-list-item{
-        background: #FFFFFF;
-        width: 20rem;
-        margin: 1rem;
-        border-radius: 10px;
-
-
-        li{
-          color: #333333;
-        }
       }*/
-
-      /*.score-item{
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        font-size: 1.5rem;
-        font-weight: bold;
-
-        .game-score-icon{
-          background-color: #FFEA00;
-          border-radius: 50%;
-          padding: 0.7rem;
-          font-size: 1.7rem;
-          text-align: center;
-          margin: 0.5rem;
-        }
-
-      }*/
-
 
 
     }
-
-    /*&.user-info > h1 {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-
-      font-size: 20em;
-      font-weight: bold;
-      text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.6);
-    }*/
 
   }
 

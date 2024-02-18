@@ -246,6 +246,7 @@ const UserMyPage = () => {
 
     }
 
+    // ===== few Day ====
     const [fewDay, setFewDay] = useState('');
     const fetchDate = () => {
         let create = new Date(userPageInfo.createDate);
@@ -329,8 +330,8 @@ const UserMyPage = () => {
                 <div className={"user-game-info-contain"}>
                     <div className={"user-follow-item"}>
                         <div className={"follow-star-icon"}><FaStar /></div>
+                        <p> { userPageMaster ? 'Followers' : <button onClick={starFollowHandler}> { starFollow ? 'Following' : 'Follow' } </button> }</p>
                         <p onClick={followListHandler}>{starFollowCount}</p>
-                        { userPageMaster ? 'Followers' : <button onClick={starFollowHandler}> { starFollow ? 'Following' : 'Follow' } </button> }
                         { followListModal ?
                             <ul className={"user-follow-list-item"}>
                                 {userFollowList.map(user => (
@@ -341,13 +342,16 @@ const UserMyPage = () => {
                     </div>
                     <div className={"game-score-item"}>
                         <div className={"game-score-icon"}><BsFillXDiamondFill /></div>
+                        <p>Point</p>
                         <p>{userPageInfo.score}</p>
-                        Point
+
                     </div>
                     <div className={"create-member-date"}>
                         <div className={"game-create-start-icon"}><IoIosCreate /></div>
+                        <p>계정 생성 날짜</p>
                         <p>{userPageInfo.createDate}</p>
-                        First Start Date
+                        <p>{fewDay}일 째</p>
+                        {/*<p>First Start Date</p>*/}
                     </div>
                 </div>
                 { userPageMaster ? <MemberDelete /> : ''}
