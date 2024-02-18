@@ -13,8 +13,6 @@ import Main from "./component/main/Main";
 import GamePage from "./component/gamepage/GamePage";
 import KakaoLoading from "./user/KakaoLoading";
 import UserMyPage from "./user/UserMyPage";
-//import UserInfo from "./user/UserInfo";
-// import UserInfoHeader from "./user/UserInfoHeader";
 
 function App() {
 

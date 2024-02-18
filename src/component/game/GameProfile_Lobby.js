@@ -41,22 +41,6 @@ const GameProfileLobby = () => {
                     setImageFile(json)
                 }
             )
-
-        const res = await fetch(PROFILE_URL, {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + currentUser.token
-            }
-        });
-
-        if (res.status === 200) {
-            const profileData = await res.blob();
-            const imageFile = window.URL.createObjectURL(profileData);
-            setImageFile(imageFile);
-        } else {
-            setImageFile(null);
-        }
-
     };
 
     const moveDetailHandler = () => {

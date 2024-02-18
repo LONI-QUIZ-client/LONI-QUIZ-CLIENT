@@ -14,7 +14,7 @@ const KakaoLoading = (props) => {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json;charset=utf-8",
-                        "Access-Control-Allow-Origin": "*",
+                        // "Access-Control-Allow-Origin": "*",
                     },
                 });
 

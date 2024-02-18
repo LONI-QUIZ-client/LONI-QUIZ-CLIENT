@@ -12,6 +12,8 @@ const GameChat = () => {
     const [userId, setID] = useState('');
     const messageAreaRef = useRef(null);
     const redirection = useNavigate();
+    const BACK_URL = 'http:///3.37.194.146/ws';
+
 
     // const [currentUser, setCurrentUser] = useState(null);
 
@@ -31,7 +33,7 @@ const GameChat = () => {
             // setID(currentUser.username);
 
         // Connect to WebSocket server
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             // Subscribe to topic
@@ -57,7 +59,7 @@ const GameChat = () => {
         e.preventDefault();
 
         // Send message via WebSocket
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient.send("/app/chat", {}, JSON.stringify({
