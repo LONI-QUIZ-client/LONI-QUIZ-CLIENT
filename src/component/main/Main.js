@@ -92,10 +92,10 @@ const Main = () => {
     const entry = () => {
         if(!isLogin()){
             nav('/login')
-        } else if(!isAutoLogin()){
-            nav('/login')
+            console.log("경규현 병싱")
         } else{
             nav('/lobby')
+            console.log("경규현 시발")
         }
     }
 
@@ -112,7 +112,7 @@ const Main = () => {
                                 <span className='red-text'>AI</span>
                                 -powered creativity<br/>shaping innovative <span className='red-text'>brands</span>.
                             </h1>
-                            <button disabled className={'btn-style1 btn4'} onClick={entry}>PLAY</button>
+                            <button className={'btn-style1 btn4'} onClick={entry}>PLAY</button>
                         </div>
                     </div>
                 </div>

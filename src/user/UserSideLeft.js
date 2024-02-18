@@ -28,7 +28,7 @@ const UserSideLeft = () => {
     return (
         <>
             <div className={'join-left'}>
-                <div className={'background-img'} style={{ backgroundImage: `url(${image[0]})` }}></div>
+                <div className={'background-img'} style={{ backgroundImage: `url(${imagePath})` }}></div>
                 <div className={'left-container'} >
                     <div className={'join-introductory-article'}>
                         <div className={'h1-join-title'}>
