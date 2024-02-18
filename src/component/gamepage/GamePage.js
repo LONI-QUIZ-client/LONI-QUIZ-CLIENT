@@ -488,8 +488,8 @@ const GamePage = () => {
     }, [img]);
 
     return (
-        <div className='box'>
-            <button onClick={exitHandler} className="btn-style btn1 btn-exit">exit</button>
+        <div className='box' style={{backgroundImage: `url("${process.env.PUBLIC_URL}/img/wallpaper.jpg")`}}>
+        <button onClick={exitHandler} className="btn-style btn1 btn-exit">exit</button>
             {isOpen && (
                 <div className="modal-background" onClick={handleBackgroundClick}>
                     <div className="answer-modal">
@@ -527,7 +527,7 @@ const GamePage = () => {
                     </div>
                 </div>
             )}
-            <div className='a'>
+            <div className='a' style={{backgroundImage: 'url("process.env.PUBLIC_URL + "/img/minn.jpg"")'}}>
                 <div className='show-img'>
                     <img className='showImg' src={image.image}/>
                     <div className='w'>
@@ -603,7 +603,10 @@ const GamePage = () => {
                                 value={inputText}
                                 onChange={handleInputChange}
                                 onKeyPress={(event) => {
-                                    if (event.key === 'Enter') {
+                                    if (event.key === 'Enter' && inputText.trim() === '') {
+                                        event.preventDefault(); // 이벤트 기본 동작 막기
+                                        setShowSpinner(false);
+                                    } else if (event.key === 'Enter') {
                                         handleInputKey(event);
                                         setShowSpinner(true);
                                     }
@@ -611,8 +614,12 @@ const GamePage = () => {
                             />
                             <div className='buttons'>
                                 <button className='create btn1 btn-style' onClick={() => {
-                                    createImage();
-                                    setShowSpinner(true);
+                                    if (inputText.trim() !== '') {
+                                        createImage();
+                                        setShowSpinner(true);
+                                    } else {
+                                        setShowSpinner(false);
+                                    }
                                 }}>
                                     사진만들기
                                 </button>
@@ -621,7 +628,7 @@ const GamePage = () => {
                                     onClick={() => {
                                         sendImageHandler();
                                     }}
-                                    disabled={selectedImage === null}
+                                    disabled={selectedImage === null || inputText.trim() === ''}
                                 >
                                     선택하기
                                 </button>

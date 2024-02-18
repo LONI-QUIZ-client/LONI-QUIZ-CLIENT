@@ -12,8 +12,14 @@
   height: 100%;
   padding: 2rem;
 
-  display: flex; flex-flow: column wrap;
+  display: flex;
+  flex-flow: column wrap;
   justify-content: space-between;
+
+  &.join-right-item::-webkit-scrollbar-track{
+    width: 1rem;
+    background: #FFFFFF80;
+  }
 
   .join-title{
     font-size: 3rem;

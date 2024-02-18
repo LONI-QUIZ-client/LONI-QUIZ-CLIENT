@@ -88,10 +88,16 @@ const Main = () => {
         <div ref={outerDivRef} className='outer'>
             <div className='inner section'>
                 <div className='container' style={{backgroundImage: 'url("process.env.PUBLIC_URL + "/img/minn.jpg"")'}}>
+                    <div className='header-logo'>
+                        <img src={process.env.PUBLIC_URL + "/img/project-logo.png"} alt=""/>
+                    </div>
                     <div className='main-box'>
                         <div className='l-g'>
-                            <h1 className='logo'>AI-powered creativity<br/> shaping innovative brands.</h1>
-                            <Button/>
+                            <h1 className='logo'>
+                                <span className='red-text'>AI</span>
+                                -powered creativity<br/>shaping innovative <span className='red-text'>brands</span>.
+                            </h1>
+                            <button disabled className={'btn-style1 btn4'}>PLAY</button>
                         </div>
                     </div>
                 </div>
@@ -99,15 +105,17 @@ const Main = () => {
             <div className="divider"></div>
             <div className='inner section'>
                 <div className='content-box'>
-                    <h1 className='content-title'>AI 이미지 생성 기술은 처음이신가요?</h1>
+                <h1 className='content-title'>AI 이미지 생성 기술은 처음이신가요?</h1>
                     <p>아래 사진들은 ai 이미지 생성 기술로 만들어진 사진들입니다 당신도 자신만의 이미지를 만들어보세요!</p>
                     <div className="box-wrap">
                         <div className='img-1'>
                             <div className="t-box">
                                 <img src={process.env.PUBLIC_URL + "/img/ASD.jpeg"} alt="Hover Effect"/>
                                 <div className="info">
-                                    <h3>Design</h3>
-                                    <p>일러스트를 이용한 디자인입니다.</p>
+                                    <h3>사용된 제시어</h3>
+                                    <p>#beautiful lady, #(freckles), #big smile, #ruby eyes,
+                                        #pigtails hair, #dark makeup, #hyperdetailed photography,
+                                        #soft light, #head and shoulders portrait, #cover</p>
                                 </div>
                             </div>
                         </div>
@@ -115,8 +123,11 @@ const Main = () => {
                             <div className="t-box">
                                 <img src={process.env.PUBLIC_URL + "/img/Main.png"} alt="Hover Effect"/>
                                 <div className="info">
-                                    <h3>Design</h3>
-                                    <p>일러스트를 이용한 디자인입니다.</p>
+                                    <h3>사용된 제시어</h3>
+                                    <p>#chameleon, #hyperrealistic photography of a bioorganic entity. gold-blue-purple faceted skin,
+                                        #very intricate and detailed details. technology very apparent on the body,
+                                        #fantastic feeling. High quality photo that highlights the enchanting aspects. high resolution,
+                                        #photographic masterpiece, #8K,</p>
                                 </div>
                             </div>
                         </div>
@@ -124,8 +135,8 @@ const Main = () => {
                             <div className="t-box">
                                 <img src={process.env.PUBLIC_URL + "/img/AS.png"} alt="Hover Effect"/>
                                 <div className="info">
-                                    <h3>Design</h3>
-                                    <p>일러스트를 이용한 디자인입니다.</p>
+                                    <h3>사용된 제시어</h3>
+                                    <p>#subsurface scattering, #Photorealistic, #Hyperrealistic, #analog style, #realistic, #film photography, #soft lighting, #heavy shadow</p>
                                 </div>
                             </div>
                         </div>
@@ -137,17 +148,29 @@ const Main = () => {
                 <div className='bottom-box'>
                     <div className='info'>
                         <div className='info-text'>
-                            <h2>프로젝트 소개</h2><br/>
-                            <p>저희 LONI QUIZ는 카카오에서 제공하는 Karlo라는 AI 이미지 생성 API를
-                                활용하여 만들어진 퀴즈 게임입니다.
-                                <br/>
-                                LONI QUIZ는 AI 기술과 게임의 재미를 결합한 독특한 프로젝트로,<br/>
-                                사용자들에게 새로운 경험과 흥미를 제공하기 위해 노력합니다</p>
+                            <div className='text-area'>
+                                <h2>프로젝트 소개</h2>
+                                <p>저희 LONI QUIZ는 카카오에서 제공하는 Karlo라는 AI 이미지 생성 API를
+                                    활용하여 만들어진 퀴즈 게임입니다.
+                                    <br/>
+                                    LONI QUIZ는 AI 기술과 퀴즈 게임의 재미를 결합한 독특한 프로젝트로,<br/>
+                                    사용자들에게 새로운 경험과 재미를 제공하기 위해 노력할것입니다.</p>
+                            </div>
                         </div>
-                        <img src={process.env.PUBLIC_URL + "/img/pen.jpg"} alt=""/>
+                        <img src={process.env.PUBLIC_URL + "/img/mi.jpg"} alt=""/>
                     </div>
                     <footer>
                         <Slider/>
+                        <hr/>
+                        <div>
+                            <table className='footer-table'>
+                                <li><a href=""><img src={process.env.PUBLIC_URL + "/img/rogogo.png"} alt=""/></a></li>
+                                <li><a href="https://github.com/LONI-QUIZ-client/LONI-QUIZ-CLIENT" target='_blank'>GIT HUB</a></li>
+                                <li><a href="#">고객지원</a></li>
+                                <li><a href="">팀원 소개</a></li>
+                                <li><a href="#">게시판(개발예정)</a></li>
+                            </table>
+                        </div>
                     </footer>
                 </div>
             </div>

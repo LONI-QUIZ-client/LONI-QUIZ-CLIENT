@@ -15,6 +15,7 @@ const Login = () => {
             <LoginRight />
         </div>
     );
+
 };
 
 export default Login;

@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { BsFillPersonFill} from "react-icons/bs";
 import Logout from "./Logout";
 import {useNavigate, useParams} from "react-router-dom";
-import {FOLLOW_URL, JOIN_URL} from "../config/host-config";
-import {getLoginUserCheck, isAutoLogin, isLogin} from "../config/login-util";
+import {FOLLOW_URL, JOIN_URL, PROFILE_URL} from "../config/host-config";
+import {getCurrentLoginUser, getLoginUserCheck, isAutoLogin, isLogin} from "../config/login-util";
 import cn from "classnames";
 import {LuPower, LuPowerOff} from "react-icons/lu";
 import "./scss/UserMyPage.scss"
@@ -13,6 +13,8 @@ import { BsFillXDiamondFill } from "react-icons/bs";
 import { FaRankingStar } from "react-icons/fa6";
 import MyPageButton from "./MyPageButton";
 import LobbyButton from "./LobbyButton";
+import { IoIosCreate } from "react-icons/io";
+
 
 const UserMyPage = () => {
 
@@ -38,6 +40,16 @@ const UserMyPage = () => {
         , score: ''
         , loginState: false
     });
+
+    useEffect(() => {
+        if(!getLoginUserCheck()){
+            redirect('/login')
+
+        } else {
+            return;
+
+        }
+    }, []);
 
     // ====== user state ======
     const fetchUserInfo = async () => {
@@ -75,12 +87,10 @@ const UserMyPage = () => {
     }, [userId]);
 
     const backgroundHandler = {
-        // background: arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
         backgroundImage: `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)`
     }
 
     const iconHandler = {
-        // background: isUserLoginState ? arrColor.length === 2 ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
         backgroundImage: isUserLoginState ? `linear-gradient(135deg, ${arrColor[0]} 0%, ${arrColor[1]} 100%)` : ''
         , boxShadow: isUserLoginState ? `-5px -5px 10px 5px ${arrColor[0]+50}, 5px 5px 10px 5px ${arrColor[1]+50}` : ''
     }
@@ -114,11 +124,13 @@ const UserMyPage = () => {
 
     // 팔로우 여부
     const [starFollow, setStarFollow] = useState(false);
-    const payload = {
-        fid: getLoginUserCheck().id
-        , userId: userId
-    }
+
     const starFollowHandler = async (e) => {
+
+        const payload = {
+            fid: getLoginUserCheck().id
+            , userId: userId
+        }
 
         const res = await fetch( FOLLOW_URL, {
             method: 'POST'
@@ -147,6 +159,7 @@ const UserMyPage = () => {
     const [userFollowList, setUserFollowList] = useState([]);
 
     const fetchFollowList= async (e) =>{
+
         const res = await fetch(FOLLOW_URL+`/${userId}`, {
             method: 'GET'
         });
@@ -156,7 +169,7 @@ const UserMyPage = () => {
             setUserFollowList(json)
 
             for (const follow of json) {
-                console.log('follow user:'+follow.fi);
+                console.log('follow user:' + follow.fi);
 
                 if(follow.fi === getLoginUserCheck().id){
                     setStarFollow(true)
@@ -174,6 +187,11 @@ const UserMyPage = () => {
 
     // ======== follow state ========
     const fetchFollowState = async () => {
+
+        const payload = {
+            fid: getLoginUserCheck().id
+            , userId: userId
+        }
 
         const res = await fetch(FOLLOW_URL+"/check", {
             method: "POST"
@@ -213,14 +231,25 @@ const UserMyPage = () => {
 
     }
 
+    // ===== few Day ====
+    const [fewDay, setFewDay] = useState('');
+    const fetchDate = () => {
+        let create = new Date(userPageInfo.createDate);
+        let today = new Date();
+
+        let mil = Math.abs(today - create);
+        let number = Math.ceil(mil/(1000 * 60 * 60 * 24));
+        setFewDay(number);
+        console.log(fewDay+'일 지남');
+    }
+
+    useEffect(() => {
+        fetchDate();
+
+    }, [new Date()]);
 
     // 유저 로그인 상태 렌더링해서 계속 상태 확인해야함
     useEffect(() => {
-        if(!isLogin() && !isAutoLogin()){
-            alert('로그인 하세요');
-            redirect('/login');
-        }
-
         fetchUserInfo();
         fetchProfile();
         fetchFollowList();
@@ -230,82 +259,88 @@ const UserMyPage = () => {
         // console.log(userPageInfo.loginState);
         console.log(isUserLoginState);
 
-
-        if(getLoginUserCheck().id !== userId){
-            setUserPageMaster(false);
+        if(getLoginUserCheck().id === userId){
+            setUserPageMaster(true);
 
         } else { // if(getLoginUserCheck().id === userPageInfo.id)
-            setUserPageMaster(true);
+            setUserPageMaster(false);
         }
+
+        window.addEventListener("wheel", function(e){
+            e.preventDefault();
+        },{passive : false});
 
     }, [
         userId
         , isUserLoginState
-        // , userPageInfo.loginState
         , starFollow
     ]);
 
-
     return (
-        <div className={"user-info"}>
-            <div className={"user-setting-buttons"}>
-                <LobbyButton />
-                { userPageMaster ? <Logout isUserId={userPageInfo.id}/> : <MyPageButton /> }
-            </div>
+        <div className="user-page">
+            <div className="user-info">
+                <div className={"user-setting-buttons"}>
+                    <LobbyButton />
+                    { userPageMaster ? <Logout isUserId={userPageInfo.id}/> : <MyPageButton /> }
+                </div>
 
-            <div className={"user-page-background"} style={backgroundHandler}>
-                <div className={"user-info-item-content"}>
-                    <div className={"user-page-profile"} style={profileImage}
-                        onClick={userPageMaster ? profileHandler : null}>
-                        { profilePath ? '' : <BsFillPersonFill/> }
-                        <input
-                            onChange={isProfile}
-                            type="file"
-                            id="profile-img"
-                            accept="image/*"
-                            style={{display: 'none'}}
-                            name="profileImage" />
-                    </div>
-                    <div className={"user-info-contain"}>
-                        <div className={"user-name-item"}>{userPageInfo.nickname}</div>
-                        <div className={"user-login-state-item"}>
-                            <div
-                                className={cn("logout-state-icon", {'login-state-icon':isUserLoginState})} style={iconHandler}>
-                                { isUserLoginState ? <LuPower /> : <LuPowerOff /> }
-                            </div>
-                            <div className={cn("logout-state-modal", {'login-state-modal':isUserLoginState})}>
-                                { isUserLoginState ? 'Logged in' : 'logged out' }
+                <div className={"user-page-background"} style={backgroundHandler}>
+                    <div className={"user-info-item-content"}>
+                        <div className={"user-page-profile"} style={profileImage}
+                            onClick={userPageMaster ? profileHandler : null}>
+                            { profilePath ? '' : <BsFillPersonFill/> }
+                            <input
+                                onChange={isProfile}
+                                type="file"
+                                id="profile-img"
+                                accept="image/*"
+                                style={{display: 'none'}}
+                                name="profileImage" />
+                        </div>
+                        <div className={"user-info-contain"}>
+                            <h1 className={"user-name-item"}>{userPageInfo.nickname}</h1>
+                            <div className={"user-login-state-item"}>
+                                <div
+                                    className={cn("logout-state-icon", {'login-state-icon':isUserLoginState})} style={iconHandler}>
+                                    { isUserLoginState ? <LuPower /> : <LuPowerOff /> }
+                                </div>
+                                <div className={cn("logout-state-modal", {'login-state-modal':isUserLoginState})}>
+                                    { isUserLoginState ? 'Logged in' : 'logged out' }
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div className={"user-game-info-contain"}>
-                <div className={"user-follow-item"}>
-                    <div className={"follow-star-icon"}><FaStar /></div>
-                    <p onClick={followListHandler}>{starFollowCount}</p>
-                    { userPageMaster ? 'Followers' : <button onClick={starFollowHandler}> { starFollow ? 'Following' : 'Follow' } </button> }
-                    { followListModal ?
-                        <ul className={"user-follow-list-item"}>
-                            {userFollowList.map(user => (
-                                <li key={user.fi}>{user.fi}</li>
-                            ))}
-                        </ul> : ''
-                    }
+                <div className={"user-game-info-contain"}>
+                    <div className={"user-follow-item"}>
+                        <div className={"follow-star-icon"}><FaStar /></div>
+                        <p> { userPageMaster ? 'Followers' : <button onClick={starFollowHandler}> { starFollow ? 'Following' : 'Follow' } </button> }</p>
+                        <p onClick={followListHandler}>{starFollowCount}</p>
+                        { followListModal ?
+                            <ul className={"user-follow-list-item"}>
+                                {userFollowList.map(user => (
+                                    <li key={user.fi}>{user.fi}</li>
+                                ))}
+                            </ul> : ''
+                        }
+                    </div>
+                    <div className={"game-score-item"}>
+                        <div className={"game-score-icon"}><BsFillXDiamondFill /></div>
+                        <p>Point</p>
+                        <p>{userPageInfo.score}</p>
+
+                    </div>
+                    <div className={"create-member-date"}>
+                        <div className={"game-create-start-icon"}><IoIosCreate /></div>
+                        <p>계정 생성 날짜</p>
+                        <p>{userPageInfo.createDate}</p>
+                        <p>{fewDay}일 째</p>
+                        {/*<p>First Start Date</p>*/}
+                    </div>
                 </div>
-                <div className={"game-score-item"}>
-                    <div className={"game-score-icon"}><BsFillXDiamondFill /></div>
-                    <p>{userPageInfo.score}</p>
-                    Point
-                </div>
-                {/*<div className={"game-playing-record"}>
-                    <div className={"game-playing-icon"}><FaRankingStar /></div>
-                    <p>record</p>
-                    Games
-                </div>*/}
+                { userPageMaster ? <MemberDelete /> : ''}
             </div>
-            { userPageMaster ? <MemberDelete /> : ''}
         </div>
     );
 };

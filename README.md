@@ -3,6 +3,10 @@
 
 <h2 align="center">프로젝트 개요</h2>
 
+<p align="center">
+  <img alt="LONI-QUIZ_LOGO" src="https://github.com/sarimiro56/Markdown_Test/assets/128454837/08a7d58e-f8ba-436b-9db9-541f9fef4396" />
+</p>
+
 >AI가 키워드에 따라 이미지들을 여러 장 생성하는 API를 이용하여 유저들이 AI가 생성한 사진들을 보고 어떤 키워드인지 맞추는 퀴즈 게임입니다.
 
 <!-- 간략한 개요와 함께 강조되는 이미지를 넣으시오. ex) 로고, 메인화면, 동영상(시연)  // 또는 게임 플레이 방법을 간단히 소개하는 것도 좋습니다.  -->
@@ -24,16 +28,16 @@
     <tr>
       <td>
         <a href="https://github.com/bumjun2" target="_blank">
-          <img src="https://github.com/bumjun2.png?size=50" alt="bumjun2's GitHub" />
+          <img src="https://github.com/bumjun2.png?size=70" alt="bumjun2's GitHub" />
         </a>
       </td>
       <td>정범준</td>
-      <td>Project Manager & BackEnd & FrontEnd</td>
+      <td>BackEnd & FrontEnd</td>
     </tr>
     <tr>
       <td>
         <a href="https://github.com/smg0218" target="_blank">
-          <img src="https://avatars.githubusercontent.com/u/97341527?v=4" width="50" height="50" alt="Ajeabal's GitHub" />
+          <img src="https://avatars.githubusercontent.com/u/97341527?v=4" width="70" height="70" alt="Ajeabal's GitHub" />
         </a>
       </td>
       <td>이승한</td>
@@ -42,16 +46,16 @@
     <tr>
       <td>
         <a href="https://github.com/oyg9731" target="_blank">
-          <img src="https://github.com/oyg9731.png?size=50" alt="oyg9731's GitHub" />
+          <img src="https://github.com/oyg9731.png?size=70" alt="oyg9731's GitHub" />
         </a>
       </td>
-      <td>오영석</td>
-      <td>FrontEnd</td>
+      <td>오영석👑</td>
+      <td>Project Manager & FrontEnd</td>
     </tr>
     <tr>
       <td>
         <a href="https://github.com/YoungHeeSo" target="_blank">
-          <img src="https://github.com/YoungHeeSo.png?size=50" alt="YoungHeeSo's GitHub" />
+          <img src="https://github.com/YoungHeeSo.png?size=70" alt="YoungHeeSo's GitHub" />
         </a>
       </td>
       <td>박소영</td>
@@ -60,7 +64,7 @@
     <tr>
       <td>
         <a href="https://github.com/sarimiro56" target="_blank">
-          <img src="https://github.com/sarimiro56.png?size=50" alt="sarimiro56's GitHub" />
+          <img src="https://github.com/sarimiro56.png?size=70" alt="sarimiro56's GitHub" />
         </a>
       </td>
       <td>태은선</td>
@@ -75,7 +79,9 @@
   <p align="center">
     개발기간: 2024년 01월 15일 ~ 2024년 02월 19일
   </p>
-  <!-- 이 곳에 개발 일정 달력을 넣어주세요. -->
+  <p align="center">
+    <img alt="개발 일정" src="https://github.com/sarimiro56/Markdown_Test/assets/128454837/2dde5549-ffe2-42ae-a18d-9204555c868f" />
+  </p>
 </details>
 
 <details>
@@ -88,19 +94,19 @@
     <img alt="React" src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" />
     <img alt="HTML5" src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white" /> 
     <img alt="CSS3" src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white" /> 
+    <img alt="SCSS" src="https://img.shields.io/badge/SCSS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white" />
     <img alt="Bootstrap" src="https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white" />
   </p>
 
   <h4 align="center"> Backend </h4>
   <p align="center">
     <img alt="NodeJS" src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" />
-    <img alt="Java" src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white" />
-    <img alt="JSON" src="https://img.shields.io/badge/JSON-000000?style=flat-square&logo=json&logoColor=white"/>
+    <img alt="JSON" src="https://img.shields.io/badge/JSON-000000?style=for-the-badge&logo=json&logoColor=white"/>
     <img alt="Spring" src="https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white"/>
 
   </p>
 
-  <h4 align="center"> DB </h4>
+  <h4 align="center"> DataBase </h4>
   <p align="center">
     <img alt="MariaDb" src="https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white" />
     <img alt="AWS" src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white" />
@@ -126,31 +132,68 @@
   <h3 align="center">주요 기능 소개</h3>
   <!-- 설명할 때 요약할 부분은 > 를 이용하여 내용을 강조할 것. -->
 
-- /login (로그인)
+🎨 /login (로그인)
 
-> 로그인 화면
+![image](https://github.com/sarimiro56/Markdown_Test/assets/128454837/9ccf0b32-27ba-440d-a473-016cef3839cf)
 
-  <!-- 사진 첨부 -->
-- ? (메인)
+> 비회원이 가입할 수 있는 페이지입니다.
+- 로그인 성공 시 게임 로비로 이동합니다.
+- 일반, 카카오 계정을 통해 로그인이 가능합니다.
 
-> 게임 소개 화면
 
-  <!-- 사진 첨부 -->
-- /lobby (게임 로비)
+🎨 /join (회원가입)
 
-> 게임 방 생성 및 입장 이전 화면
+![image](https://github.com/sarimiro56/Markdown_Test/assets/128454837/03697fa7-3df9-47c5-9c9f-87aeceb60465)
 
-  <!-- 사진 첨부 -->
-- ? (게임방)
+> 비회원은 이곳에서 회원가입이 가능합니다.
+- 닉네임은 오로지 한글로만 가능하며, 2 ~ 25 의 글자 수 이내로 작성해야 합니다.
+- 아이디는 영문 + 숫자 형태로 5 ~ 25 의 글자 수 이내로 작성해야 합니다.
+- 비밀번호는 영문 + 숫자 + 특수문자 형태로 8 ~ 25 의 글자 수 이내로 작성해야 합니다.
+- 자신의 이미지 파일을 프로필로 지정할 수 있습니다.
 
-> 게임 하는 곳
+🎨 / (메인)
 
-  <!-- 사진 첨부 -->
+![-Clipchamp-ezgif com-video-to-gif-converter](https://github.com/sarimiro56/Markdown_Test/assets/128454837/125f99ed-ecfb-43e9-ad42-fa3f70589e8a)
+
+> 게임 입장 및 소개를 담당하는 사이트입니다.
+- Start 버튼을 누르면 게임 로비로 입장할 수 있습니다. (단, 비회원은 로비 입장이 불가능합니다.)
+
+🎨 /mypage/${userID} (계정 정보 페이지)
+
+![image](https://github.com/sarimiro56/Markdown_Test/assets/128454837/31f9b3e5-724d-4541-a75a-a73bf1c7c18c)
+
+> 개인정보를 출력하는 페이지입니다.
+- 로비로 돌아가거나, 로그아웃을 진행 할 수 있습니다.
+- 자신의 현재 정보를 확인할 수 있습니다. (팔로우 수 / 총 점수)
+
+🎨 /lobby (게임 로비)
+
+![image](https://github.com/sarimiro56/Markdown_Test/assets/128454837/8f3605d5-ac01-48cc-b7be-00ff2c549dca)
+
+> 방을 생성하거나, 다른 유저들과 교류할 수 있는
+- 게임 방을 만들거나 입장 할 수 있으며, 방 이름을 검색하여 찾아낼 수도 있습니다.
+- 친구창에서는 유저를 팔로우 할 수 있습니다.
+- 다른 유저와 실시간 채팅이 가능합니다.
+- 유저들의 총 점수에 따라 랭킹이 집계됩니다.
+- 자신의 프로필 사진이나 다른 사람의 닉네임을 클릭하면 해당 계정 정보 페이지로 이동합니다.
+
+🎨 /gamepage (게임방)
+
+![image](https://github.com/sarimiro56/Markdown_Test/assets/128454837/9f816eac-e9bc-4152-9fd4-a4b21a269a91)
+
+> 게임이 진행되는 장소입니다.
+- 게임을 시작하면 자기 순서일 경우 문제용 키워드를 작성하여 AI 그림을 출력합니다.
+- 참가자들은 해당 이미지를 보고 어떠한 키워드로 그림을 그렸는지 채팅으로 문제를 맞혀야 합니다.
+- 답은 영어로 인식되며, 이는 참가자들의 영어 수준 실력을 테스트 및 향상시킬 수 있는 효과를 가지고 있습니다.
+- 게임이 진행 되는 동안 시간이 흐릅니다.
+- 2인 이상 입장시 게임 시작이 가능하며, 방장이 방을 나갈 경우 해당 방은 삭제됩니다.
+
 </details>
 
 <details>
   <summary>V. 데이터베이스</summary>
   <h3 align="center">데이터베이스</h3>
-  <!-- DB 테이블 사진 필요. -->
-  - DB
+
+![image](https://github.com/sarimiro56/Markdown_Test/assets/128454837/725722f5-1499-41fb-a0bb-92ded3664538)
+
 </details>

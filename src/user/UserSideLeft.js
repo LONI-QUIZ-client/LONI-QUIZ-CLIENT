@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import "./scss/UserSideLeft.scss"
+import "./scss/UserSideLeft.scss";
+// import backgroundImages from '../../public/img/sideLeft';
 
 // import backgroundImage from './scss/img/background-img.png';
-import {SIDE_URL} from "../config/host-config";
+// import {SIDE_URL} from "../config/host-config";
+
 
 
 const UserSideLeft = () => {
@@ -10,17 +12,18 @@ const UserSideLeft = () => {
     // 이미지 경로
     const [imagePath, setImagePath] = useState('');
 
-    const image = [
-        process.env.PUBLIC_URL + "/img/KakaoTalk_Photo_2024-02-17-21-23-07 001.jpeg",
-        process.env.PUBLIC_URL + "/img/KakaoTalk_Photo_2024-02-17-21-23-07 002.jpeg",
-        process.env.PUBLIC_URL + "/img/KakaoTalk_Photo_2024-02-17-21-23-07 003.jpeg",
-        process.env.PUBLIC_URL + "/img/KakaoTalk_Photo_2024-02-17-21-23-07 004.jpeg",
-    ];
+    const imageList = [
+        process.env.PUBLIC_URL + "/img/sideLeft/3f70671c29ad5a674b3b5b09dc91366b.jpg"
+        , process.env.PUBLIC_URL + "/img/sideLeft/7fe6525cb0d32c33a996d3697f0224cd.jpg"
+        , process.env.PUBLIC_URL + "/img/sideLeft/51098444f53cf1e3d53d2a70773f6c8a.jpg"
+        , process.env.PUBLIC_URL + "/img/sideLeft/bab20d8b972fb21fb2b7eb4cfc09812f.jpg"
+    ]
 
+    useEffect(() => {
+        const ranNum = Math.floor(Math.random() * (imageList.length - 1) + 1)
 
-
-    const r = Math.floor(Math.random() * 4) + 1;
-
+        setImagePath(imageList[ranNum]);
+    }, []);
 
     return (
         <>
