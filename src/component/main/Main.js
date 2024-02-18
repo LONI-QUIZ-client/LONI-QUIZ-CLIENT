@@ -4,6 +4,8 @@ import Button from "./Button";
 import Header from "./Header";
 import Slider from "./Slider";
 import Dots from "./Dots";
+import {useNavigate} from "react-router-dom";
+import {isAutoLogin, isLogin} from "../../config/login-util";
 
 const Main = () => {
     const DIVIDER_HEIGHT = 5;
@@ -16,6 +18,7 @@ const Main = () => {
             const {deltaY} = e;
             const {scrollTop} = outerDivRef.current; // 스크롤 위쪽 끝부분 위치
             const pageHeight = window.innerHeight; // 화면 세로길이, 100vh
+
 
             if (deltaY > 0) {
                 // 스크롤 내릴 때
@@ -84,6 +87,18 @@ const Main = () => {
         };
     }, []);
 
+    const nav = useNavigate();
+
+    const entry = () => {
+        if(!isLogin()){
+            nav('/login')
+        } else if(!isAutoLogin()){
+            nav('/login')
+        } else{
+            nav('/lobby')
+        }
+    }
+
     return (
         <div ref={outerDivRef} className='outer'>
             <div className='inner section'>
@@ -97,7 +112,7 @@ const Main = () => {
                                 <span className='red-text'>AI</span>
                                 -powered creativity<br/>shaping innovative <span className='red-text'>brands</span>.
                             </h1>
-                            <button disabled className={'btn-style1 btn4'}>PLAY</button>
+                            <button disabled className={'btn-style1 btn4'} onClick={entry}>PLAY</button>
                         </div>
                     </div>
                 </div>
