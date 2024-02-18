@@ -177,12 +177,8 @@ const GamePage = () => {
     }, [chatData]);
     // 채팅을 서버에 보내줌
     const inputSubmit = (e) => {
-        if(input === ""){
-            return;
-        }
         e.preventDefault();
-        if (input === answerKey) {
-
+        if (answerKey === "" && input === answerKey) {
             const socket = new SockJS(BACK_URL);
             const stompClient = Stomp.over(socket);
             stompClient.connect({}, () => {
