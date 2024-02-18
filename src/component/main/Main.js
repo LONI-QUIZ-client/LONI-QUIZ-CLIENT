@@ -92,11 +92,14 @@ const Main = () => {
     const entry = () => {
         if(!isLogin()){
             nav('/login')
-            console.log("경규현 병싱")
         } else{
             nav('/lobby')
-            console.log("경규현 시발")
         }
+    }
+
+
+    const showAlert = () => {
+        alert("아직 개발중입니다")
     }
 
     return (
@@ -112,11 +115,7 @@ const Main = () => {
                                 <span className='red-text'>AI</span>
                                 -powered creativity<br/>shaping innovative <span className='red-text'>brands</span>.
                             </h1>
-<<<<<<< Updated upstream
                             <button className={'btn-style1 btn4'} onClick={entry}>PLAY</button>
-=======
-                            <button className={'btn-style1 btn4'}>PLAY</button>
->>>>>>> Stashed changes
                         </div>
                     </div>
                 </div>
@@ -185,9 +184,9 @@ const Main = () => {
                             <table className='footer-table'>
                                 <li><a href=""><img src={process.env.PUBLIC_URL + "/img/rogogo.png"} alt=""/></a></li>
                                 <li><a href="https://github.com/LONI-QUIZ-client/LONI-QUIZ-CLIENT" target='_blank'>GIT HUB</a></li>
-                                <li><a href="#">고객지원</a></li>
-                                <li><a href="">팀원 소개</a></li>
-                                <li><a href="#">게시판(개발예정)</a></li>
+                                <li><a href="#" onClick={showAlert}>고객지원</a></li>
+                                <li><a href="#" onClick={showAlert}>팀원 소개</a></li>
+                                <li><a href="#" onClick={showAlert}>게시판</a></li>
                             </table>
                         </div>
                     </footer>
