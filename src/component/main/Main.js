@@ -112,7 +112,11 @@ const Main = () => {
                                 <span className='red-text'>AI</span>
                                 -powered creativity<br/>shaping innovative <span className='red-text'>brands</span>.
                             </h1>
+<<<<<<< Updated upstream
                             <button className={'btn-style1 btn4'} onClick={entry}>PLAY</button>
+=======
+                            <button className={'btn-style1 btn4'}>PLAY</button>
+>>>>>>> Stashed changes
                         </div>
                     </div>
                 </div>
