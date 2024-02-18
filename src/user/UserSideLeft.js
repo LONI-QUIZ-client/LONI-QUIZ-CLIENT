@@ -10,36 +10,22 @@ const UserSideLeft = () => {
     // 이미지 경로
     const [imagePath, setImagePath] = useState('');
 
-    // 이미지 가져오기
-    const fetchSideMenuImage = async ()=> {
+    const image = [
+        process.env.PUBLIC_URL + "/img/KakaoTalk_Photo_2024-02-17-21-23-07 001.jpeg",
+        process.env.PUBLIC_URL + "/img/KakaoTalk_Photo_2024-02-17-21-23-07 002.jpeg",
+        process.env.PUBLIC_URL + "/img/KakaoTalk_Photo_2024-02-17-21-23-07 003.jpeg",
+        process.env.PUBLIC_URL + "/img/KakaoTalk_Photo_2024-02-17-21-23-07 004.jpeg",
+    ];
 
-        const res = await fetch( SIDE_URL, {
-            method: 'GET'
-        });
 
-        if(res.status===200){
-            const profileData = await res.blob(); // json, text 이외의 이미지, 비디오, pdf같은 것은 blob으로 받아
 
-            // blob 이미지를 url으로 변환해야 img src에 경로로 넣을 수 있음
-            const imgUrl = window.URL.createObjectURL(profileData);
-            setImagePath(imgUrl);
+    const r = Math.floor(Math.random() * 4) + 1;
 
-            console.log(imagePath);
-        } else {
-            setImagePath(null);
-        }
-
-    }
-
-    useEffect(() => {
-        fetchSideMenuImage();
-
-    }, []);
 
     return (
         <>
             <div className={'join-left'}>
-                <div className={'background-img'} style={{ backgroundImage: `url(${imagePath})` }}></div>
+                <div className={'background-img'} style={{ backgroundImage: `url(${image[0]})` }}></div>
                 <div className={'left-container'} >
                     <div className={'join-introductory-article'}>
                         <div className={'h1-join-title'}>

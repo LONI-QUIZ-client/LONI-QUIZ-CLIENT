@@ -99,10 +99,9 @@ const GamePage = () => {
                 }),
             });
             if (res.status === 200) {
-                console.log('API 호출 성공');
+
                 const imgData = await res.json();
                 setImg(imgData.image);
-                console.log(item)
             } else {
                 console.error('API 호출 실패');
             }
@@ -153,11 +152,6 @@ const GamePage = () => {
             });
         });
     }, []);
-    const answerHandler = (e) => {
-        if (e.content === inputText) {
-            console.log('정답!')
-        }
-    }
     // 멤버리스트에서 비교해서 방이 다 찼는지 비교후 방이 다 찼으면 내보내고 아니면 리스트에 담아줌
     useEffect(() => {
         // Connect to WebSocket server
@@ -166,7 +160,6 @@ const GamePage = () => {
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/game/memberList', memberList => {
                 const receivedUsers = JSON.parse(memberList.body);
-                console.log("만들어진 방들과 그 방에 유저들", receivedUsers)
                 const filteredUser = receivedUsers.filter(user => user.gno === roomId);
                 const userExists = receivedUsers.some(user => user.userId === userID && user.gno === roomId);
                 if (!userExists) {
@@ -186,7 +179,7 @@ const GamePage = () => {
     const inputSubmit = (e) => {
         e.preventDefault();
         if (input === answerKey) {
-            console.log("정답!!!!")
+
             const socket = new SockJS(BACK_URL);
             const stompClient = Stomp.over(socket);
             stompClient.connect({}, () => {
@@ -211,7 +204,6 @@ const GamePage = () => {
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/game/userPointUp', response => {
                 const answerUser = JSON.parse(response.body);
-                console.log(answerUser.userId);
                 setAnswerUserId(answerUser.userId);
             });
         });
@@ -219,9 +211,7 @@ const GamePage = () => {
 
     useEffect(() => {
         if (answerUserId === '') {
-            console.log("정답자 없음")
         } else {
-            console.log("정답자 확인됨")
             hasAnswer()
             setAnswerUserId('')
             setNextTurn(false);
@@ -234,7 +224,7 @@ const GamePage = () => {
 
 
     const hasAnswer = () => {
-        console.log(answerKey)
+
         openModal(answerKey)
 
     }
@@ -248,7 +238,6 @@ const GamePage = () => {
     }
     useEffect(() => {
         if (resHA) {
-            console.log(answerKey)
             openModal(answerKey)
             setNextTurn(false);
             if (thisRoomsSU[0].userId === userID) {
@@ -318,12 +307,10 @@ const GamePage = () => {
             const targetUserIndex = targetRoomMembers.findIndex(user => user.userId === userID);
             const targetUser = targetRoomMembers[targetUserIndex].turn;
             setA(targetUser)
-            console.log(targetUser)
         }
     }, [thisRoomsUsers])
 
     useEffect(() => {
-        console.log(roomMembers)
     }, [roomMembers]);
 
     // 유저 턴
@@ -334,7 +321,6 @@ const GamePage = () => {
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/game/start', message => {
                 const roomsUser = JSON.parse(message.body);
-                console.log("방번호와 게임 시작중 쓰일 유저들의 상태", roomsUser)
                 setthisRoomsUsers(roomsUser);
             });
         });
@@ -350,7 +336,6 @@ const GamePage = () => {
         });
     }, []);
     useEffect(() => {
-        console.log(thisRoomsSU)
     }, [thisRoomsSU])
     // 방장이 누군지 확인
     useEffect(() => {
@@ -360,7 +345,6 @@ const GamePage = () => {
             stompClient.subscribe('/topic/game/getSuperUser', superUsers => {
                 const receivedSuperUsers = JSON.parse(superUsers.body);
                 const filteredUsers = receivedSuperUsers.filter(user => user.gno === roomId);
-                console.log("방장!!!", filteredUsers)
                 setThisRoomsSU(filteredUsers);
             });
         });
@@ -372,7 +356,6 @@ const GamePage = () => {
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/game/next', gaming => {
                 const thisRoomGaming = JSON.parse(gaming.body);
-                console.log("방 번호랑 지금 state", thisRoomGaming)
                 setthisRoomsUsers(thisRoomGaming)
             });
         });
@@ -389,13 +372,11 @@ const GamePage = () => {
                 if (receivedCheck.gno !== roomId) {
                     return
                 }
-                console.log(receivedCheck)
                 setAnswerKey(receivedCheck.answerKey);
             });
         });
     }, []);
     useEffect(() => {
-        console.log(answerKey)
     }, [answerKey]);
 
     // 현재 있는 유저들로 방의 인원을 구성
@@ -434,7 +415,6 @@ const GamePage = () => {
                     return
                 }
                 setImage(pickImage);
-                console.log(pickImage)
                 // 사진 보낸 후 모달 닫기 버튼 null
                 setSelectedImage(null);
             });
