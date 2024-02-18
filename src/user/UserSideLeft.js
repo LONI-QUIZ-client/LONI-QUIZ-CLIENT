@@ -11,6 +11,7 @@ const UserSideLeft = () => {
 
     // 이미지 경로
     const [imagePath, setImagePath] = useState('');
+
     const imageList = [
         process.env.PUBLIC_URL + "/img/sideLeft/3f70671c29ad5a674b3b5b09dc91366b.jpg"
         , process.env.PUBLIC_URL + "/img/sideLeft/7fe6525cb0d32c33a996d3697f0224cd.jpg"
@@ -27,7 +28,7 @@ const UserSideLeft = () => {
     return (
         <>
             <div className={'join-left'}>
-                <div className={'background-img'} style={{ backgroundImage: `url(${imagePath})` }}></div>
+                <div className={'background-img'} style={{ backgroundImage: `url(${image[0]})` }}></div>
                 <div className={'left-container'} >
                     <div className={'join-introductory-article'}>
                         <div className={'h1-join-title'}>

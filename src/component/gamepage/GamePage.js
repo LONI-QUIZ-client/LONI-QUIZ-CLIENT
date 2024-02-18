@@ -56,6 +56,7 @@ const GamePage = () => {
     const [isOpen, setIsOpen] = useState(false);
     // 게임 끝났을 때 뜨는 모달
     const [endGame, setEndGame] = useState(false);
+    const BACK_URL = 'http:///3.37.194.146/ws';
 
     // 정답 모달
     const openModal = (e) => {
@@ -98,10 +99,9 @@ const GamePage = () => {
                 }),
             });
             if (res.status === 200) {
-                console.log('API 호출 성공');
+
                 const imgData = await res.json();
                 setImg(imgData.image);
-                console.log(item)
             } else {
                 console.error('API 호출 실패');
             }
@@ -131,7 +131,7 @@ const GamePage = () => {
     };
     // 맴버들을 계속 해서 갱신하며 추가한걸 띄워줌
     useEffect(() => {
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient.send("/app/game/memberList", {}, JSON.stringify({
@@ -142,7 +142,7 @@ const GamePage = () => {
     // 메세지를 받아와서 담아줌
     useEffect(() => {
         // Connect to WebSocket server
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             // Subscribe to topic
@@ -152,20 +152,14 @@ const GamePage = () => {
             });
         });
     }, []);
-    const answerHandler = (e) => {
-        if (e.content === inputText) {
-            console.log('정답!')
-        }
-    }
     // 멤버리스트에서 비교해서 방이 다 찼는지 비교후 방이 다 찼으면 내보내고 아니면 리스트에 담아줌
     useEffect(() => {
         // Connect to WebSocket server
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/game/memberList', memberList => {
                 const receivedUsers = JSON.parse(memberList.body);
-                console.log("만들어진 방들과 그 방에 유저들", receivedUsers)
                 const filteredUser = receivedUsers.filter(user => user.gno === roomId);
                 const userExists = receivedUsers.some(user => user.userId === userID && user.gno === roomId);
                 if (!userExists) {
@@ -185,8 +179,8 @@ const GamePage = () => {
     const inputSubmit = (e) => {
         e.preventDefault();
         if (input === answerKey) {
-            console.log("정답!!!!")
-            const socket = new SockJS('http://localhost:8888/ws');
+
+            const socket = new SockJS(BACK_URL);
             const stompClient = Stomp.over(socket);
             stompClient.connect({}, () => {
                 stompClient.send("/app/game/userPointUp", {}, JSON.stringify({
@@ -194,7 +188,7 @@ const GamePage = () => {
                 }));
             });
         }
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient.send("/app/game/chat", {}, JSON.stringify({
@@ -205,12 +199,11 @@ const GamePage = () => {
     }
     // 정답자 확인
     useEffect(() => {
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/game/userPointUp', response => {
                 const answerUser = JSON.parse(response.body);
-                console.log(answerUser.userId);
                 setAnswerUserId(answerUser.userId);
             });
         });
@@ -218,9 +211,7 @@ const GamePage = () => {
 
     useEffect(() => {
         if (answerUserId === '') {
-            console.log("정답자 없음")
         } else {
-            console.log("정답자 확인됨")
             hasAnswer()
             setAnswerUserId('')
             setNextTurn(false);
@@ -233,13 +224,13 @@ const GamePage = () => {
 
 
     const hasAnswer = () => {
-        console.log(answerKey)
+
         openModal(answerKey)
 
     }
 
     const hasntAnswer = () => {
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient.send("/app/game/hasntAnswer", {}, JSON.stringify({}));
@@ -247,7 +238,6 @@ const GamePage = () => {
     }
     useEffect(() => {
         if (resHA) {
-            console.log(answerKey)
             openModal(answerKey)
             setNextTurn(false);
             if (thisRoomsSU[0].userId === userID) {
@@ -258,7 +248,7 @@ const GamePage = () => {
     }, [resHA]);
 
     useEffect(() => {
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, (frame) => {
             stompClient.subscribe('/topic/game/hasntAnswer', function (response) {
@@ -271,7 +261,7 @@ const GamePage = () => {
 
     // //서버에서 시간을 받아옴
     // useEffect(() => {
-    //     const socket = new SockJS('http://localhost:8888/ws');
+    //     const socket = new SockJS(BACK_URL);
     //     const stompClient = Stomp.over(socket);
     //     stompClient.connect({}, (frame) => {
     //         stompClient.subscribe('/topic/game/timer/' + roomId, function (response) {
@@ -284,7 +274,7 @@ const GamePage = () => {
     //
     // // 서버에 시간을 받아오는 요청을 보냄
     // const timeHandler = e => {
-    //     const socket = new SockJS('http://localhost:8888/ws');
+    //     const socket = new SockJS(BACK_URL);
     //     const stompClient = Stomp.over(socket);
     //     stompClient.connect({}, (frame) => {
     //         stompClient.send("/app/game/timer/" + roomId, {}, JSON.stringify({
@@ -295,13 +285,15 @@ const GamePage = () => {
 
     const gameEnd = () => {
         setEndGame(true)
-        const socket = new SockJS('http://localhost:8888/ws');
-        const stompClient = Stomp.over(socket);
-        stompClient.connect({}, () => {
-            stompClient.send("/app/game/gameEnd", {}, JSON.stringify({
-                gno: roomId
-            }));
-        });
+        if (thisRoomsSU[0].userId === userID) {
+            const socket = new SockJS(BACK_URL);
+            const stompClient = Stomp.over(socket);
+            stompClient.connect({}, () => {
+                stompClient.send("/app/game/gameEnd", {}, JSON.stringify({
+                    gno: roomId
+                }));
+            });
+        }
     }
 
     useEffect(() => {
@@ -315,30 +307,27 @@ const GamePage = () => {
             const targetUserIndex = targetRoomMembers.findIndex(user => user.userId === userID);
             const targetUser = targetRoomMembers[targetUserIndex].turn;
             setA(targetUser)
-            console.log(targetUser)
         }
     }, [thisRoomsUsers])
 
     useEffect(() => {
-        console.log(roomMembers)
     }, [roomMembers]);
 
     // 유저 턴
     // 게임이 시작될 때 방에 있는 사람들의 상태가 만들어지고 그걸 확인
     useEffect(() => {
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/game/start', message => {
                 const roomsUser = JSON.parse(message.body);
-                console.log("방번호와 게임 시작중 쓰일 유저들의 상태", roomsUser)
                 setthisRoomsUsers(roomsUser);
             });
         });
     }, []);
     // 방장을 생성
     useEffect(() => {
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient.send("/app/game/getSuperUser", {}, JSON.stringify({
@@ -347,29 +336,26 @@ const GamePage = () => {
         });
     }, []);
     useEffect(() => {
-        console.log(thisRoomsSU)
     }, [thisRoomsSU])
     // 방장이 누군지 확인
     useEffect(() => {
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/game/getSuperUser', superUsers => {
                 const receivedSuperUsers = JSON.parse(superUsers.body);
                 const filteredUsers = receivedSuperUsers.filter(user => user.gno === roomId);
-                console.log("방장!!!", filteredUsers)
                 setThisRoomsSU(filteredUsers);
             });
         });
     }, []);
     // 이 안에 게임 시작 이후 그 방에 유저와 진행 상태가 담김
     useEffect(() => {
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/game/next', gaming => {
                 const thisRoomGaming = JSON.parse(gaming.body);
-                console.log("방 번호랑 지금 state", thisRoomGaming)
                 setthisRoomsUsers(thisRoomGaming)
             });
         });
@@ -377,7 +363,7 @@ const GamePage = () => {
     // 정답을 상태변수에 저장
     useEffect(() => {
         // Connect to WebSocket server
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             // Subscribe to topic
@@ -386,19 +372,17 @@ const GamePage = () => {
                 if (receivedCheck.gno !== roomId) {
                     return
                 }
-                console.log(receivedCheck)
                 setAnswerKey(receivedCheck.answerKey);
             });
         });
     }, []);
     useEffect(() => {
-        console.log(answerKey)
     }, [answerKey]);
 
     // 현재 있는 유저들로 방의 인원을 구성
     const startHandler = () => {
         setHidden(true);
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, (frame) => {
             stompClient.send("/app/game/start", {}, JSON.stringify({
@@ -408,7 +392,7 @@ const GamePage = () => {
     }
     // 다음 사람의 state를 true로 변경
     const nextTurnHandler = () => {
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, (frame) => {
             stompClient.send("/app/game/next", {}, JSON.stringify({
@@ -422,7 +406,7 @@ const GamePage = () => {
 
     }
     useEffect(() => {
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/game/image', image => {
@@ -431,7 +415,6 @@ const GamePage = () => {
                     return
                 }
                 setImage(pickImage);
-                console.log(pickImage)
                 // 사진 보낸 후 모달 닫기 버튼 null
                 setSelectedImage(null);
             });
@@ -446,7 +429,7 @@ const GamePage = () => {
         setImg([]);
         setModalOpen(false);
         setNextTurn(true);
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, (frame) => {
             stompClient.send("/app/game/image", {}, JSON.stringify({
@@ -459,7 +442,7 @@ const GamePage = () => {
     }
     // 나가기
     const removeUserList = () => {
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, (frame) => {
             stompClient.send("/app/game/exitRoom", {}, JSON.stringify({
@@ -479,7 +462,7 @@ const GamePage = () => {
     };
 
     useEffect(() => {
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, (frame) => {
             stompClient.subscribe('/topic/game/exitRoom', function (response) {
@@ -489,7 +472,7 @@ const GamePage = () => {
         });
     }, []);
     const getList = () => {
-        const socket = new SockJS('http://localhost:8888/ws');
+        const socket = new SockJS(BACK_URL);
         const stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient.send("/app/game/memberList", {}, JSON.stringify({
