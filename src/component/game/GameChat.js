@@ -76,7 +76,7 @@ const GameChat = () => {
                 <ul id="messageArea" ref={messageAreaRef}>
                     {chatData.map((item, index) => (
                         <li key={index}>
-                            <span>{item.nickname}: {item.content}</span>
+                            <span style={{color: "black"}}>{item.nickname}: {item.content}</span>
                         </li>
                     ))}
                 </ul>

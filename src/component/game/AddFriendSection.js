@@ -136,7 +136,7 @@ const AddFriendSection = () => {
                     <ul>
                         {filteredFriends.map(user => (
                             <li key={user.id} onClick={userMypageHandler}>
-                                <p id="nickname">{user.name}</p>
+                                <p id="nickname" style={{color: "black"}}>{user.name}</p>
 
                                 <button className='follow_btn' onClick={() => followerHandler(user.id)}>{
                                     flag ? <div> 언팔로우 </div> : <div> 팔로우 </div> }</button>
