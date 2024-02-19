@@ -276,6 +276,10 @@ const UserMyPage = () => {
         , starFollow
     ]);
 
+    const userPageHandler = e => {
+        redirect('')
+    }
+
     return (
         <div className="user-page">
             <div className="user-info">
@@ -320,7 +324,7 @@ const UserMyPage = () => {
                         { followListModal ?
                             <ul className={"user-follow-list-item"}>
                                 {userFollowList.map(user => (
-                                    <li key={user.fi}>{user.fi}</li>
+                                    <li key={user.fi} onClick={userPageHandler}>{user.fi}</li>
                                 ))}
                             </ul> : ''
                         }
@@ -329,14 +333,11 @@ const UserMyPage = () => {
                         <div className={"game-score-icon"}><BsFillXDiamondFill /></div>
                         <p>Point</p>
                         <p>{userPageInfo.score}</p>
-
                     </div>
                     <div className={"create-member-date"}>
                         <div className={"game-create-start-icon"}><IoIosCreate /></div>
-                        <p>계정 생성 날짜</p>
                         <p>{userPageInfo.createDate}</p>
                         <p>{fewDay}일 째</p>
-                        {/*<p>First Start Date</p>*/}
                     </div>
                 </div>
                 { userPageMaster ? <MemberDelete /> : ''}

@@ -5,6 +5,7 @@ import {useNavigate, useNavigation, useParams} from "react-router-dom";
 import "./scss/ButtonItem.scss";
 import {getLoginUserCheck, isAutoLogin, isLogin} from "../config/login-util";
 import cn from "classnames";
+import { MdClear } from "react-icons/md";
 import "./scss/MemberDelete.scss"
 
 const MemberDelete = () => {
@@ -60,6 +61,10 @@ const MemberDelete = () => {
         , right: 0
     }
 
+    const clearHandler = e => {
+        setDeleteModal(!deleteModal)
+    }
+
     return (
         <>
             <button onClick={memberDeleteHandler} style={deleteMember} className={"button-item"}>
@@ -70,6 +75,7 @@ const MemberDelete = () => {
             {
                 deleteModal ?
                     <div className={"delete-member-modal"}>
+                        <div className={"clear-icon"} onClick={clearHandler}><MdClear /></div>
                         <div className={"user-password-check"}>계정 삭제</div>
                         <div className={"user-password-account"}>
                             <p>계정 비밀번호를 입력해주세요.</p>

@@ -14,6 +14,17 @@
     border-radius: 20px;
     width: 30rem;
 
+    .clear-icon{
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      color: #717171;
+      display: flex; justify-content: end;
+      font-size: 2rem ;
+    }
+
     .user-password-check{
       font-weight: bold;
       font-size: 2rem;
