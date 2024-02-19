@@ -323,6 +323,7 @@ const UserMyPage = () => {
                         <p onClick={followListHandler}>{starFollowCount}</p>
                         { followListModal ?
                             <ul className={"user-follow-list-item"}>
+                                {userFollowList.length===0 ? '아직 팔로워가 없습니다~':''}
                                 {userFollowList.map(user => (
                                     <li key={user.fi} onClick={userPageHandler}>{user.fi}</li>
                                 ))}
